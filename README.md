@@ -107,18 +107,9 @@ To run the complete automated test suite:
 python manage.py test
 ```
 
----
 
-## 🔑 Default Demo Accounts
-
-| Role | Username / Email | Password | Access Area |
-|---|---|---|---|
-| **Lead Organizer** | `jamaal@techclub.so` | `adminpass123` | Organizer Console (`/admin-ops/`) |
-| **Verified Member / Mentor** | `guled.abdi@telesom.so` | `memberpass123` | Member Hub (`/member/dashboard/`) |
-
----
 
 ## 📄 License & Ownership
 
 © 2025 TechClub Hargeisa. All rights reserved.  
-Built for the developers, designers, and innovators of Somaliland.
+Built for the developer, designer, and innovator of Somaliland.
