@@ -1,0 +1,347 @@
+{% extends 'layouts/admin_base.html' %}
+
+{% block title %}Meeting &amp; Mentorship Management — TechClub Admin Ops{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6">
+  <!-- Top Header & Action Row -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 text-xs font-code uppercase tracking-wider text-secondary font-bold">
+        <span>COMMUNITY OPERATIONS</span>
+        <span class="text-on-surface-variant">/</span>
+        <span class="text-on-surface-variant">Mentorship &amp; Office Hours</span>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight mt-1">Meeting &amp; Mentorship Management</h1>
+      <p class="text-xs text-on-surface-variant max-w-2xl mt-1">
+        Coordinate 1-on-1 senior mentorship office hours, technical architecture reviews, and founder syncs across the Hargeisa tech ecosystem.
+      </p>
+    </div>
+
+    <button type="button" onclick="openCreateMeetingModal()" class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary text-xs font-bold rounded-lg shadow-sm hover:bg-neutral-800 transition-all self-start md:self-auto">
+      <span class="material-symbols-outlined text-[18px] text-secondary-container">add</span>
+      <span>Schedule New Session</span>
+    </button>
+  </div>
+
+  <!-- Metric / KPI Summary Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">Total Sessions</span>
+        <span class="material-symbols-outlined text-primary text-[20px]">task_alt</span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary">{{ total_sessions }}</div>
+        <span class="text-[11px] text-on-surface-variant mt-1 block">Scheduled mentoring &amp; reviews</span>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-secondary">Confirmed Upcoming</span>
+        <span class="material-symbols-outlined text-secondary text-[20px]">calendar_month</span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary">{{ confirmed_sessions }}</div>
+        <span class="text-[11px] text-on-surface-variant mt-1 block">Active on calendar</span>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">Completed Sessions</span>
+        <span class="material-symbols-outlined text-primary text-[20px]">done_all</span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary">{{ completed_sessions }}</div>
+        <span class="text-[11px] text-on-surface-variant mt-1 block">Successfully concluded</span>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">Active Mentors</span>
+        <span class="material-symbols-outlined text-secondary text-[20px]">stars</span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary">{{ mentors_count }}</div>
+        <span class="text-[11px] text-on-surface-variant mt-1 block">Verified community mentors</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meetings List -->
+  <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-sm overflow-hidden">
+    <div class="p-4 border-b border-surface-container-high flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <a href="?status=ALL" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if status_filter == 'ALL' %}bg-primary text-on-primary{% else %}bg-surface-container text-on-surface-variant hover:bg-surface-container-high{% endif %}">All</a>
+        <a href="?status=CONFIRMED" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if status_filter == 'CONFIRMED' %}bg-primary text-on-primary{% else %}bg-surface-container text-on-surface-variant hover:bg-surface-container-high{% endif %}">Confirmed</a>
+        <a href="?status=COMPLETED" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if status_filter == 'COMPLETED' %}bg-primary text-on-primary{% else %}bg-surface-container text-on-surface-variant hover:bg-surface-container-high{% endif %}">Completed</a>
+      </div>
+      <span class="text-xs font-code text-on-surface-variant">{{ meetings|length }} Sessions</span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-surface-container-low border-b border-surface-container-high text-on-surface-variant font-bold uppercase tracking-wider">
+          <tr>
+            <th class="p-4">Session Title &amp; Purpose</th>
+            <th class="p-4">Participants</th>
+            <th class="p-4">Date &amp; Schedule</th>
+            <th class="p-4">Venue / Link</th>
+            <th class="p-4">Status</th>
+            <th class="p-4 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-container-high">
+          {% for m in meetings %}
+          <tr class="hover:bg-surface-container-low/50">
+            <td class="p-4">
+              <div class="flex items-center gap-3">
+                <img src="{{ m.display_cover_image }}" alt="" class="w-12 h-10 rounded-lg object-cover bg-surface-container shrink-0 border border-surface-container"/>
+                <div>
+                  <div class="font-bold text-sm text-primary">{{ m.title }}</div>
+                  <span class="inline-flex mt-0.5 px-2 py-0.5 rounded bg-surface-container text-[10px] font-medium text-on-surface">
+                    {{ m.purpose }}
+                  </span>
+                  {% if m.organizer_notes %}
+                  <div class="text-[11px] text-on-surface-variant italic mt-0.5 max-w-xs truncate">{{ m.organizer_notes }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </td>
+
+            <td class="p-4">
+              <div class="space-y-1">
+                {% for part in m.participants.all %}
+                <div class="flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[13px] {% if part.role_in_meeting == 'MENTOR' %}text-secondary{% else %}text-on-surface-variant{% endif %}">
+                    {% if part.role_in_meeting == 'MENTOR' %}stars{% else %}person{% endif %}
+                  </span>
+                  <span class="font-bold text-primary">{{ part.member.full_name }}</span>
+                  <span class="text-[10px] text-on-surface-variant font-code">({{ part.get_role_in_meeting_display }})</span>
+                </div>
+                {% empty %}
+                <span class="text-on-surface-variant italic">No participants linked</span>
+                {% endfor %}
+              </div>
+            </td>
+
+            <td class="p-4 font-code text-primary">
+              <div>{{ m.start_datetime|date:"M d, Y" }}</div>
+              <div class="text-[11px] text-on-surface-variant">{{ m.start_datetime|date:"H:i" }} – {{ m.end_datetime|date:"H:i" }} EAT</div>
+            </td>
+
+            <td class="p-4 text-on-surface-variant">
+              <div>{{ m.venue }}</div>
+              {% if m.meeting_link %}
+              <a href="{{ m.meeting_link }}" target="_blank" class="text-secondary font-code text-[11px] underline block mt-0.5">Virtual Link ↗</a>
+              {% endif %}
+            </td>
+
+            <td class="p-4">
+              {% if m.status == 'CONFIRMED' %}
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">Confirmed</span>
+              {% elif m.status == 'COMPLETED' %}
+              <span class="px-2.5 py-0.5 rounded-full bg-neutral-200 text-neutral-800 font-bold text-[10px]">Completed</span>
+              {% elif m.status == 'CANCELLED' %}
+              <span class="px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 font-bold text-[10px]">Cancelled</span>
+              {% else %}
+              <span class="px-2.5 py-0.5 rounded-full bg-surface-container font-bold text-[10px]">{{ m.status }}</span>
+              {% endif %}
+            </td>
+
+            <td class="p-4 text-right">
+              <div class="inline-flex items-center gap-1.5 justify-end">
+                <a href="{% url 'admin_meeting_edit' m.id %}" class="px-2.5 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-bold text-xs inline-flex items-center gap-1 transition-colors" title="Edit Session">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                  <span>Edit</span>
+                </a>
+
+                {% if m.status != 'COMPLETED' and m.status != 'CANCELLED' %}
+                <form method="POST" action="{% url 'admin_meeting_action' m.id %}" class="inline-flex gap-1">
+                  {% csrf_token %}
+                  <button type="submit" name="action" value="COMPLETE" class="px-2 py-1 rounded bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition-colors" title="Mark Concluded">
+                    Complete
+                  </button>
+                  <button type="submit" name="action" value="CANCEL" class="px-2 py-1 rounded bg-surface-container-high hover:bg-red-700 hover:text-white text-on-surface-variant font-bold text-xs transition-colors" title="Cancel Session">
+                    Cancel
+                  </button>
+                </form>
+                {% endif %}
+
+                <button type="button" onclick="openDeleteMeetingModal('{{ m.id }}', '{{ m.title|escapejs }}')"
+                        class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-red-50 transition-colors" title="Delete Session">
+                  <span class="material-symbols-outlined text-[16px]">delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="p-8 text-center text-on-surface-variant">
+              No sessions scheduled matching criteria.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE MEETING MODAL -->
+<div id="createMeetingModal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="max-w-xl w-full bg-surface-container-lowest rounded-2xl shadow-2xl border border-surface-container-high p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between pb-3 border-b border-surface-container-high">
+      <h3 class="text-base font-extrabold text-primary">Schedule Mentorship or Review Session</h3>
+      <button onclick="closeCreateMeetingModal()" class="p-1 rounded hover:bg-surface-container text-on-surface-variant">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <form method="POST" action="{% url 'admin_meeting_create' %}" enctype="multipart/form-data" class="space-y-4 text-xs">
+      {% csrf_token %}
+      <div>
+        <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Session Title <span class="text-error">*</span></label>
+        <input type="text" name="title" required placeholder="e.g. 1-on-1 Mentorship: Postgres Optimization &amp; Go APIs"
+               class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Purpose / Type</label>
+          <select name="purpose" class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+            {% for code, label in purposes %}
+            <option value="{{ code }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Venue / Room</label>
+          <input type="text" name="venue" value="Hargeisa, Somaliland" required
+                 class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Mentor / Lead</label>
+          <select name="mentor_id" class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+            <option value="">Select Mentor (Optional)</option>
+            {% for m in all_members %}
+            <option value="{{ m.id }}">{{ m.full_name }} ({{ m.professional_title }})</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Mentee / Learner</label>
+          <select name="mentee_id" class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+            <option value="">Select Mentee (Optional)</option>
+            {% for m in all_members %}
+            <option value="{{ m.id }}">{{ m.full_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Start Date &amp; Time <span class="text-error">*</span></label>
+          <input type="datetime-local" name="start_datetime" required
+                 class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">End Date &amp; Time <span class="text-error">*</span></label>
+          <input type="datetime-local" name="end_datetime" required
+                 class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Virtual Meeting Link (Google Meet / Zoom)</label>
+        <input type="url" name="meeting_link" placeholder="https://meet.google.com/..."
+               class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <!-- File Upload From Computer -->
+      <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container space-y-2">
+        <label class="block font-bold text-on-surface mb-0.5">Session Cover Banner / Image</label>
+        <input type="file" name="cover_image" accept="image/*"
+               class="block w-full text-xs text-on-surface file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary file:text-on-primary hover:file:bg-neutral-800 file:cursor-pointer cursor-pointer border border-surface-container rounded-lg bg-surface-container-lowest p-1"/>
+        <p class="text-[10px] text-on-surface-variant">Upload meeting or mentorship banner from your computer.</p>
+      </div>
+
+      <div>
+        <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Session Agenda &amp; Organizer Notes</label>
+        <textarea name="notes" rows="2" placeholder="Topics to cover, architecture diagrams to review..."
+                  class="w-full bg-surface-container-low p-3 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"></textarea>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3 border-t border-surface-container-high">
+        <button type="button" onclick="closeCreateMeetingModal()" class="px-4 py-2 bg-surface-container hover:bg-surface-container-high rounded-lg font-bold">
+          Cancel
+        </button>
+        <button type="submit" class="px-5 py-2 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg font-bold shadow-sm">
+          Schedule Session
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- DELETE MEETING MODAL -->
+<div id="deleteMeetingModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-surface-container-lowest rounded-2xl shadow-2xl border border-red-200 p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2 text-error">
+        <span class="material-symbols-outlined text-[24px]">warning</span>
+        <h3 class="text-base font-bold text-primary">Delete Meeting Session</h3>
+      </div>
+      <button type="button" onclick="closeDeleteMeetingModal()" class="text-on-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <p class="text-xs text-on-surface leading-relaxed">
+      Are you sure you want to permanently delete session <span id="deleteMeetingTitle" class="font-bold text-primary"></span>?
+    </p>
+
+    <div class="p-3 bg-red-50 border border-red-200 rounded-xl text-[11px] text-red-800">
+      This action is permanent and will remove participant link records for this session.
+    </div>
+
+    <form id="deleteMeetingForm" method="POST" action="" class="flex items-center justify-end gap-2 pt-2">
+      {% csrf_token %}
+      <button type="button" onclick="closeDeleteMeetingModal()" class="px-4 py-2 rounded-lg text-xs font-semibold text-on-surface hover:bg-surface-container">
+        Cancel
+      </button>
+      <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-error text-white hover:bg-red-700 transition-colors shadow-sm">
+        Yes, Delete Session
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openCreateMeetingModal() {
+    document.getElementById('createMeetingModal').classList.remove('hidden');
+  }
+  function closeCreateMeetingModal() {
+    document.getElementById('createMeetingModal').classList.add('hidden');
+  }
+
+  function openDeleteMeetingModal(meetingId, meetingTitle) {
+    document.getElementById('deleteMeetingTitle').textContent = '"' + meetingTitle + '"';
+    document.getElementById('deleteMeetingForm').action = '/admin-ops/meetings/' + meetingId + '/delete/';
+    document.getElementById('deleteMeetingModal').classList.remove('hidden');
+  }
+  function closeDeleteMeetingModal() {
+    document.getElementById('deleteMeetingModal').classList.add('hidden');
+  }
+</script>
+{% endblock %}

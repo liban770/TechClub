@@ -1,0 +1,252 @@
+{% extends 'layouts/admin_base.html' %}
+
+{% block title %}Manage Meet the Founder — TechClub Admin Ops{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6 max-w-5xl mx-auto">
+  <!-- Top Header & Breadcrumbs -->
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 text-xs font-code uppercase tracking-wider text-secondary font-bold">
+        <span>COMMUNITY GOVERNANCE</span>
+        <span class="text-on-surface-variant">/</span>
+        <span class="text-on-surface-variant">Public Showcase</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-primary tracking-tight mt-1">Manage Founder Profile &amp; Story</h1>
+      <p class="text-xs text-on-surface-variant max-w-2xl mt-1">
+        Update founder portrait photography, biographical details, credentials, and strategic vision displayed on the website.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-2 shrink-0">
+      <a href="{% url 'founder' %}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-xs font-bold text-primary transition-colors flex items-center gap-1.5 shadow-sm">
+        <span>View Public Page</span>
+        <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Management Form -->
+  <form method="POST" action="{% url 'admin_founder_manage' %}" enctype="multipart/form-data" class="space-y-6">
+    {% csrf_token %}
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- LEFT COLUMN: PORTRAIT PHOTO & CREDENTIALS BADGE -->
+      <div class="lg:col-span-4 space-y-4">
+        <div class="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-high shadow-sm space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-surface-container-high">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Founder Photograph</h3>
+            <span class="text-[10px] font-code text-secondary font-bold">Live Photo</span>
+          </div>
+
+          <!-- Photo Container with Gold Border Preview -->
+          <div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-neutral-900 border-2 border-secondary/40 shadow-inner flex items-center justify-center">
+            <img id="founderPhotoPreview" 
+                 src="{{ founder.display_photo }}" 
+                 alt="{{ founder.full_name }}" 
+                 class="w-full h-full object-cover object-top block"/>
+          </div>
+
+          <!-- Upload from Computer -->
+          <div class="space-y-2">
+            <label class="block text-xs font-bold uppercase tracking-wider text-on-surface">
+              Upload New Photo From Computer
+            </label>
+            <input type="file" 
+                   name="photo" 
+                   id="photoInput"
+                   accept="image/*"
+                   onchange="previewFounderImage(this)"
+                   class="w-full text-xs text-on-surface-variant file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary file:text-on-primary hover:file:bg-neutral-800 cursor-pointer"/>
+            <p class="text-[11px] text-on-surface-variant">Recommended: high-resolution vertical portrait (JPG or PNG).</p>
+          </div>
+
+          <!-- Optional Fallback URL -->
+          <div class="pt-2 border-t border-surface-container-high space-y-1">
+            <label class="block text-[11px] font-bold text-on-surface-variant uppercase">Fallback Image Path</label>
+            <input type="text" 
+                   name="photo_url" 
+                   value="{{ founder.photo_url }}" 
+                   placeholder="/static/images/founder-ahmed.jpg"
+                   class="w-full bg-surface-container-low px-3 py-1.5 rounded-lg text-xs font-code text-on-surface border border-surface-container outline-none focus:border-primary"/>
+          </div>
+        </div>
+
+        <!-- Last Updated Info -->
+        <div class="p-4 rounded-xl bg-surface-container-low border border-surface-container text-xs text-on-surface-variant flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[18px]">history</span>
+          <span>Last updated: <strong>{{ founder.updated_at|date:"M d, Y H:i" }}</strong></span>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: FOUNDER ATTRIBUTES & ACADEMIC CREDENTIALS -->
+      <div class="lg:col-span-8 space-y-6">
+        
+        <!-- General Identity & Titles -->
+        <div class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm space-y-4">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-primary pb-2 border-b border-surface-container-high">
+            Founder Identity &amp; Title
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+                Full Name <span class="text-error">*</span>
+              </label>
+              <input type="text" name="full_name" value="{{ founder.full_name }}" required
+                     class="w-full bg-surface-container-low px-3.5 py-2.5 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+            </div>
+
+            <div>
+              <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+                Executive / Governance Role
+              </label>
+              <input type="text" name="university_role" value="{{ founder.university_role }}" placeholder="e.g. Founder &amp; Chairman"
+                     class="w-full bg-surface-container-low px-3.5 py-2.5 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+                Professional Title <span class="text-error">*</span>
+              </label>
+              <input type="text" name="title" value="{{ founder.title }}" required
+                     class="w-full bg-surface-container-low px-3.5 py-2.5 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+                Section Hero Headline
+              </label>
+              <input type="text" name="headline" value="{{ founder.headline }}" required
+                     class="w-full bg-surface-container-low px-3.5 py-2.5 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Academic Credentials & LinkedIn -->
+        <div class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm space-y-4">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-primary pb-2 border-b border-surface-container-high">
+            Education &amp; Professional Verification
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div class="sm:col-span-3">
+              <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+                Education Institution &amp; Degree <span class="text-error">*</span>
+              </label>
+              <input type="text" name="education" value="{{ founder.education }}" required
+                     class="w-full bg-surface-container-low px-3.5 py-2.5 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+            </div>
+
+            <div>
+              <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+                Graduation Year
+              </label>
+              <input type="text" name="graduation_year" value="{{ founder.graduation_year }}" placeholder="2026"
+                     class="w-full bg-surface-container-low px-3.5 py-2.5 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+            </div>
+
+            <div>
+              <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+                Cumulative GPA (CGPA)
+              </label>
+              <input type="text" name="cgpa" value="{{ founder.cgpa }}" placeholder="3.97"
+                     class="w-full bg-surface-container-low px-3.5 py-2.5 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+            </div>
+
+            <div>
+              <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+                LinkedIn Profile URL
+              </label>
+              <input type="url" name="linkedin_url" value="{{ founder.linkedin_url }}" required
+                     class="w-full bg-surface-container-low px-3.5 py-2.5 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- FULL WIDTH NARRATIVE & MESSAGES -->
+    <div class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm space-y-6">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-primary pb-2 border-b border-surface-container-high">
+        Founding Narrative, Philosophy &amp; Messages
+      </h3>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+            Founder Biography Paragraphs <span class="text-error">*</span>
+          </label>
+          <textarea name="biography" rows="6" required
+                    class="w-full bg-surface-container-low p-3.5 rounded-xl text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none leading-relaxed transition-all">{{ founder.biography }}</textarea>
+          <p class="text-[11px] text-on-surface-variant mt-1">Separate paragraphs with blank lines. Displayed on the right column of the founder hero section.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+              Story Subheading
+            </label>
+            <input type="text" name="story_subheading" value="{{ founder.story_subheading }}" required
+                   class="w-full bg-surface-container-low px-3.5 py-2.5 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+          </div>
+
+          <div>
+            <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+              Central Highlight Message
+            </label>
+            <input type="text" name="central_message" value="{{ founder.central_message }}" required
+                   class="w-full bg-surface-container-low px-3.5 py-2.5 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+            Why I Started TechClub (Full Story) <span class="text-error">*</span>
+          </label>
+          <textarea name="story_body" rows="8" required
+                    class="w-full bg-surface-container-low p-3.5 rounded-xl text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none leading-relaxed transition-all">{{ founder.story_body }}</textarea>
+          <p class="text-[11px] text-on-surface-variant mt-1">The comprehensive story explaining why TechClub was founded to bridge the connection gap across Somaliland.</p>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">
+            Personal Message From Our Founder <span class="text-error">*</span>
+          </label>
+          <textarea name="personal_message" rows="6" required
+                    class="w-full bg-surface-container-low p-3.5 rounded-xl text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none leading-relaxed transition-all">{{ founder.personal_message }}</textarea>
+          <p class="text-[11px] text-on-surface-variant mt-1">The direct personal quotation block in the dark quotation card.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Action Bar -->
+    <div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-sm">
+      <a href="{% url 'admin_overview' %}" class="px-4 py-2.5 bg-surface-container hover:bg-surface-container-high rounded-xl text-xs font-bold text-on-surface transition-colors">
+        Cancel
+      </a>
+
+      <button type="submit" class="px-6 py-2.5 bg-primary text-on-primary hover:bg-neutral-800 rounded-xl text-xs font-extrabold shadow-md transition-all flex items-center gap-2 active:scale-[0.99]">
+        <span class="material-symbols-outlined text-[18px] text-secondary-container">save</span>
+        <span>Save Founder Profile Changes</span>
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<script>
+  function previewFounderImage(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('founderPhotoPreview').src = e.target.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+{% endblock %}

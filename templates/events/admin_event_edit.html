@@ -1,0 +1,562 @@
+{% extends 'layouts/admin_base.html' %}
+
+{% block title %}Edit Event: {{ event.title }} — TechClub Admin Ops{% endblock %}
+
+{% block admin_content %}
+<div class="max-w-4xl mx-auto space-y-6">
+  <!-- Breadcrumb & Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2 border-b border-surface-container-high">
+    <div>
+      <div class="flex items-center gap-2 text-xs font-code uppercase tracking-wider text-secondary font-bold">
+        <a href="{% url 'admin_events' %}" class="hover:underline text-on-surface-variant">Events</a>
+        <span>/</span>
+        <span class="text-primary">Edit Gathering</span>
+      </div>
+      <h1 class="text-2xl font-extrabold text-primary tracking-tight mt-1">Edit Event</h1>
+      <p class="text-xs text-on-surface-variant">Update gathering details, schedule, venue, capacity, or replace the event banner image.</p>
+    </div>
+
+    <div class="flex items-center gap-2">
+      {% if event.is_online %}
+      <form method="POST" action="{% url 'admin_event_toggle_live' event.id %}">
+        {% csrf_token %}
+        <button type="submit" class="px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm {% if event.is_live_now %}bg-red-600 text-white animate-pulse hover:bg-red-700{% else %}bg-surface-container text-on-surface hover:bg-surface-container-high{% endif %}">
+          <span class="material-symbols-outlined text-[16px]">sensors</span>
+          <span>{% if event.is_live_now %}🔴 Broadcast LIVE Now{% else %}Start Live Stream{% endif %}</span>
+        </button>
+      </form>
+      {% endif %}
+      <a href="{% url 'event_detail' event.id %}" target="_blank" class="px-3 py-2 bg-surface-container text-on-surface hover:bg-surface-container-high rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors">
+        <span class="material-symbols-outlined text-[16px]">visibility</span>
+        <span>Public Page</span>
+      </a>
+      <a href="{% url 'admin_events' %}" class="px-3 py-2 bg-surface-container-lowest border border-surface-container-high text-on-surface hover:bg-surface-container rounded-lg text-xs font-bold transition-colors">
+        Back to Events
+      </a>
+    </div>
+  </div>
+
+  <!-- Edit Form -->
+  <form method="POST" action="{% url 'admin_event_edit' event.id %}" enctype="multipart/form-data" class="bg-surface-container-lowest rounded-2xl p-6 sm:p-8 border border-surface-container-high shadow-sm space-y-6">
+    {% csrf_token %}
+
+    <div class="space-y-4">
+      <div>
+        <label for="event_title" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+          Event Title <span class="text-error">*</span>
+        </label>
+        <input type="text" name="title" id="event_title" value="{{ event.title }}" required
+               class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div>
+          <label for="event_category" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Category <span class="text-error">*</span>
+          </label>
+          <select name="category" id="event_category" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none">
+            {% for code, label in categories %}
+            <option value="{{ code }}" {% if event.category == code %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label for="event_audience_role" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Target Audience / Role <span class="text-error">*</span>
+          </label>
+          <select name="audience_role" id="event_audience_role" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none font-semibold">
+            {% for code, label in audience_roles %}
+            <option value="{{ code }}" {% if event.audience_role == code %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label for="event_status" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Event Status <span class="text-error">*</span>
+          </label>
+          <select name="status" id="event_status" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none">
+            {% for code, label in statuses %}
+            <option value="{{ code }}" {% if event.status == code %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label for="event_capacity" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Max Seats / Capacity <span class="text-error">*</span>
+          </label>
+          <input type="number" name="capacity" id="event_capacity" value="{{ event.capacity }}" min="5" required
+                 class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+          <p class="text-[10px] text-on-surface-variant mt-1">Currently registered: {{ event.registered_count }} attendees</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="event_start_datetime" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Start Date &amp; Time <span class="text-error">*</span>
+          </label>
+          <input type="datetime-local" name="start_datetime" id="event_start_datetime" value="{{ event.start_datetime|date:'Y-m-d\TH:i' }}" required
+                 class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+        </div>
+
+        <div>
+          <label for="event_end_datetime" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            End Date &amp; Time <span class="text-error">*</span>
+          </label>
+          <input type="datetime-local" name="end_datetime" id="event_end_datetime" value="{{ event.end_datetime|date:'Y-m-d\TH:i' }}" required
+                 class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+        </div>
+      </div>
+
+      <div>
+        <label for="event_venue" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+          Venue / Physical Location <span class="text-error">*</span>
+        </label>
+        <input type="text" name="venue" id="event_venue" value="{{ event.venue }}" required
+               class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+      </div>
+
+      <!-- Delivery Mode & Online Live Class Settings -->
+      <div class="p-5 bg-surface-container-low rounded-xl border border-surface-container space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-[20px]">videocam</span>
+            <div>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Delivery Mode &amp; Online Live Class</h3>
+              <p class="text-[11px] text-on-surface-variant">Host online or hybrid classes using Zoom, Google Meet, or Microsoft Teams.</p>
+            </div>
+          </div>
+          {% if event.is_online %}
+          <div class="flex items-center gap-2">
+            {% if event.is_live_now %}
+            <span class="px-2.5 py-1 rounded-full bg-red-100 text-red-700 font-bold text-[10px] flex items-center gap-1 animate-pulse">
+              <span class="w-2 h-2 rounded-full bg-red-600"></span> LIVE BROADCAST ACTIVE
+            </span>
+            {% else %}
+            <span class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-medium text-[10px]">
+              Live Stream Offline
+            </span>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label for="event_mode" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+              Event Delivery Mode <span class="text-error">*</span>
+            </label>
+            <select name="event_mode" id="event_mode" onchange="toggleOnlineFields(this.value)" class="w-full bg-surface-container-lowest px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none">
+              {% for code, label in event_modes %}
+              <option value="{{ code }}" {% if event.event_mode == code %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div id="platform_container" class="{% if event.event_mode == 'IN_PERSON' %}opacity-50 pointer-events-none{% endif %}">
+            <label for="meeting_platform" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+              Meeting Platform
+            </label>
+            <select name="meeting_platform" id="meeting_platform" class="w-full bg-surface-container-lowest px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none">
+              <option value="Zoom" {% if event.meeting_platform == 'Zoom' %}selected{% endif %}>Zoom Meetings</option>
+              <option value="Google Meet" {% if event.meeting_platform == 'Google Meet' %}selected{% endif %}>Google Meet</option>
+              <option value="Microsoft Teams" {% if event.meeting_platform == 'Microsoft Teams' %}selected{% endif %}>Microsoft Teams</option>
+              <option value="YouTube Live" {% if event.meeting_platform == 'YouTube Live' %}selected{% endif %}>YouTube Live</option>
+              <option value="Discord" {% if event.meeting_platform == 'Discord' %}selected{% endif %}>Discord Stage</option>
+            </select>
+          </div>
+
+          <div id="passcode_container" class="{% if event.event_mode == 'IN_PERSON' %}opacity-50 pointer-events-none{% endif %}">
+            <label for="meeting_passcode" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+              Passcode / Meeting PIN
+            </label>
+            <input type="text" name="meeting_passcode" id="meeting_passcode" value="{{ event.meeting_passcode|default:'' }}" placeholder="e.g. 849201"
+                   class="w-full bg-surface-container-lowest px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none"/>
+          </div>
+        </div>
+
+        <div id="url_container" class="{% if event.event_mode == 'IN_PERSON' %}opacity-50 pointer-events-none{% endif %}">
+          <label for="meeting_url" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Online Meeting / Class Join Link (URL)
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-3 text-on-surface-variant material-symbols-outlined text-[18px]">link</span>
+            <input type="url" name="meeting_url" id="meeting_url" value="{{ event.meeting_url|default:'' }}" placeholder="https://zoom.us/j/9876543210 or https://meet.google.com/abc-defg-hij"
+                   class="w-full bg-surface-container-lowest pl-10 pr-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+          </div>
+          <p class="text-[10px] text-on-surface-variant mt-1">This link is securely delivered to confirmed registered attendees via their digital ticket pass.</p>
+        </div>
+      </div>
+
+      <!-- Cover Image Upload Section -->
+      <div class="p-5 bg-surface-container-low rounded-xl border border-surface-container space-y-4">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[20px]">image</span>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Event Cover / Banner Image</h3>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-5 items-start">
+          <!-- Current Image Preview -->
+          <div class="w-full sm:w-48 h-32 rounded-lg overflow-hidden bg-surface-container border border-surface-container-high shrink-0 relative group">
+            <img src="{{ event.display_cover_image }}" id="coverPreviewImg" alt="{{ event.title }}" class="w-full h-full object-cover"/>
+            <div class="absolute inset-0 bg-black/40 text-white text-[10px] font-bold flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              Current Banner
+            </div>
+          </div>
+
+          <!-- File Upload Controls -->
+          <div class="space-y-3 flex-1 w-full">
+            <div>
+              <label for="cover_image_file" class="block text-xs font-bold text-on-surface mb-1">Upload New Image From Computer</label>
+              <input type="file" name="cover_image" id="cover_image_file" accept="image/*" onchange="previewSelectedImage(this)"
+                     class="block w-full text-xs text-on-surface file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary file:text-on-primary hover:file:bg-neutral-800 file:cursor-pointer cursor-pointer border border-surface-container rounded-lg bg-surface-container-lowest p-1"/>
+              <p class="text-[10px] text-on-surface-variant mt-1">Recommended: 1200×630px JPG, PNG, or WebP. Replaces current banner.</p>
+            </div>
+
+            <div>
+              <label for="cover_image_url" class="block text-xs font-medium text-on-surface-variant mb-1">Or Alternate Image URL</label>
+              <input type="text" name="cover_image_url" id="cover_image_url" value="{{ event.cover_image_url }}" placeholder="/static/images/hub-hero.png"
+                     class="w-full bg-surface-container-lowest px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="event_description" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+          Description &amp; Agenda Details <span class="text-error">*</span>
+        </label>
+        <textarea name="description" id="event_description" rows="5" required
+                  class="w-full bg-surface-container-low p-4 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all leading-relaxed">{{ event.description }}</textarea>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center justify-between pt-4 border-t border-surface-container-high">
+      <button type="button" onclick="openDeleteModal()" class="px-4 py-2 bg-red-50 text-error hover:bg-red-100 border border-red-200 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors">
+        <span class="material-symbols-outlined text-[16px]">delete</span>
+        <span>Delete Event</span>
+      </button>
+
+      <div class="flex items-center gap-2">
+        <a href="{% url 'admin_events' %}" class="px-5 py-2.5 bg-surface-container text-on-surface hover:bg-surface-container-high rounded-lg text-xs font-bold transition-colors">
+          Cancel
+        </a>
+        <button type="submit" class="px-6 py-2.5 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg text-xs font-bold shadow-sm transition-all flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">save</span>
+          <span>Save Changes</span>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Event Resources & Course Materials Section -->
+  <div class="bg-surface-container-lowest rounded-2xl p-6 sm:p-8 border border-surface-container-high shadow-sm space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-surface-container-high">
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+          <span class="material-symbols-outlined text-[24px]">folder_open</span>
+        </div>
+        <div>
+          <h2 class="text-base font-extrabold text-primary">Event Course Materials &amp; Downloads</h2>
+          <p class="text-xs text-on-surface-variant">Upload PDF slides, Excel worksheets, code archives, or PPT presentations for registered attendees.</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="px-3 py-1 rounded-full bg-surface-container text-xs font-bold text-on-surface">
+          {{ resources|length }} Attached {{ resources|length|pluralize:"File,Files" }}
+        </span>
+        <span class="px-3 py-1 rounded-full bg-secondary-container/30 text-on-secondary-container text-xs font-bold font-code flex items-center gap-1 border border-secondary-container/40">
+          <span class="material-symbols-outlined text-[14px]">analytics</span>
+          <span>{{ total_downloads }} Total Download{{ total_downloads|pluralize }}</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Upload Form -->
+    <form method="POST" action="{% url 'admin_event_resource_upload' event.id %}" enctype="multipart/form-data" class="p-5 bg-surface-container-low rounded-xl border border-surface-container space-y-3">
+      {% csrf_token %}
+      <div class="font-bold text-xs uppercase tracking-wider text-primary flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-[16px] text-secondary">cloud_upload</span>
+        <span>Upload New Material (PDF, PPT, Excel, Word, Zip)</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+        <div class="sm:col-span-4">
+          <label class="block text-[11px] font-bold text-on-surface mb-1">Resource Title</label>
+          <input type="text" name="resource_title" placeholder="e.g. Masterclass Slides Deck (Part 1)" required
+                 class="w-full bg-surface-container-lowest px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none"/>
+        </div>
+        <div class="sm:col-span-3">
+          <label class="block text-[11px] font-bold text-on-surface mb-1">Target Access Role <span class="text-secondary font-code text-[10px]">(Dropdown)</span></label>
+          <select name="access_role" class="w-full bg-surface-container-lowest px-3 py-2 rounded-lg text-xs font-semibold text-on-surface border border-surface-container focus:border-primary outline-none cursor-pointer">
+            {% for r_code, r_label in resource_roles %}
+            <option value="{{ r_code }}" {% if r_code == 'PUBLIC' %}selected{% endif %}>{{ r_label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="sm:col-span-3">
+          <label class="block text-[11px] font-bold text-on-surface mb-1">Select File (Max 25MB)</label>
+          <input type="file" name="resource_file" required accept=".pdf,.ppt,.pptx,.xls,.xlsx,.csv,.doc,.docx,.zip"
+                 class="block w-full text-[11px] text-on-surface file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[11px] file:font-bold file:bg-primary file:text-on-primary hover:file:bg-neutral-800 file:cursor-pointer cursor-pointer border border-surface-container rounded-lg bg-surface-container-lowest p-1"/>
+        </div>
+        <div class="sm:col-span-2 flex items-end">
+          <button type="submit" class="w-full py-2 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">upload</span>
+            <span>Upload</span>
+          </button>
+        </div>
+      </div>
+      <p class="text-[10px] text-on-surface-variant">Validated for security: executable files (.exe, .sh, .py, etc.) are strictly prohibited.</p>
+    </form>
+
+    <!-- Role Filter Toolbar -->
+    {% if resources %}
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
+      <div class="flex items-center gap-2">
+        <label for="resourceRoleFilter" class="text-xs font-bold text-on-surface-variant flex items-center gap-1 select-none">
+          <span class="material-symbols-outlined text-[16px] text-secondary">tune</span>
+          <span>Filter by Role:</span>
+        </label>
+        <select id="resourceRoleFilter" onchange="filterAdminResources(this.value)" class="text-xs bg-surface-container px-3 py-1.5 rounded-lg border border-surface-container font-semibold text-on-surface outline-none cursor-pointer focus:border-primary">
+          <option value="ALL">All Roles ({{ resources|length }})</option>
+          {% for r_code, r_label in resource_roles %}
+          <option value="{{ r_code }}">{{ r_label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <span class="text-[11px] text-on-surface-variant font-medium font-code" id="resourceFilterCount">Showing all {{ resources|length }} files</span>
+    </div>
+
+    <!-- Uploaded Resources List -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="adminResourcesGrid">
+      {% for res in resources %}
+      <div class="resource-card p-4 rounded-xl border border-surface-container bg-surface-container-low/50 hover:bg-surface-container-low transition-colors flex flex-col justify-between gap-3" data-role="{{ res.access_role }}">
+        <div class="flex items-start gap-3 min-w-0">
+          <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-[22px] text-primary">
+              {% if res.resource_type == 'PDF' %}picture_as_pdf
+              {% elif res.resource_type == 'PRESENTATION' %}slideshow
+              {% elif res.resource_type == 'SPREADSHEET' %}table_chart
+              {% elif res.resource_type == 'ARCHIVE' %}folder_zip
+              {% else %}description{% endif %}
+            </span>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="font-bold text-xs text-primary truncate">{{ res.title }}</span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[9px] font-bold uppercase tracking-wider {{ res.role_badge_info.color }}">
+                <span class="material-symbols-outlined text-[11px]">{{ res.role_badge_info.icon }}</span>
+                <span>{{ res.role_badge_info.label }}</span>
+              </span>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] text-on-surface-variant font-code mt-1 flex-wrap">
+              <span>{{ res.get_resource_type_display }}</span>
+              <span>•</span>
+              <span>{{ res.formatted_file_size }}</span>
+              <span>•</span>
+              <span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-bold font-code" title="{{ res.download_count }} Total Downloads">
+                <span class="material-symbols-outlined text-[12px]">download</span>
+                <span>{{ res.download_count }} download{{ res.download_count|pluralize }}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between gap-2 pt-2 border-t border-surface-container/60">
+          <!-- Role Reassignment Dropdown -->
+          <form method="POST" action="{% url 'admin_event_resource_role_update' res.id %}" class="flex items-center gap-1.5">
+            {% csrf_token %}
+            <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Access:</span>
+            <select name="access_role" onchange="this.form.submit()" title="Change required role" class="text-[11px] font-semibold rounded-md px-2 py-1 border border-surface-container bg-surface-container-lowest text-on-surface cursor-pointer focus:border-primary outline-none">
+              {% for r_code, r_label in resource_roles %}
+              <option value="{{ r_code }}" {% if res.access_role == r_code %}selected{% endif %}>{{ r_label }}</option>
+              {% endfor %}
+            </select>
+          </form>
+
+          <div class="flex items-center gap-1 shrink-0">
+            <a href="{% url 'event_resource_download' res.id %}" class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors" title="Download Material">
+              <span class="material-symbols-outlined text-[16px]">download</span>
+            </a>
+            <form method="POST" action="{% url 'admin_event_resource_delete' res.id %}" onsubmit="return confirm('Remove resource \'{{ res.title|escapejs }}\'?');">
+              {% csrf_token %}
+              <button type="submit" class="p-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-error transition-colors" title="Delete">
+                <span class="material-symbols-outlined text-[16px]">delete</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="p-8 text-center border-2 border-dashed border-surface-container rounded-xl">
+      <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">attachment</span>
+      <p class="text-xs text-on-surface-variant font-medium">No resources uploaded yet. Upload PDF slides, practice workbooks, or datasets above.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    function filterAdminResources(role) {
+      const cards = document.querySelectorAll('.resource-card');
+      let visible = 0;
+      cards.forEach(card => {
+        if (role === 'ALL' || card.getAttribute('data-role') === role) {
+          card.style.display = 'flex';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      const countEl = document.getElementById('resourceFilterCount');
+      if (countEl) countEl.innerText = `Showing ${visible} of ${cards.length} files`;
+    }
+  </script>
+  </div>
+
+  <!-- Attendee Reviews & Satisfaction Card (Feature 4) -->
+  <div class="bg-surface-container-lowest rounded-2xl p-6 sm:p-8 border border-surface-container-high shadow-sm space-y-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-surface-container-high">
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
+          <span class="material-symbols-outlined text-[24px]">reviews</span>
+        </div>
+        <div>
+          <h2 class="text-base font-extrabold text-primary">Attendee Reviews &amp; Feedback</h2>
+          <p class="text-xs text-on-surface-variant">Post-event ratings submitted by verified attendees.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 flex-wrap">
+        {% if feedback_count > 0 %}
+        <span class="px-3 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200 text-xs font-bold font-code flex items-center gap-1 shadow-xs">
+          <span class="material-symbols-outlined text-[15px] text-amber-500">star</span>
+          <span>{{ average_rating }} / 5.0 Average</span>
+        </span>
+        <span class="px-3 py-1 rounded-full bg-surface-container text-xs font-bold text-on-surface">
+          {{ feedback_count }} Review{{ feedback_count|pluralize }}
+        </span>
+        {% else %}
+        <span class="px-3 py-1 rounded-full bg-surface-container text-xs font-bold text-on-surface-variant">
+          No Reviews Yet
+        </span>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if feedbacks %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+      {% for fb in feedbacks %}
+      <div class="p-4 rounded-xl border border-surface-container bg-surface-container-low/50 space-y-2 text-xs">
+        <div class="flex items-center justify-between">
+          <div class="font-bold text-primary">{{ fb.registration.attendee_name }}</div>
+          <div class="flex items-center gap-0.5 text-amber-500">
+            {% for i in "12345" %}
+              {% if forloop.counter <= fb.rating %}
+              <span class="material-symbols-outlined text-[15px]">star</span>
+              {% else %}
+              <span class="material-symbols-outlined text-[15px] text-neutral-300">star</span>
+              {% endif %}
+            {% endfor %}
+            <span class="text-[11px] font-bold font-code ml-1 text-primary">{{ fb.rating }}/5</span>
+          </div>
+        </div>
+        {% if fb.feedback_text %}
+        <p class="text-on-surface italic leading-relaxed">"{{ fb.feedback_text }}"</p>
+        {% else %}
+        <p class="text-on-surface-variant text-[11px]">Submitted rating without written comments.</p>
+        {% endif %}
+        <div class="text-[10px] text-on-surface-variant font-code pt-1 border-t border-surface-container/60 flex items-center justify-between">
+          <span>Ticket: {{ fb.registration.ticket_code }}</span>
+          <span>{{ fb.created_at|date:"M j, Y h:i A" }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="p-6 text-center border-2 border-dashed border-surface-container rounded-xl">
+      <span class="material-symbols-outlined text-3xl text-on-surface-variant mb-1">rate_review</span>
+      <p class="text-xs text-on-surface-variant">No attendee reviews submitted yet. When attendees check in to this gathering, a satisfaction rating card unlocks on their pass.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-surface-container-lowest rounded-2xl shadow-2xl border border-red-200 p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2 text-error">
+        <span class="material-symbols-outlined text-[24px]">warning</span>
+        <h3 class="text-base font-bold text-primary">Delete Event</h3>
+      </div>
+      <button type="button" onclick="closeDeleteModal()" class="text-on-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <p class="text-xs text-on-surface leading-relaxed">
+      Are you sure you want to permanently delete event <span class="font-bold text-primary">"{{ event.title }}"</span>?
+    </p>
+
+    <div class="p-3 bg-red-50 border border-red-200 rounded-xl text-[11px] text-red-800">
+      This will also remove all {{ event.registered_count }} attendee RSVP records for this event.
+    </div>
+
+    <form method="POST" action="{% url 'admin_event_delete' event.id %}" class="flex items-center justify-end gap-2 pt-2">
+      {% csrf_token %}
+      <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 rounded-lg text-xs font-semibold text-on-surface hover:bg-surface-container">
+        Cancel
+      </button>
+      <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-error text-white hover:bg-red-700 transition-colors shadow-sm">
+        Yes, Delete Event
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function toggleOnlineFields(mode) {
+    const isOnline = mode === 'ONLINE' || mode === 'HYBRID';
+    ['platform_container', 'passcode_container', 'url_container'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        if (isOnline) {
+          el.classList.remove('opacity-50', 'pointer-events-none');
+        } else {
+          el.classList.add('opacity-50', 'pointer-events-none');
+        }
+      }
+    });
+  }
+
+  function previewSelectedImage(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('coverPreviewImg').src = e.target.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function openDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('hidden');
+  }
+
+  function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.add('hidden');
+  }
+
+  // Initialize online fields state
+  const modeSelect = document.getElementById('event_mode');
+  if (modeSelect) {
+    toggleOnlineFields(modeSelect.value);
+  }
+</script>
+{% endblock %}

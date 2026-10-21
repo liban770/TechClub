@@ -1,0 +1,30 @@
+# ==========================================
+# TechClub Production & Staging Requirements
+# ==========================================
+
+# Core Django Web Framework
+Django>=5.2,<6.0
+
+# Production WSGI & ASGI Servers
+gunicorn>=22.0.0
+daphne>=4.1.0
+channels>=4.1.0
+
+# Production Static Asset Compression & Serving
+whitenoise[brotli]>=6.6.0
+
+# Database Connectors & Pooling (PostgreSQL 15+)
+psycopg[binary]>=3.2.0
+dj-database-url>=2.1.0
+
+# Image & Document Processing
+Pillow>=10.2.0
+qrcode>=8.0
+reportlab>=4.1.0
+
+# Form Styling & UI Helpers
+django-crispy-forms>=2.1
+crispy-bootstrap5>=2024.2
+
+# Configuration & Security
+python-dotenv>=1.0.1

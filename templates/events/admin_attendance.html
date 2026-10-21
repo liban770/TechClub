@@ -1,0 +1,163 @@
+{% extends 'layouts/admin_base.html' %}
+
+{% block title %}Attendance Management — TechClub Admin Ops{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6">
+  <!-- Top Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 text-xs font-code uppercase tracking-wider text-secondary font-bold">
+        <span>COMMUNITY CHECK-IN</span>
+        <span class="text-on-surface-variant">/</span>
+        <span class="text-on-surface-variant">Participation Telemetry</span>
+      </div>
+      <h1 class="text-2xl font-extrabold text-primary tracking-tight mt-1">Attendance Verification</h1>
+      <p class="text-xs text-on-surface-variant max-w-2xl mt-1">
+        Record and verify in-person check-in for registered community members. Track active attendance rates across technical meetups and workshops.
+      </p>
+    </div>
+
+    {% if selected_event %}
+    <div class="flex items-center gap-2 flex-wrap">
+      <a href="https://api.whatsapp.com/send?text=📢%20*TechClub%20Masterclass%20Reminder:*%20{{ selected_event.title|urlencode }}%0A📅%20*Starting:*%20{{ selected_event.start_datetime|date:'l, M j @ g:i A' }}%0A📍%20*Venue:*%20{{ selected_event.venue|urlencode }}%0A🔗%20*View%20Session%20&%20Ticket:*%20{{ request.scheme }}://{{ request.get_host }}/events/{{ selected_event.id }}/"
+         target="_blank" rel="noopener noreferrer"
+         class="flex items-center gap-1.5 px-3.5 py-2 bg-[#25D366] hover:bg-[#1ebd5a] text-white text-xs font-bold rounded-lg shadow-sm transition-all"
+         title="Broadcast session reminder to WhatsApp groups">
+        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        <span>Broadcast on WhatsApp</span>
+      </a>
+      <a href="{% url 'admin_export_attendance_csv' selected_event.id %}" class="flex items-center gap-1.5 px-3.5 py-2 bg-surface-container-lowest text-on-surface text-xs font-bold rounded-lg border border-surface-container-high shadow-sm hover:bg-surface-container transition-all">
+        <span class="material-symbols-outlined text-[16px]">download</span>
+        <span>Export CSV</span>
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Event Selector Card -->
+  <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+        <span class="material-symbols-outlined text-[22px]">event</span>
+      </div>
+      <div>
+        <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold block">Active Event Roster</label>
+        <select onchange="window.location='/admin-ops/attendance/' + this.value + '/'" class="text-sm font-bold text-primary bg-transparent outline-none cursor-pointer">
+          {% for ev in all_events %}
+          <option value="{{ ev.id }}" {% if selected_event and selected_event.id == ev.id %}selected{% endif %}>
+            {{ ev.title }} ({{ ev.start_datetime|date:"M d, Y" }})
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    {% if selected_event %}
+    <div class="flex items-center gap-4 text-xs font-code border-t md:border-t-0 pt-2 md:pt-0 border-surface-container">
+      <div class="flex flex-col">
+        <span class="text-on-surface-variant text-[10px]">Total RSVPs</span>
+        <span class="font-bold text-primary">{{ selected_event.registered_count }}</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-on-surface-variant text-[10px]">Verified Check-ins</span>
+        <span class="font-bold text-emerald-700">{{ selected_event.attended_count }}</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-on-surface-variant text-[10px]">Capacity</span>
+        <span class="font-bold text-secondary">{{ selected_event.capacity }} Seats</span>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Attendees Attendance Table -->
+  <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-surface-container-low border-b border-surface-container-high text-on-surface-variant font-bold uppercase tracking-wider">
+          <tr>
+            <th class="p-4">Participant Details</th>
+            <th class="p-4">Email / Phone</th>
+            <th class="p-4">Registration Status</th>
+            <th class="p-4">Attendance Status</th>
+            <th class="p-4 text-right">Toggle Attendance</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-container-high">
+          {% for reg in registrations %}
+          <tr class="hover:bg-surface-container-low/50">
+            <td class="p-4">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-bold text-sm text-primary">{{ reg.attendee_name }}</span>
+                {% if reg.is_community_member %}
+                <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-bold text-[10px] inline-flex items-center gap-0.5 border border-amber-300">
+                  <span class="material-symbols-outlined text-[12px]">stars</span> Member
+                </span>
+                {% else %}
+                <span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-medium text-[10px]">
+                  Guest
+                </span>
+                {% endif %}
+              </div>
+              <div class="text-[11px] text-on-surface-variant">Registered: {{ reg.registered_at|date:"M d, Y H:i" }} • Ticket: <span class="font-code font-bold">{{ reg.ticket_code }}</span></div>
+            </td>
+            <td class="p-4 font-code text-on-surface-variant">
+              <div>{{ reg.attendee_email }}</div>
+              <div class="text-[10px]">{{ reg.attendee_phone|default:'No phone' }}</div>
+            </td>
+            <td class="p-4">
+              {% if reg.status == 'REGISTERED' %}
+              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">Confirmed RSVP</span>
+              {% elif reg.status == 'WAITLISTED' %}
+              <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold text-[10px]">Waitlisted</span>
+              {% else %}
+              <span class="px-2 py-0.5 rounded-full bg-red-100 text-red-800 font-bold text-[10px]">{{ reg.status }}</span>
+              {% endif %}
+            </td>
+            <td class="p-4">
+              {% if reg.attendance_status == 'ATTENDED' %}
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-extrabold text-[11px]">
+                <span class="material-symbols-outlined text-[13px]">check_circle</span>
+                Attended
+              </span>
+              {% elif reg.attendance_status == 'ABSENT' %}
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-red-100 text-red-900 font-extrabold text-[11px]">
+                <span class="material-symbols-outlined text-[13px]">cancel</span>
+                Absent
+              </span>
+              {% else %}
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-bold text-[11px]">
+                Pending Check-in
+              </span>
+              {% endif %}
+            </td>
+            <td class="p-4 text-right">
+              <form method="POST" action="{% url 'admin_attendance_toggle' reg.id %}" class="inline-flex items-center gap-1.5">
+                {% csrf_token %}
+                <button type="submit" name="status" value="ATTENDED"
+                        class="px-3 py-1 rounded bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px]">check</span>
+                  <span>Present</span>
+                </button>
+                <button type="submit" name="status" value="ABSENT"
+                        class="px-3 py-1 rounded bg-surface-container-high hover:bg-red-700 hover:text-white text-on-surface-variant font-bold text-xs transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px]">close</span>
+                  <span>Absent</span>
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="p-8 text-center text-on-surface-variant">
+              No participant registrations recorded for this event.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

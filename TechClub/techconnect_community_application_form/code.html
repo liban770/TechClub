@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-tertiary-fixed-variant":"#454746","outline":"#747878","surface-container-low":"#f5f3f3","surface-container":"#efeded","on-tertiary-fixed":"#1a1c1b","surface-bright":"#fbf9f9","surface-dim":"#dbdad9","tertiary-container":"#1a1c1b","secondary-fixed-dim":"#e9c349","on-primary-fixed-variant":"#474646","error-container":"#ffdad6","on-background":"#1b1c1c","inverse-on-surface":"#f2f0f0","on-primary-fixed":"#1c1b1b","error":"#ba1a1a","primary-fixed":"#e5e2e1","on-secondary-fixed-variant":"#574500","outline-variant":"#c4c7c7","on-surface-variant":"#444748","surface":"#fbf9f9","surface-tint":"#5f5e5e","on-secondary":"#ffffff","tertiary-fixed":"#e2e3e1","on-surface":"#1b1c1c","on-secondary-container":"#745c00","tertiary":"#000000","inverse-primary":"#c8c6c5","secondary-container":"#fed65b","tertiary-fixed-dim":"#c6c7c5","on-primary":"#ffffff","secondary":"#735c00","on-primary-container":"#858383","on-error":"#ffffff","primary":"#000000","surface-container-high":"#e9e8e7","surface-variant":"#e3e2e2","on-error-container":"#93000a","inverse-surface":"#303031","surface-container-highest":"#e3e2e2","on-tertiary":"#ffffff","primary-fixed-dim":"#c8c6c5","secondary-fixed":"#ffe088","surface-container-lowest":"#ffffff","on-secondary-fixed":"#241a00","on-tertiary-container":"#838483","background":"#fbf9f9","primary-container":"#1c1b1b"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","gutter-mobile":"1rem","space-xs":"0.25rem","margin-tablet":"2rem","gutter":"1.5rem","space-lg":"1.5rem","space-md":"1rem","margin":"3rem","margin-mobile":"1.25rem","space-xl":"2.5rem"},"fontFamily":{"headline-lg":["Manrope"],"label-sm":["Manrope"],"label-md":["Manrope"],"code":["JetBrains Mono"],"headline-lg-mobile":["Manrope"],"display-mobile":["Manrope"],"headline-md":["Manrope"],"title-md":["Manrope"],"headline-sm":["Manrope"],"body-lg":["Manrope"],"body-md":["Manrope"],"display":["Manrope"]},"fontSize":{"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"700"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"code":["13px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"500"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"display-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"800"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.03em","fontWeight":"800"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-[1280px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin flex items-center justify-between"><div class="flex items-center gap-space-md"><img alt="TechConnect Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UtXah7v6sDvT1DlbDwMjj_sAxwYlIYMalK4J_2uUS5OvPRWOM_0LAs9bwfOc6vx2Ad8J-UTOXNm6GEgxQ3zZ4Uxu9YGGMzXrffiQsXlQ4Rp-g7EC2ClaezwnJG7vZCybH-bYvNv-gsh0nQWIggKRsCbryoDgr8orFpGgv-i1LRUvV6XG7_fJDyYHDB5K5pVGj-r3STAmtH07_VUiiqKSNtuBjl_r22GaIGfAieoK8zXSjDs26hr030KEak"/><div class="flex flex-col"><span class="font-title-md text-title-md text-primary font-bold tracking-tight">TechConnect</span><span class="font-label-sm text-label-sm text-on-surface-variant hidden sm:inline-block">Hargeisa Hub</span></div></div><nav class="hidden lg:flex items-center gap-space-lg" data-active-classes="text-primary font-title-md border-b-2 border-secondary-container"><a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors py-2" data-path="home" href="#">Home</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors py-2" data-path="about" href="#">About</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors py-2" data-path="public-events" href="#">Events</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors py-2" data-path="community" href="#">Community</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors py-2" data-path="directory-preview" href="#">Directory</a></nav><div class="flex items-center gap-space-md"><a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors px-space-sm py-space-xs hidden sm:inline-block" data-path="sign-in" href="#">Sign In</a><a class="inline-flex items-center justify-center font-label-md text-label-md bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed-dim hover:text-on-secondary-container transition-all px-space-md py-space-sm rounded-lg font-semibold shadow-[0_1px_3px_rgba(0,0,0,0.04)]" data-path="join-community" href="#">Join Community</a><div class="lg:hidden flex items-center"><button aria-label="Toggle menu" class="p-space-xs text-on-surface-variant hover:text-on-surface" type="button"><span class="material-symbols-outlined">menu</span></button></div></div></div></header><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<div class="relative w-full overflow-hidden bg-surface-container-low py-12 md:py-16">
+<div class="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-secondary-container/15 blur-3xl pointer-events-none"></div>
+<div class="absolute -left-20 bottom-0 w-80 h-80 rounded-full bg-primary/5 blur-2xl pointer-events-none"></div>
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin relative z-10">
+<div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-8">
+<div class="max-w-2xl space-y-3">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/30 text-on-secondary-container">
+<span class="material-symbols-outlined text-sm">verified</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Cohort Admissions 2025</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">TechConnect Membership Application</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Join Somaliland's vetted network of software engineers, system architects, and technical leaders building regional digital infrastructure.</p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex items-center gap-4 lg:min-w-[300px]">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Admissions Cycle</div>
+<div class="font-title-md text-title-md text-primary font-bold">Review within 48h</div>
+<div class="font-code text-code text-on-surface-variant">Batch #25-HGA</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md font-bold text-primary" id="stepCounterText">Step 1 of 4</span>
+<span class="text-on-surface-variant font-label-md text-label-md">—</span>
+<span class="font-label-md text-label-md text-on-surface-variant" id="stepNameText">Personal Information</span>
+</div>
+<div class="font-code text-code text-on-surface-variant flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span id="progressPercent">25% Completed</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 mb-8 overflow-hidden">
+<div class="h-full bg-secondary-container rounded-full transition-all duration-300 ease-out" id="formProgressBar" style="width: 25%;"></div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<button class="step-tab text-left p-3 rounded-lg bg-surface-container transition-all flex items-center gap-3" id="stepTab-1" onclick="goToStep(1)" type="button">
+<div class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0" id="stepBadge-1">1</div>
+<div class="min-w-0">
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Step 1</div>
+<div class="font-label-md text-label-md font-bold text-primary truncate">Personal Info</div>
+</div>
+</button>
+<button class="step-tab text-left p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex items-center gap-3" id="stepTab-2" onclick="goToStep(2)" type="button">
+<div class="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0" id="stepBadge-2">2</div>
+<div class="min-w-0">
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Step 2</div>
+<div class="font-label-md text-label-md font-bold text-on-surface-variant truncate">Background</div>
+</div>
+</button>
+<button class="step-tab text-left p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex items-center gap-3" id="stepTab-3" onclick="goToStep(3)" type="button">
+<div class="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0" id="stepBadge-3">3</div>
+<div class="min-w-0">
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Step 3</div>
+<div class="font-label-md text-label-md font-bold text-on-surface-variant truncate">Profile &amp; URLs</div>
+</div>
+</button>
+<button class="step-tab text-left p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex items-center gap-3" id="stepTab-4" onclick="goToStep(4)" type="button">
+<div class="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0" id="stepBadge-4">4</div>
+<div class="min-w-0">
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Step 4</div>
+<div class="font-label-md text-label-md font-bold text-on-surface-variant truncate">Goals &amp; Consent</div>
+</div>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin -mt-6 mb-20 relative z-20">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-6 sm:p-8 lg:p-10 shadow-sm">
+<div class="flex items-start gap-4 p-4 rounded-lg bg-surface-container-low mb-8">
+<span class="material-symbols-outlined text-secondary flex-shrink-0 mt-0.5">info</span>
+<div class="font-body-md text-body-md text-on-surface">
+<span class="font-title-md text-title-md font-semibold text-primary block sm:inline">Verification Notice:</span>
+            Applications are reviewed by community organizers within 48 hours. Please ensure contact coordinates and portfolio samples are authentic.
+          </div>
+</div>
+<form class="space-y-10" id="techConnectForm" onsubmit="event.preventDefault(); handleFormSubmit();">
+<div class="form-step-content space-y-8" id="stepSection-1">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary font-bold">1. Personal Details</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Provide your primary identifying information for your cohort membership badge.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                  Full Name <span class="text-error">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all placeholder:text-outline" id="fullNameInput" placeholder="e.g. Nimco Ahmed Farhan" required="" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline text-lg pointer-events-none">badge</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1.5">Official name as displayed on member directory certificates.</p>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                  Email Address <span class="text-error">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all placeholder:text-outline" id="emailInput" placeholder="developer@domain.so" required="" type="email"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline text-lg pointer-events-none">mail</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1.5">We will send admissions status and calendar invites here.</p>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                  Phone Number <span class="text-error">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all placeholder:text-outline" id="phoneInput" placeholder="+252 63 4400000" required="" type="tel"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline text-lg pointer-events-none">call</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1.5">WhatsApp / Zaad enabled contact number.</p>
+</div>
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                  Primary Regional Base (City) <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all appearance-none pr-10 cursor-pointer" id="cityInput" required="">
+<option disabled="" selected="" value="">Select primary city base</option>
+<option value="hargeisa">Hargeisa (Central Hub)</option>
+<option value="borama">Borama</option>
+<option value="berbera">Berbera</option>
+<option value="burco">Burco</option>
+<option value="ceerigaabo">Ceerigaabo</option>
+<option value="diaspora">Diaspora / Remote Regional</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline text-lg pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                Profile Avatar <span class="font-normal text-on-surface-variant text-label-sm">(Optional)</span>
+</label>
+<div class="bg-surface-container-low hover:bg-surface-container rounded-xl p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-3" id="avatarDropzone">
+<div class="w-14 h-14 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-2xl">cloud_upload</span>
+</div>
+<div>
+<div class="font-label-md text-label-md font-bold text-primary">Click to upload or drag &amp; drop</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">PNG, JPG, or WEBP (Max 3MB, recommended 400x400px)</div>
+</div>
+<input accept="image/*" class="hidden" id="avatarFileInput" onchange="previewAvatar(event)" type="file"/>
+<div class="hidden font-code text-code text-on-secondary-container bg-secondary-container/40 px-3 py-1 rounded-md" id="fileUploadNotice"></div>
+</div>
+</div>
+<div class="flex justify-end pt-4">
+<button class="px-6 py-2.5 bg-primary text-on-primary font-label-md text-label-md font-semibold rounded-lg hover:bg-tertiary-container transition-all flex items-center gap-2" onclick="goToStep(2)" type="button">
+<span>Continue to Background</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="form-step-content space-y-8 hidden" id="stepSection-2">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary font-bold">2. Professional Background</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Help organizers match you with relevant tech roundtables and mentor circuits.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                  Professional Title <span class="text-error">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all placeholder:text-outline" id="titleInput" placeholder="e.g. Senior Frontend Engineer" required="" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline text-lg pointer-events-none">work</span>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                  Professional Category <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all appearance-none pr-10 cursor-pointer" id="categoryInput" required="">
+<option disabled="" selected="" value="">Select category track</option>
+<option value="swe">Software Engineering</option>
+<option value="uiux">UI/UX &amp; Product Design</option>
+<option value="it">IT Systems &amp; Infrastructure</option>
+<option value="data">Data Science &amp; Machine Learning</option>
+<option value="founder">Entrepreneurship &amp; Product Management</option>
+<option value="student">Student / Active Learner</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline text-lg pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                  Current Organization / Institution <span class="text-error">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all placeholder:text-outline" id="orgInput" placeholder="e.g. Telesom, Amoud University, Freelance, or Stealth Startup" required="" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline text-lg pointer-events-none">apartment</span>
+</div>
+</div>
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                  Experience Level <span class="text-error">*</span>
+</label>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="experienceLevel" type="radio" value="student"/>
+<div class="p-3.5 rounded-lg bg-surface-container-low peer-checked:bg-secondary-container/40 peer-checked:text-on-secondary-container transition-all">
+<div class="font-label-md text-label-md font-bold">Student</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">Academic track</div>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="experienceLevel" type="radio" value="entry"/>
+<div class="p-3.5 rounded-lg bg-surface-container-low peer-checked:bg-secondary-container/40 peer-checked:text-on-secondary-container transition-all">
+<div class="font-label-md text-label-md font-bold">Entry-level</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">0 - 2 years</div>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="experienceLevel" type="radio" value="mid"/>
+<div class="p-3.5 rounded-lg bg-surface-container-low peer-checked:bg-secondary-container/40 peer-checked:text-on-secondary-container transition-all">
+<div class="font-label-md text-label-md font-bold">Mid-level</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">3 - 5 years</div>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="experienceLevel" type="radio" value="senior"/>
+<div class="p-3.5 rounded-lg bg-surface-container-low peer-checked:bg-secondary-container/40 peer-checked:text-on-secondary-container transition-all">
+<div class="font-label-md text-label-md font-bold">Senior / Lead</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">5+ years exp</div>
+</div>
+</label>
+</div>
+</div>
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                  Technical &amp; Tool Stack (Select applicable) <span class="text-error">*</span>
+</label>
+<div class="flex flex-wrap gap-2.5" id="skillTagsContainer">
+<button class="skill-tag px-3.5 py-1.5 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold transition-all" onclick="toggleTag(this)" type="button">React</button>
+<button class="skill-tag px-3.5 py-1.5 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold transition-all" onclick="toggleTag(this)" type="button">Python</button>
+<button class="skill-tag px-3.5 py-1.5 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold transition-all" onclick="toggleTag(this)" type="button">Figma</button>
+<button class="skill-tag px-3.5 py-1.5 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold transition-all" onclick="toggleTag(this)" type="button">Flutter</button>
+<button class="skill-tag px-3.5 py-1.5 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold transition-all" onclick="toggleTag(this)" type="button">PostgreSQL</button>
+<button class="skill-tag px-3.5 py-1.5 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold transition-all" onclick="toggleTag(this)" type="button">AWS</button>
+<button class="skill-tag px-3.5 py-1.5 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold transition-all" onclick="toggleTag(this)" type="button">Docker</button>
+<button class="skill-tag px-3.5 py-1.5 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold transition-all" onclick="toggleTag(this)" type="button">TypeScript</button>
+<button class="skill-tag px-3.5 py-1.5 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold transition-all" onclick="toggleTag(this)" type="button">Go</button>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-2">Active filters indicate core technologies you are willing to advise or collaborate on.</p>
+</div>
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                  Specialized Technical Interests
+                </label>
+<input class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all placeholder:text-outline" placeholder="e.g. Distributed databases, fintech APIs, local language LLMs, IoT telemetry" type="text"/>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4">
+<button class="px-5 py-2.5 bg-surface-container font-label-md text-label-md font-semibold rounded-lg text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2" onclick="goToStep(1)" type="button">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span>Back</span>
+</button>
+<button class="px-6 py-2.5 bg-primary text-on-primary font-label-md text-label-md font-semibold rounded-lg hover:bg-tertiary-container transition-all flex items-center gap-2" onclick="goToStep(3)" type="button">
+<span>Continue to Profile URLs</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="form-step-content space-y-8 hidden" id="stepSection-3">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary font-bold">3. Professional Profile &amp; Socials</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Provide public portfolio links for peer verification and mentor tier eligibility.</p>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="font-label-md text-label-md text-on-surface font-semibold">
+                    Profile Summary <span class="text-error">*</span>
+</label>
+<span class="font-code text-code text-on-surface-variant" id="charCounter">0 / 400</span>
+</div>
+<textarea class="w-full bg-surface-container-low p-4 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all placeholder:text-outline resize-none" id="profileSummary" maxlength="400" oninput="updateCharCount(this)" placeholder="Concise statement about your technical focus, current undertakings in the Horn of Africa, and engineering aspirations..." required="" rows="4"></textarea>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1.5">Max 400 characters. Featured on your directory preview snippet.</p>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                    LinkedIn Profile URL
+                  </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline text-lg pointer-events-none">link</span>
+<input class="w-full bg-surface-container-low pl-10 pr-4 py-2.5 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all placeholder:text-outline" placeholder="https://linkedin.com/in/username" type="url"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                    GitHub URL / Code Repository
+                  </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline text-lg pointer-events-none">code</span>
+<input class="w-full bg-surface-container-low pl-10 pr-4 py-2.5 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all placeholder:text-outline" placeholder="https://github.com/username" type="url"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-2">
+                    Personal Portfolio / Web Showcase
+                  </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline text-lg pointer-events-none">public</span>
+<input class="w-full bg-surface-container-low pl-10 pr-4 py-2.5 rounded-lg text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest outline-none shadow-sm transition-all placeholder:text-outline" placeholder="https://yourportfolio.dev" type="url"/>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4">
+<button class="px-5 py-2.5 bg-surface-container font-label-md text-label-md font-semibold rounded-lg text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2" onclick="goToStep(2)" type="button">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span>Back</span>
+</button>
+<button class="px-6 py-2.5 bg-primary text-on-primary font-label-md text-label-md font-semibold rounded-lg hover:bg-tertiary-container transition-all flex items-center gap-2" onclick="goToStep(4)" type="button">
+<span>Continue to Goals &amp; Consent</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="form-step-content space-y-8 hidden" id="stepSection-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary font-bold">4. Community Intent &amp; Terms</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Specify how you wish to engage with other founders, developers, and researchers.</p>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-3">
+                What are your main goals within TechConnect? <span class="text-error">*</span>
+</label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+<label class="flex items-start gap-3 p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-all">
+<input checked="" class="mt-1 h-4 w-4 rounded accent-primary cursor-pointer" name="goals" type="checkbox" value="mentorship"/>
+<div>
+<div class="font-title-md text-title-md font-semibold text-primary">Mentorship</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Seek guidance or mentor emerging talent</div>
+</div>
+</label>
+<label class="flex items-start gap-3 p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-all">
+<input checked="" class="mt-1 h-4 w-4 rounded accent-primary cursor-pointer" name="goals" type="checkbox" value="networking"/>
+<div>
+<div class="font-title-md text-title-md font-semibold text-primary">Executive Networking</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Connect with senior architects and founders</div>
+</div>
+</label>
+<label class="flex items-start gap-3 p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-all">
+<input class="mt-1 h-4 w-4 rounded accent-primary cursor-pointer" name="goals" type="checkbox" value="knowledge"/>
+<div>
+<div class="font-title-md text-title-md font-semibold text-primary">Knowledge Sharing</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Deliver tech talks, write open documentation</div>
+</div>
+</label>
+<label class="flex items-start gap-3 p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-all">
+<input class="mt-1 h-4 w-4 rounded accent-primary cursor-pointer" name="goals" type="checkbox" value="collaboration"/>
+<div>
+<div class="font-title-md text-title-md font-semibold text-primary">Project Collaboration</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Co-build open source tools for Somaliland</div>
+</div>
+</label>
+<label class="flex items-start gap-3 p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-all">
+<input class="mt-1 h-4 w-4 rounded accent-primary cursor-pointer" name="goals" type="checkbox" value="careers"/>
+<div>
+<div class="font-title-md text-title-md font-semibold text-primary">Career Opportunities</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Explore open engineering requisitions</div>
+</div>
+</label>
+<label class="flex items-start gap-3 p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-all">
+<input class="mt-1 h-4 w-4 rounded accent-primary cursor-pointer" name="goals" type="checkbox" value="events"/>
+<div>
+<div class="font-title-md text-title-md font-semibold text-primary">Technology Events</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Participate in regional hackathons and summits</div>
+</div>
+</label>
+</div>
+</div>
+<div class="p-5 rounded-xl bg-surface-container space-y-4">
+<h3 class="font-title-md text-title-md font-bold text-primary">Community Charter &amp; Privacy</h3>
+<div class="space-y-3">
+<label class="flex items-start gap-3 cursor-pointer">
+<input class="mt-1 h-4 w-4 rounded accent-primary cursor-pointer" id="consentConduct" required="" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface">
+                    I agree to the <span class="font-bold underline decoration-secondary text-primary">TechConnect Community Code of Conduct</span>, upholding constructive feedback, anti-harassment standards, and peer confidentiality. <span class="text-error">*</span>
+</span>
+</label>
+<label class="flex items-start gap-3 cursor-pointer">
+<input class="mt-1 h-4 w-4 rounded accent-primary cursor-pointer" id="consentDirectory" required="" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface">
+                    I consent to having my professional profile visible in the verified member directory and searchable by regional recruiters. <span class="text-error">*</span>
+</span>
+</label>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4">
+<button class="px-5 py-2.5 bg-surface-container font-label-md text-label-md font-semibold rounded-lg text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2" onclick="goToStep(3)" type="button">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span>Back</span>
+</button>
+<div class="flex items-center gap-3">
+<button class="px-5 py-2.5 bg-surface-container-low text-on-surface hover:bg-surface-container font-label-md text-label-md font-semibold rounded-lg transition-all" onclick="saveDraft()" type="button">
+                  Save Draft
+                </button>
+<button class="px-6 py-2.5 bg-secondary-container hover:bg-secondary-fixed-dim text-on-secondary-container font-label-md text-label-md font-bold rounded-lg transition-all shadow-sm flex items-center gap-2" type="submit">
+<span class="material-symbols-outlined text-sm">send</span>
+<span>Submit Application</span>
+</button>
+</div>
+</div>
+</div>
+</form>
+<div class="hidden mt-6 p-4 rounded-xl bg-secondary-container/40 text-on-secondary-container flex items-center gap-3 transition-all" id="formSuccessToast">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+<div>
+<div class="font-title-md text-title-md font-bold">Application Received</div>
+<div class="font-body-md text-body-md">Your profile is queued for organizer review. A confirmation token has been logged.</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 space-y-6">
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-title-md text-title-md font-bold text-primary">Directory Preview</h3>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container font-label-sm text-label-sm font-semibold">Live Spec</span>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-surface-container-high overflow-hidden flex items-center justify-center text-on-surface-variant font-bold text-lg" id="previewAvatarCircle">
+<span id="previewInitials">TC</span>
+</div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md font-bold text-primary truncate" id="previewFullName">Your Name</span>
+<span class="material-symbols-outlined text-secondary text-sm" title="Verified Member">verified</span>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant truncate" id="previewTitle">Professional Title</div>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3 italic" id="previewBioSnippet">
+              "Your profile summary statement will display here once filled out."
+            </p>
+<div class="flex flex-wrap gap-1.5 pt-1" id="previewSkillBadges">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest font-code text-code text-on-surface-variant">Stack</span>
+</div>
+<div class="pt-2 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span id="previewCity">Hargeisa</span>
+</span>
+<span class="text-secondary font-semibold">Mentor Eligible</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+<h3 class="font-title-md text-title-md font-bold text-primary mb-3">Community Hub: Hargeisa</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">In-person events and physical office sessions take place at the Hargeisa Innovation Center.</p>
+<div class="w-full h-44 rounded-lg bg-cover bg-center overflow-hidden relative shadow-sm" data-location="Hargeisa, Somaliland" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3ExqRHMiyrJ6TOCryJ0DsnLCaL2b_CCgM31M1RtgK335-ezQVkkTGWKEDS2WjfXb6nYv0anshXr3IDfoJAtBJ9w4esZ8p5WBHR-WFmuMdQGKct5TlmHansyBOG69ZPSAsHC3c9g8IohGIXYvC7GD2jY7c8JizYFcvRNSLhW2kC_aZZ5SXhd4g_jjKNZpTKsJircp0AsOcLb1Uej7TdhhuNg5_E2_KMeuuvl7BmVMynQDF4O9fIOWv6A')">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent flex items-end p-3">
+<span class="text-on-primary font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">pin_drop</span>
+                TechConnect HGA Headquarters
+              </span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm space-y-4">
+<h3 class="font-title-md text-title-md font-bold text-primary">Member Cohort Highlights</h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="p-3 rounded-lg bg-surface-container-low">
+<div class="font-headline-sm text-headline-sm font-bold text-primary">1,400+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Active Engineers</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low">
+<div class="font-headline-sm text-headline-sm font-bold text-primary">85+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Senior Mentors</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low">
+<div class="font-headline-sm text-headline-sm font-bold text-primary">42</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Ecosystem Startups</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low">
+<div class="font-headline-sm text-headline-sm font-bold text-primary">100%</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Free Membership</div>
+</div>
+</div>
+<div class="pt-2">
+<div class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-2">Recent Community Dispatches</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-lg object-cover" data-alt="Close up photograph of a software engineer coding on a modern laptop during a technical workshop in Hargeisa with warm sunlight and clean workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwMrBovf2XTx54AaUwI4cNgwiQqzbi_1eIVlzxGD-JR1wkAWjkEpK2rDMP2Z8lVOKTfKJPTYtVzyOSEN98EwbyvIfW6b3Y6zb7BF098VOtra8qFVkSVubZl-A5UKmmBhc_R5YG9DG1Xi4Z-Nq3pA8DIGq1iYmtSUoeGOdnz__EqldFqn4ZHfv8kOfUy6RQFzaKiDo4WVi_AaPDCg_qz813ldF1qaswvyfO6grVADj9DbVngcp4CUH3cA"/>
+<div class="min-w-0">
+<div class="font-label-md text-label-md font-bold text-primary truncate">Q1 Tech Summit 2025</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">420 Attendees in HGA</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-lg object-cover" data-alt="Portrait of diverse young African product developers collaborating over architectural wireframes in an executive co-working lab" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuWwkA1jOsuaNPYOujdKR7cKEwMHLXPtBU0P6GMLL61m5ryO14bpI0ScNNMdpVPzZCEkhZy9nBc2NgM-UDZoYuDmi9fY7dFUsmDmF8GWBb2gKZHjDfuRA32yQB6m6sSeHlV7mc0z4TXA-QfMrdRPW_Yni1lmSqODNRtil5bmhAXVRW4nf2Qqf4--3d5tGJxwsmOBvn8Co95H2kqTG7u90SdJcVeZr2AdpAkAUU1RpG3uEIFmE8GTmcRA"/>
+<div class="min-w-0">
+<div class="font-label-md text-label-md font-bold text-primary truncate">Fintech Integration Track</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Led by Telesom Alumni</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+    let currentStep = 1;
+    const totalSteps = 4;
+    const stepNames = [
+      "Personal Information",
+      "Professional Background",
+      "Professional Profile",
+      "Community Goals & Consent"
+    ];
+
+    function goToStep(step) {
+      if (step < 1 || step > totalSteps) return;
+      currentStep = step;
+
+      for (let i = 1; i <= totalSteps; i++) {
+        const sec = document.getElementById(`stepSection-${i}`);
+        const tab = document.getElementById(`stepTab-${i}`);
+        const badge = document.getElementById(`stepBadge-${i}`);
+
+        if (i === step) {
+          sec.classList.remove('hidden');
+          tab.className = "step-tab text-left p-3 rounded-lg bg-surface-container transition-all flex items-center gap-3";
+          badge.className = "w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0";
+        } else if (i < step) {
+          sec.classList.add('hidden');
+          tab.className = "step-tab text-left p-3 rounded-lg bg-surface-container-low transition-all flex items-center gap-3";
+          badge.className = "w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0";
+        } else {
+          sec.classList.add('hidden');
+          tab.className = "step-tab text-left p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex items-center gap-3";
+          badge.className = "w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0";
+        }
+      }
+
+      const pct = Math.round((step / totalSteps) * 100);
+      document.getElementById('formProgressBar').style.width = pct + '%';
+      document.getElementById('progressPercent').innerText = pct + '% Completed';
+      document.getElementById('stepCounterText').innerText = `Step ${step} of ${totalSteps}`;
+      document.getElementById('stepNameText').innerText = stepNames[step - 1];
+
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    function toggleTag(el) {
+      el.classList.toggle('bg-primary');
+      el.classList.toggle('text-on-primary');
+      el.classList.toggle('bg-surface-container');
+      el.classList.toggle('text-on-surface');
+      syncPreviewSkills();
+    }
+
+    function syncPreviewSkills() {
+      const active = document.querySelectorAll('.skill-tag.bg-primary');
+      const container = document.getElementById('previewSkillBadges');
+      if (active.length === 0) {
+        container.innerHTML = '<span class="px-2 py-0.5 rounded bg-surface-container-highest font-code text-code text-on-surface-variant">Stack</span>';
+        return;
+      }
+      container.innerHTML = '';
+      active.forEach(tag => {
+        const badge = document.createElement('span');
+        badge.className = 'px-2 py-0.5 rounded bg-secondary-container/40 text-on-secondary-container font-code text-code font-semibold';
+        badge.innerText = tag.innerText;
+        container.appendChild(badge);
+      });
+    }
+
+    function updateCharCount(el) {
+      const len = el.value.length;
+      document.getElementById('charCounter').innerText = `${len} / 400`;
+      const snippet = document.getElementById('previewBioSnippet');
+      if (len > 0) {
+        snippet.innerText = `"${el.value}"`;
+      } else {
+        snippet.innerText = '"Your profile summary statement will display here once filled out."';
+      }
+    }
+
+    const nameInput = document.getElementById('fullNameInput');
+    if (nameInput) {
+      nameInput.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        const prev = document.getElementById('previewFullName');
+        const init = document.getElementById('previewInitials');
+        if (val) {
+          prev.innerText = val;
+          const parts = val.split(' ');
+          init.innerText = parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : val.slice(0, 2).toUpperCase();
+        } else {
+          prev.innerText = 'Your Name';
+          init.innerText = 'TC';
+        }
+      });
+    }
+
+    const titleInput = document.getElementById('titleInput');
+    if (titleInput) {
+      titleInput.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        document.getElementById('previewTitle').innerText = val || 'Professional Title';
+      });
+    }
+
+    const cityInput = document.getElementById('cityInput');
+    if (cityInput) {
+      cityInput.addEventListener('change', (e) => {
+        const val = e.target.options[e.target.selectedIndex].text;
+        document.getElementById('previewCity').innerText = val.split(' ')[0];
+      });
+    }
+
+    const dropzone = document.getElementById('avatarDropzone');
+    const fileInput = document.getElementById('avatarFileInput');
+    if (dropzone && fileInput) {
+      dropzone.addEventListener('click', () => fileInput.click());
+    }
+
+    function previewAvatar(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const circle = document.getElementById('previewAvatarCircle');
+          circle.innerHTML = `<img src="${event.target.result}" class="w-full h-full object-cover">`;
+          const notice = document.getElementById('fileUploadNotice');
+          notice.classList.remove('hidden');
+          notice.innerText = `Uploaded: ${file.name}`;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function saveDraft() {
+      const toast = document.getElementById('formSuccessToast');
+      toast.classList.remove('hidden');
+      toast.querySelector('.font-title-md').innerText = "Draft Saved Successfully";
+      toast.querySelector('.font-body-md').innerText = "Your application responses are temporarily cached in your active browser session.";
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 4000);
+    }
+
+    function handleFormSubmit() {
+      const conduct = document.getElementById('consentConduct').checked;
+      const directory = document.getElementById('consentDirectory').checked;
+
+      if (!conduct || !directory) {
+        alert("Please accept both the Code of Conduct and Directory Consent to submit your application.");
+        return;
+      }
+
+      const toast = document.getElementById('formSuccessToast');
+      toast.classList.remove('hidden');
+      toast.querySelector('.font-title-md').innerText = "Application Submitted!";
+      toast.querySelector('.font-body-md').innerText = "Your submission is now queued for organizer review. A decision will arrive within 48 hours.";
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-space-xl pb-space-lg"><div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin"><div class="grid grid-cols-1 md:grid-cols-4 gap-space-xl pb-space-xl"><div class="md:col-span-1 space-y-space-sm"><div class="flex items-center gap-space-sm"><img alt="TechConnect Brand Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UtXah7v6sDvT1DlbDwMjj_sAxwYlIYMalK4J_2uUS5OvPRWOM_0LAs9bwfOc6vx2Ad8J-UTOXNm6GEgxQ3zZ4Uxu9YGGMzXrffiQsXlQ4Rp-g7EC2ClaezwnJG7vZCybH-bYvNv-gsh0nQWIggKRsCbryoDgr8orFpGgv-i1LRUvV6XG7_fJDyYHDB5K5pVGj-r3STAmtH07_VUiiqKSNtuBjl_r22GaIGfAieoK8zXSjDs26hr030KEak"/><span class="font-headline-sm text-headline-sm text-primary">TechConnect</span></div><p class="font-body-md text-body-md text-on-surface-variant max-w-xs">The premier technology networking collective and engineering ecosystem rooted in Hargeisa.</p><div class="inline-flex items-center gap-space-xs pt-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-secondary">location_on</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Hargeisa Tech Community</span></div></div><div><h4 class="font-label-md text-label-md uppercase tracking-wider text-on-surface mb-space-md">Network</h4><ul class="space-y-space-sm font-body-md text-body-md text-on-surface-variant"><li><a class="hover:text-on-surface transition-colors" data-path="directory-preview" href="#">Mentor Directory</a></li><li><a class="hover:text-on-surface transition-colors" data-path="public-events" href="#">Tech Summits</a></li><li><a class="hover:text-on-surface transition-colors" data-path="community" href="#">Ecosystem Projects</a></li><li><a class="hover:text-on-surface transition-colors" data-path="join-community" href="#">Membership Tiers</a></li></ul></div><div><h4 class="font-label-md text-label-md uppercase tracking-wider text-on-surface mb-space-md">Organization</h4><ul class="space-y-space-sm font-body-md text-body-md text-on-surface-variant"><li><a class="hover:text-on-surface transition-colors" data-path="about" href="#">Mission &amp; Charter</a></li><li><a class="hover:text-on-surface transition-colors" href="#">Advisory Board</a></li><li><a class="hover:text-on-surface transition-colors" href="#">Code of Conduct</a></li><li><a class="hover:text-on-surface transition-colors" href="#">Sponsorship</a></li></ul></div><div><h4 class="font-label-md text-label-md uppercase tracking-wider text-on-surface mb-space-md">Stay Connected</h4><p class="font-body-md text-body-md text-on-surface-variant mb-space-md">Curated dispatches on regional tech talent, investments, and sessions.</p><div class="flex items-center gap-space-xs"><input class="w-full bg-surface-container-lowest px-space-md py-space-sm rounded-lg text-on-surface font-body-md text-body-md outline-none focus:ring-2 focus:ring-secondary/20" placeholder="developer@domain.so" type="email"/><button class="bg-primary text-on-primary font-label-md text-label-md px-space-md py-space-sm rounded-lg hover:bg-tertiary-container transition-colors" type="button">Join</button></div></div></div><div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md font-label-sm text-label-sm text-on-surface-variant"><div>© 2025 TechConnect Hargeisa. Connect. Learn. Build Together.</div><div class="flex items-center gap-space-lg"><a class="hover:text-on-surface transition-colors" href="#">Terms</a><a class="hover:text-on-surface transition-colors" href="#">Privacy</a><a class="hover:text-on-surface transition-colors" href="#">Security</a></div></div></div></footer></body></html>

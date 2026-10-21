@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-tertiary-fixed-variant":"#454746","outline":"#747878","surface-container-low":"#f5f3f3","surface-container":"#efeded","on-tertiary-fixed":"#1a1c1b","surface-bright":"#fbf9f9","surface-dim":"#dbdad9","tertiary-container":"#1a1c1b","secondary-fixed-dim":"#e9c349","on-primary-fixed-variant":"#474646","error-container":"#ffdad6","on-background":"#1b1c1c","inverse-on-surface":"#f2f0f0","on-primary-fixed":"#1c1b1b","error":"#ba1a1a","primary-fixed":"#e5e2e1","on-secondary-fixed-variant":"#574500","outline-variant":"#c4c7c7","on-surface-variant":"#444748","surface":"#fbf9f9","surface-tint":"#5f5e5e","on-secondary":"#ffffff","tertiary-fixed":"#e2e3e1","on-surface":"#1b1c1c","on-secondary-container":"#745c00","tertiary":"#000000","inverse-primary":"#c8c6c5","secondary-container":"#fed65b","tertiary-fixed-dim":"#c6c7c5","on-primary":"#ffffff","secondary":"#735c00","on-primary-container":"#858383","on-error":"#ffffff","primary":"#000000","surface-container-high":"#e9e8e7","surface-variant":"#e3e2e2","on-error-container":"#93000a","inverse-surface":"#303031","surface-container-highest":"#e3e2e2","on-tertiary":"#ffffff","primary-fixed-dim":"#c8c6c5","secondary-fixed":"#ffe088","surface-container-lowest":"#ffffff","on-secondary-fixed":"#241a00","on-tertiary-container":"#838483","background":"#fbf9f9","primary-container":"#1c1b1b"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","gutter-mobile":"1rem","space-xs":"0.25rem","margin-tablet":"2rem","gutter":"1.5rem","space-lg":"1.5rem","space-md":"1rem","margin":"3rem","margin-mobile":"1.25rem","space-xl":"2.5rem"},"fontFamily":{"headline-lg":["Manrope"],"label-sm":["Manrope"],"label-md":["Manrope"],"code":["JetBrains Mono"],"headline-lg-mobile":["Manrope"],"display-mobile":["Manrope"],"headline-md":["Manrope"],"title-md":["Manrope"],"headline-sm":["Manrope"],"body-lg":["Manrope"],"body-md":["Manrope"],"display":["Manrope"]},"fontSize":{"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"700"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"code":["13px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"500"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"display-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"800"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.03em","fontWeight":"800"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm"><img alt="TechConnect Brand Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UtXah7v6sDvT1DlbDwMjj_sAxwYlIYMalK4J_2uUS5OvPRWOM_0LAs9bwfOc6vx2Ad8J-UTOXNm6GEgxQ3zZ4Uxu9YGGMzXrffiQsXlQ4Rp-g7EC2ClaezwnJG7vZCybH-bYvNv-gsh0nQWIggKRsCbryoDgr8orFpGgv-i1LRUvV6XG7_fJDyYHDB5K5pVGj-r3STAmtH07_VUiiqKSNtuBjl_r22GaIGfAieoK8zXSjDs26hr030KEak"/><div class="flex flex-col"><span class="font-title-md text-title-md text-primary font-bold">TechConnect</span><span class="font-label-sm text-label-sm text-secondary font-semibold uppercase tracking-wider">Admin Ops</span></div></div><div class="px-space-md py-space-xs"><span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-bold tracking-wider px-space-sm">Operations</span></div><nav class="px-space-md space-y-space-xs" data-active-classes="bg-primary text-on-primary font-label-md shadow-[0_1px_3px_rgba(0,0,0,0.08)]"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="overview" href="#"><span class="material-symbols-outlined text-title-md">space_dashboard</span><span>Overview</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="applications" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-title-md">how_to_reg</span><span>Applications</span></div><span class="font-label-sm text-label-sm bg-secondary-container text-on-secondary-container px-space-xs rounded-full font-bold">12</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="members" href="#"><span class="material-symbols-outlined text-title-md">group</span><span>Members</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="events" href="#"><span class="material-symbols-outlined text-title-md">calendar_month</span><span>Events</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="meetings" href="#"><span class="material-symbols-outlined text-title-md">groups</span><span>Meetings</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="announcements" href="#"><span class="material-symbols-outlined text-title-md">campaign</span><span>Announcements</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="attendance" href="#"><span class="material-symbols-outlined text-title-md">fact_check</span><span>Attendance</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reports" href="#"><span class="material-symbols-outlined text-title-md">insights</span><span>Reports</span></a></nav><div class="px-space-md pt-space-md pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-bold tracking-wider px-space-sm">System</span></div><nav class="px-space-md" data-active-classes="bg-primary text-on-primary font-label-md shadow-[0_1px_3px_rgba(0,0,0,0.08)]"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined text-title-md">tune</span><span>Settings</span></a></nav></div><div class="p-space-md"><div class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-2 h-2 rounded-full bg-secondary"></div><div class="flex flex-col"><span class="font-label-sm text-label-sm font-bold text-on-surface">Hargeisa Node</span><span class="font-label-sm text-label-sm text-on-surface-variant">v2.4.0 Online</span></div></div><a class="text-on-surface-variant hover:text-on-surface" data-path="home" href="#"><span class="material-symbols-outlined text-title-md">open_in_new</span></a></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center flex-1 max-w-lg"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-title-md">search</span><input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md pl-10 pr-space-md py-space-xs rounded-lg outline-none focus:ring-2 focus:ring-secondary/25 transition-all" placeholder="Search applicants, members, logs (Cmd+K)..." type="search"/></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-title-md">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-secondary"></span></button><button aria-label="Documentation" class="p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-title-md">help_outline</span></button><div class="flex items-center gap-space-sm pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlEZ0YWwI0MRJtGiW20FIv0E-xc9loDYuWLRIMGb8rPT4nAPZqManqbcqJ1KdIZrH6uLUn3_rfZa0zrM-tF6RpYMmMdAt-r7aCJx2Yb7r9Pulck-8LzBjaB-1vzvmEImWXaHbX-bfhh8RUPXbEKPjnRgDWZlJMgQm74HpM2OitPaSzbGIATjonagOlC2bQfHU80pTI8FgFV2bNQttda-vMNnSC8sRjYunhbKAejhvxfC5DuF9Myk6cug"/><div class="hidden md:flex flex-col items-start leading-tight"><span class="font-label-md text-label-md text-on-surface font-bold">Jamaal K.</span><span class="font-label-sm text-label-sm text-secondary font-semibold">Lead Admin</span></div><span class="material-symbols-outlined text-on-surface-variant text-label-md">expand_more</span></div></div></header><main class="relative pt-16 bg-surface w-full px-space-lg py-space-lg"><div class="flex flex-col w-full">
+<!-- Dynamic script to sync navigation state in global shell -->
+<script>
+    (function syncNav() {
+      const navLinks = document.querySelectorAll('aside nav a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('data-path') === 'events') {
+          link.className = 'flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md bg-primary text-on-primary shadow-sm transition-all';
+        } else if (link.getAttribute('data-path')) {
+          link.className = 'flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all';
+        }
+      });
+    })();
+  </script>
+<!-- Top Header & Action Row -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-lg">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold mb-1">
+<span>COMMUNITY OPERATIONS</span>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface-variant">Gatherings &amp; Workshops</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Event Management</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 max-w-2xl">
+        Schedule, coordinate, and review technical community meetups, fireside panels, and hands-on hackathons across Hargeisa.
+      </p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="flex items-center gap-space-xs px-space-md py-2.5 bg-surface-container-lowest text-on-surface rounded-lg font-label-md text-label-md shadow-sm hover:bg-surface-container-high transition-all" type="button">
+<span class="material-symbols-outlined text-title-md text-on-surface-variant">download</span>
+<span>Export Attendance CSV</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2.5 bg-primary text-on-primary rounded-lg font-label-md text-label-md shadow-sm hover:bg-surface-container-highest hover:text-on-surface transition-all active:scale-[0.99]" type="button">
+<span class="material-symbols-outlined text-title-md text-secondary-container">add_circle</span>
+<span>Create New Event</span>
+</button>
+</div>
+</div>
+<!-- Metric Statistics Grid (4 Key Metrics) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-xl">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Total Events Hosted</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-title-md">event_available</span>
+</div>
+</div>
+<div class="mt-space-md flex items-baseline gap-space-sm">
+<span class="font-headline-lg text-headline-lg text-on-surface font-extrabold">48</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high text-secondary px-2 py-0.5 rounded-full font-bold">+4 this qtr</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Across 4 tech hubs in Hargeisa</span>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Upcoming Sessions</span>
+<div class="w-8 h-8 rounded-lg bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-title-md">schedule</span>
+</div>
+</div>
+<div class="mt-space-md flex items-baseline gap-space-sm">
+<span class="font-headline-lg text-headline-lg text-on-surface font-extrabold">6</span>
+<span class="font-label-sm text-label-sm bg-secondary-container/30 text-on-secondary-container px-2 py-0.5 rounded-full font-bold">Scheduled</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Next: May 24 (HTC Hall A)</span>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Avg Attendance Rate</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-title-md">analytics</span>
+</div>
+</div>
+<div class="mt-space-md flex items-baseline gap-space-sm">
+<span class="font-headline-lg text-headline-lg text-on-surface font-extrabold">92.4%</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface px-2 py-0.5 rounded-full font-bold">+3.1% YoY</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Verified check-in confirmations</span>
+</div>
+<!-- Metric 4 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Total RSVPs Active</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-title-md">group_add</span>
+</div>
+</div>
+<div class="mt-space-md flex items-baseline gap-space-sm">
+<span class="font-headline-lg text-headline-lg text-on-surface font-extrabold">418</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">seats booked</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">87.5% aggregate venue capacity</span>
+</div>
+</div>
+<!-- Main Master-Detail Workstation Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: Filter Bar & Events List (approx 62-65% width = 7/12 on 12-col) -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<!-- Filter and Query Header Surface -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-space-md">
+<!-- Search and Quick Category Select -->
+<div class="flex flex-col sm:flex-row gap-space-sm items-center">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-title-md">search</span>
+<input class="w-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md pl-10 pr-space-md py-2 rounded-lg outline-none focus:bg-surface-container-lowest shadow-inner transition-all" placeholder="Filter by title, keynote speaker, or venue..." type="text"/>
+</div>
+<div class="flex items-center gap-space-xs shrink-0 w-full sm:w-auto">
+<select class="bg-surface-container-low text-on-surface font-label-md text-label-md px-space-md py-2 rounded-lg outline-none w-full sm:w-auto cursor-pointer">
+<option>All Tracks</option>
+<option>Engineering &amp; Architecture</option>
+<option>Design &amp; Localization</option>
+<option>AI / Machine Learning</option>
+<option>Founder &amp; Venture</option>
+</select>
+</div>
+</div>
+<!-- Segmented Lifecycle Status Tabs -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1">
+<button class="px-space-md py-1.5 rounded-lg font-label-md text-label-md bg-primary text-on-primary shadow-sm shrink-0" type="button">
+            All (12)
+          </button>
+<button class="px-space-md py-1.5 rounded-lg font-label-md text-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" type="button">
+            Upcoming (6)
+          </button>
+<button class="px-space-md py-1.5 rounded-lg font-label-md text-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" type="button">
+            Past (36)
+          </button>
+<button class="px-space-md py-1.5 rounded-lg font-label-md text-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" type="button">
+            Drafts (2)
+          </button>
+</div>
+</div>
+<!-- Event Card 1: Selected / Master item -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-md transition-all relative overflow-hidden group cursor-pointer">
+<!-- Gold Accent Indicator for Selected State -->
+<div class="absolute top-0 left-0 bottom-0 w-1.5 bg-secondary"></div>
+<div class="flex flex-col gap-space-sm pl-2">
+<!-- Row 1: Badges & Track -->
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                Engineering
+              </span>
+<span class="bg-secondary-container/20 text-on-secondary-container font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Registration Open
+              </span>
+</div>
+<span class="font-code text-code text-on-surface-variant">EVT-2025-0524</span>
+</div>
+<!-- Row 2: Title & Details -->
+<div class="flex flex-col mt-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-secondary transition-colors">
+              Scaling Microservices &amp; Mobile Money Rails in Somaliland
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+              Deep dive into low-latency fintech transactions, offline reconciliation strategies, and Zaad/e-Dahab API webhook architectures.
+            </p>
+</div>
+<!-- Row 3: Metadata bar -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm py-space-xs text-on-surface-variant font-body-md text-body-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">calendar_today</span>
+<span>May 24, 2025 • 17:00 - 19:30 EAT</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">location_on</span>
+<span>Hargeisa Tech Center (HTC) Hall A</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">record_voice_over</span>
+<span>Yasin M. (Principal Architect, Telesom Core Lab)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">group</span>
+<span>Capacity: <strong class="text-on-surface font-semibold">85 / 100 Filled</strong> (85%)</span>
+</div>
+</div>
+<!-- Capacity Bar Mini -->
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 85%;"></div>
+</div>
+</div>
+</div>
+<!-- Event Card 2 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                Product Design
+              </span>
+<span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-on-secondary-container"></span> Capacity Reached
+              </span>
+<span class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full font-semibold">
+                Waitlist: 14
+              </span>
+</div>
+<span class="font-code text-code text-on-surface-variant">EVT-2025-0602</span>
+</div>
+<div class="flex flex-col mt-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold hover:text-secondary transition-colors">
+              Design Systems for Multi-Language Somali &amp; English UIs
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+              Typography hierarchies, RTL/LTR layout transitions, and high-contrast microcopy suited for regional mobile interfaces.
+            </p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm py-space-xs text-on-surface-variant font-body-md text-body-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">calendar_today</span>
+<span>Jun 02, 2025 • 15:30 EAT</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">location_on</span>
+<span>National Innovation Hub, Lab 2</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">record_voice_over</span>
+<span>Fadumo A. (Staff Product Designer)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">group</span>
+<span>Capacity: <strong class="text-on-surface font-semibold">40 / 40 Full</strong> (100%)</span>
+</div>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-primary h-full rounded-full" style="width: 100%;"></div>
+</div>
+</div>
+</div>
+<!-- Event Card 3 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                Hackathon
+              </span>
+<span class="bg-secondary-container/20 text-on-secondary-container font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Registration Open
+              </span>
+</div>
+<span class="font-code text-code text-on-surface-variant">EVT-2025-0615</span>
+</div>
+<div class="flex flex-col mt-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold hover:text-secondary transition-colors">
+              Horn of Africa Open-Source Builders Hackathon 2025
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+              36-hour sprint creating tools for educational localization, logistics tracking, and sovereign cloud data pipelines.
+            </p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm py-space-xs text-on-surface-variant font-body-md text-body-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">calendar_today</span>
+<span>Jun 15-16, 2025 • 09:00 EAT</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">location_on</span>
+<span>Univ. of Hargeisa Tech Annex</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">military_tech</span>
+<span>Prizes: $5,000 Venture Grant pool</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">group</span>
+<span>Capacity: <strong class="text-on-surface font-semibold">120 / 150 Filled</strong> (80%)</span>
+</div>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 80%;"></div>
+</div>
+</div>
+</div>
+<!-- Event Card 4: Past / Completed -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer opacity-90">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                Fintech &amp; Security
+              </span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-bold">
+                Completed
+              </span>
+</div>
+<span class="font-code text-code text-on-surface-variant">EVT-2025-0418</span>
+</div>
+<div class="flex flex-col mt-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+              Fintech API Security &amp; Compliance Architecture
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+              Enterprise vault patterns, ISO 27001 readiness for regional remittance systems, and secure tokenization policies.
+            </p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm py-space-xs text-on-surface-variant font-body-md text-body-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface-variant">event_available</span>
+<span>Apr 18, 2025 • Concluded</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface-variant">location_on</span>
+<span>Mansoor Hotel Conference Hall</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface-variant">verified</span>
+<span>94 verified attendees recorded</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface-variant">grade</span>
+<span>Audience Score: 4.9 / 5.0</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Inspector & Details Panel (approx 35-38% width = 5/12 on 12-col) -->
+<div class="lg:col-span-5 flex flex-col gap-space-md sticky top-20">
+<!-- Event Hero and Primary Inspector Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-md overflow-hidden flex flex-col">
+<!-- Event Thumbnail Banner -->
+<div class="relative h-44 w-full bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="An expansive modern tech coworking hub and seminar room in Hargeisa with large windows, technical flowcharts on whiteboards, young African engineers and product managers collaborating with laptops around a polished light wood table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_0xe-cylPMyvcqdJFPBCtSX8xziDLgSofam25TLpcUgZdTCoGOrtGneCPph1UVxr3ANwkOBL6n2ZYWqvPr-5g9w_vG3CQb_GIRxpgN-ixjL10ZhzqYC2kXRF7qgOHJ40qXU_I0nwO-Yp1Mn0dHNGCrbuuvm6qBtvN4bRINmGckWHT1Xt4LmzvUoFnB1yxH6TgBQH9QitqjXHOMxShWGByx-GGYaHL-n8iyRvS-SH_FCGE2rmvv7iH0g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
+<div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-on-primary">
+<div>
+<span class="font-label-sm text-label-sm bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-bold uppercase tracking-wider">Active View</span>
+<p class="font-title-md text-title-md font-bold mt-0.5">HTC Hall A • Capacity 100</p>
+</div>
+<span class="font-code text-code bg-primary/70 backdrop-blur-sm px-2 py-1 rounded">May 24, 2025</span>
+</div>
+</div>
+<!-- Inspector Action Toolbar -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between gap-space-xs">
+<button class="flex-1 flex items-center justify-center gap-1.5 px-space-sm py-2 bg-surface-container-lowest hover:bg-surface-container-high text-on-surface rounded-lg font-label-md text-label-md transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-title-md text-on-surface-variant">edit</span>
+<span>Edit Details</span>
+</button>
+<button class="flex-1 flex items-center justify-center gap-1.5 px-space-sm py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md transition-all shadow-sm hover:bg-surface-container-highest hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-title-md text-secondary-container">qr_code_scanner</span>
+<span>QR Check-in</span>
+</button>
+<button class="p-2 bg-surface-container-lowest hover:bg-error-container hover:text-on-error-container text-on-surface-variant rounded-lg transition-colors" title="Event Actions" type="button">
+<span class="material-symbols-outlined text-title-md">more_vert</span>
+</button>
+</div>
+<!-- Inspector Content Body -->
+<div class="p-space-lg flex flex-col gap-space-lg">
+<!-- Capacity Gauge Section -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">Venue Capacity &amp; RSVPs</span>
+<span class="font-code text-code text-secondary font-bold">85 / 100 (85%)</span>
+</div>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full transition-all" style="width: 85%;"></div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>15 General Admission Seats Left</span>
+<span>Waitlist threshold: 105</span>
+</div>
+</div>
+<!-- Logistics & Venue Access Notes -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-1.5">
+<div class="flex items-center gap-space-xs text-on-surface font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-title-md text-secondary">verified_user</span>
+<span>Organizer Check-in &amp; Facility Notes</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Projector, high-speed fiber uplink, and dual backup generators verified with HTC management. Dual wireless mics configured for keynote speaker Yasin M.
+            </p>
+</div>
+<!-- Registered Participant Roster Snippet -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-md text-title-md text-on-surface font-bold">Confirmed RSVPs</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface px-2 py-0.5 rounded-full font-bold">85</span>
+</div>
+<a class="font-label-sm text-label-sm text-secondary hover:underline font-bold" href="#">View Full Roster</a>
+</div>
+<!-- Participant Table -->
+<div class="w-full overflow-hidden rounded-lg bg-surface-container-lowest">
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-md text-body-md">
+<thead>
+<tr class="bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
+<th class="py-2.5 px-3">Participant</th>
+<th class="py-2.5 px-3">Organization</th>
+<th class="py-2.5 px-3">Status</th>
+<th class="py-2.5 px-3 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/40">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center justify-center font-bold">GA</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Guled Abdi</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-on-surface-variant text-label-sm">Telesom Core Lab</td>
+<td class="py-2.5 px-3">
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface px-2 py-0.5 rounded-full">Confirmed</span>
+</td>
+<td class="py-2.5 px-3 text-right">
+<button class="px-2 py-1 bg-surface-container-high hover:bg-primary hover:text-on-primary text-on-surface rounded font-label-sm text-label-sm transition-colors font-medium" type="button">Check In</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-secondary-container/40 text-secondary font-label-sm text-label-sm flex items-center justify-center font-bold">AY</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Amina Yusuf</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-on-surface-variant text-label-sm">Eastwave Studio</td>
+<td class="py-2.5 px-3">
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface px-2 py-0.5 rounded-full">Confirmed</span>
+</td>
+<td class="py-2.5 px-3 text-right">
+<button class="px-2 py-1 bg-surface-container-high hover:bg-primary hover:text-on-primary text-on-surface rounded font-label-sm text-label-sm transition-colors font-medium" type="button">Check In</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center justify-center font-bold">KW</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Khadar Warsame</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-on-surface-variant text-label-sm">Dahabshiil FinTech</td>
+<td class="py-2.5 px-3">
+<span class="font-label-sm text-label-sm bg-secondary-container/30 text-on-secondary-container px-2 py-0.5 rounded-full font-bold flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[12px]">done</span> Arrived
+                        </span>
+</td>
+<td class="py-2.5 px-3 text-right">
+<span class="material-symbols-outlined text-secondary text-title-md">check_circle</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center justify-center font-bold">HM</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Hibaaq Mahdi</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-on-surface-variant text-label-sm">Univ. of Hargeisa</td>
+<td class="py-2.5 px-3">
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface px-2 py-0.5 rounded-full">Confirmed</span>
+</td>
+<td class="py-2.5 px-3 text-right">
+<button class="px-2 py-1 bg-surface-container-high hover:bg-primary hover:text-on-primary text-on-surface rounded font-label-sm text-label-sm transition-colors font-medium" type="button">Check In</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Danger / Escalation Options -->
+<div class="flex items-center justify-between pt-2">
+<button class="font-label-sm text-label-sm text-error hover:underline flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-title-md">cancel</span>
+<span>Cancel or Postpone Event</span>
+</button>
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-title-md">share</span>
+<span>Share Public Link</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

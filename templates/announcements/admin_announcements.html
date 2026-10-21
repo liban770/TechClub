@@ -1,0 +1,233 @@
+{% extends 'layouts/admin_base.html' %}
+
+{% block title %}Announcements &amp; Broadcasts — TechClub Admin Ops{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6">
+  <!-- Top Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 text-xs font-code uppercase tracking-wider text-secondary font-bold">
+        <span>COMMUNITY BROADCASTS</span>
+        <span class="text-on-surface-variant">/</span>
+        <span class="text-on-surface-variant">Dispatches &amp; Grants</span>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight mt-1">Community Announcements</h1>
+      <p class="text-xs text-on-surface-variant max-w-2xl mt-1">
+        Broadcast urgent updates, mentorship schedules, and technical opportunities to members, mentors, and the wider Hargeisa community.
+      </p>
+    </div>
+
+    <button type="button" onclick="openCreateAnnouncementModal()" class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary text-xs font-bold rounded-lg shadow-sm hover:bg-neutral-800 transition-all self-start md:self-auto">
+      <span class="material-symbols-outlined text-[18px] text-secondary-container">campaign</span>
+      <span>+ Create Announcement</span>
+    </button>
+  </div>
+
+  <!-- Announcements List -->
+  <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-sm overflow-hidden">
+    <div class="p-4 border-b border-surface-container-high flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-xs text-primary">Active Dispatches</span>
+        <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">{{ published_count }} Live</span>
+      </div>
+    </div>
+
+    <div class="divide-y divide-surface-container-high">
+      {% for an in announcements %}
+      <div class="p-5 hover:bg-surface-container-low/40 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-2 max-w-3xl">
+          <div class="flex flex-wrap items-center gap-2">
+            {% if an.is_pinned %}
+            <span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container text-[10px] font-extrabold flex items-center gap-1">
+              <span class="material-symbols-outlined text-[12px]">push_pin</span>
+              Pinned
+            </span>
+            {% endif %}
+            <span class="px-2 py-0.5 rounded bg-surface-container text-on-surface text-[10px] font-bold">
+              {{ an.category }}
+            </span>
+            <span class="text-xs font-code text-on-surface-variant">
+              Audience: <strong>{{ an.get_audience_display }}</strong>
+            </span>
+            <span class="text-xs font-code text-on-surface-variant">• {{ an.created_at|date:"M d, Y" }}</span>
+          </div>
+
+          <h3 class="text-base font-extrabold text-primary">{{ an.title }}</h3>
+          <p class="text-xs text-on-surface-variant leading-relaxed line-clamp-2">{{ an.content }}</p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" 
+                  onclick="openEditAnnouncementModal('{{ an.id }}', '{{ an.title|escapejs }}', '{{ an.category }}', '{{ an.audience }}', `{{ an.content|escapejs }}`, {{ an.is_pinned|yesno:'true,false' }})"
+                  class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors" title="Edit Announcement">
+            <span class="material-symbols-outlined text-[18px]">edit</span>
+          </button>
+          <form method="POST" action="{% url 'admin_announcement_action' an.id %}" class="flex items-center gap-2">
+            {% csrf_token %}
+            <button type="submit" name="action" value="TOGGLE_PIN" class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant" title="Toggle Pin">
+              <span class="material-symbols-outlined text-[18px]">push_pin</span>
+            </button>
+            <button type="submit" name="action" value="ARCHIVE" class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant" title="Archive">
+              <span class="material-symbols-outlined text-[18px]">archive</span>
+            </button>
+            <button type="submit" name="action" value="DELETE" onclick="return confirm('Delete this announcement?')" class="p-2 rounded-lg bg-surface-container hover:bg-red-100 hover:text-red-700 text-on-surface-variant" title="Delete">
+              <span class="material-symbols-outlined text-[18px]">delete</span>
+            </button>
+          </form>
+        </div>
+      </div>
+      {% empty %}
+      <div class="p-12 text-center text-on-surface-variant">
+        No announcements published yet.
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- CREATE ANNOUNCEMENT MODAL -->
+<div id="createAnnouncementModal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="max-w-lg w-full bg-surface-container-lowest rounded-2xl shadow-2xl border border-surface-container-high p-6 space-y-4">
+    <div class="flex items-center justify-between pb-3 border-b border-surface-container-high">
+      <h3 class="text-base font-extrabold text-primary">New Community Broadcast</h3>
+      <button onclick="closeCreateAnnouncementModal()" class="p-1 rounded hover:bg-surface-container text-on-surface-variant">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <form method="POST" action="{% url 'admin_announcement_create' %}" class="space-y-4 text-xs">
+      {% csrf_token %}
+      <div>
+        <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Headline / Title <span class="text-error">*</span></label>
+        <input type="text" name="title" required placeholder="e.g. Mentor Office Hours Schedule for Cohort #2"
+               class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Category</label>
+          <select name="category" class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+            {% for code, label in categories %}
+            <option value="{{ code }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Target Audience</label>
+          <select name="audience" class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+            {% for code, label in audiences %}
+            <option value="{{ code }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Content / Message Body <span class="text-error">*</span></label>
+        <textarea name="content" rows="4" required placeholder="Write the complete broadcast message..."
+                  class="w-full bg-surface-container-low p-3 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"></textarea>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <input type="checkbox" name="is_pinned" id="pinCheck" class="accent-primary"/>
+        <label for="pinCheck" class="text-xs text-on-surface font-semibold cursor-pointer">Pin to top of member dashboard</label>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3 border-t border-surface-container-high">
+        <button type="button" onclick="closeCreateAnnouncementModal()" class="px-4 py-2 bg-surface-container hover:bg-surface-container-high rounded-lg font-bold">
+          Cancel
+        </button>
+        <button type="submit" class="px-5 py-2 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg font-bold shadow-sm">
+          Publish Broadcast
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- EDIT ANNOUNCEMENT MODAL -->
+<div id="editAnnouncementModal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="max-w-lg w-full bg-surface-container-lowest rounded-2xl shadow-2xl border border-surface-container-high p-6 space-y-4">
+    <div class="flex items-center justify-between pb-3 border-b border-surface-container-high">
+      <h3 class="text-base font-extrabold text-primary">Edit Community Broadcast</h3>
+      <button onclick="closeEditAnnouncementModal()" class="p-1 rounded hover:bg-surface-container text-on-surface-variant">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <form id="editAnnouncementForm" method="POST" action="" class="space-y-4 text-xs">
+      {% csrf_token %}
+      <div>
+        <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Headline / Title <span class="text-error">*</span></label>
+        <input type="text" id="edit_announcement_title" name="title" required
+               class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Category</label>
+          <select id="edit_announcement_category" name="category" class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+            {% for code, label in categories %}
+            <option value="{{ code }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Target Audience</label>
+          <select id="edit_announcement_audience" name="audience" class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+            {% for code, label in audiences %}
+            <option value="{{ code }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Content / Message Body <span class="text-error">*</span></label>
+        <textarea id="edit_announcement_content" name="content" rows="4" required
+                  class="w-full bg-surface-container-low p-3 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"></textarea>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <input type="checkbox" name="is_pinned" id="edit_pinCheck" class="accent-primary"/>
+        <label for="edit_pinCheck" class="text-xs text-on-surface font-semibold cursor-pointer">Pin to top of member dashboard</label>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3 border-t border-surface-container-high">
+        <button type="button" onclick="closeEditAnnouncementModal()" class="px-4 py-2 bg-surface-container hover:bg-surface-container-high rounded-lg font-bold">
+          Cancel
+        </button>
+        <button type="submit" class="px-5 py-2 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg font-bold shadow-sm">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openCreateAnnouncementModal() {
+    document.getElementById('createAnnouncementModal').classList.remove('hidden');
+  }
+  function closeCreateAnnouncementModal() {
+    document.getElementById('createAnnouncementModal').classList.add('hidden');
+  }
+
+  function openEditAnnouncementModal(id, title, category, audience, content, isPinned) {
+    const form = document.getElementById('editAnnouncementForm');
+    form.action = `/admin-ops/announcements/${id}/edit/`;
+    document.getElementById('edit_announcement_title').value = title;
+    document.getElementById('edit_announcement_category').value = category;
+    document.getElementById('edit_announcement_audience').value = audience;
+    document.getElementById('edit_announcement_content').value = content;
+    document.getElementById('edit_pinCheck').checked = isPinned;
+    document.getElementById('editAnnouncementModal').classList.remove('hidden');
+  }
+  function closeEditAnnouncementModal() {
+    document.getElementById('editAnnouncementModal').classList.add('hidden');
+  }
+</script>
+{% endblock %}

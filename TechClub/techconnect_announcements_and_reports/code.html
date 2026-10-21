@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-tertiary-fixed-variant":"#454746","outline":"#747878","surface-container-low":"#f5f3f3","surface-container":"#efeded","on-tertiary-fixed":"#1a1c1b","surface-bright":"#fbf9f9","surface-dim":"#dbdad9","tertiary-container":"#1a1c1b","secondary-fixed-dim":"#e9c349","on-primary-fixed-variant":"#474646","error-container":"#ffdad6","on-background":"#1b1c1c","inverse-on-surface":"#f2f0f0","on-primary-fixed":"#1c1b1b","error":"#ba1a1a","primary-fixed":"#e5e2e1","on-secondary-fixed-variant":"#574500","outline-variant":"#c4c7c7","on-surface-variant":"#444748","surface":"#fbf9f9","surface-tint":"#5f5e5e","on-secondary":"#ffffff","tertiary-fixed":"#e2e3e1","on-surface":"#1b1c1c","on-secondary-container":"#745c00","tertiary":"#000000","inverse-primary":"#c8c6c5","secondary-container":"#fed65b","tertiary-fixed-dim":"#c6c7c5","on-primary":"#ffffff","secondary":"#735c00","on-primary-container":"#858383","on-error":"#ffffff","primary":"#000000","surface-container-high":"#e9e8e7","surface-variant":"#e3e2e2","on-error-container":"#93000a","inverse-surface":"#303031","surface-container-highest":"#e3e2e2","on-tertiary":"#ffffff","primary-fixed-dim":"#c8c6c5","secondary-fixed":"#ffe088","surface-container-lowest":"#ffffff","on-secondary-fixed":"#241a00","on-tertiary-container":"#838483","background":"#fbf9f9","primary-container":"#1c1b1b"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","gutter-mobile":"1rem","space-xs":"0.25rem","margin-tablet":"2rem","gutter":"1.5rem","space-lg":"1.5rem","space-md":"1rem","margin":"3rem","margin-mobile":"1.25rem","space-xl":"2.5rem"},"fontFamily":{"headline-lg":["Manrope"],"label-sm":["Manrope"],"label-md":["Manrope"],"code":["JetBrains Mono"],"headline-lg-mobile":["Manrope"],"display-mobile":["Manrope"],"headline-md":["Manrope"],"title-md":["Manrope"],"headline-sm":["Manrope"],"body-lg":["Manrope"],"body-md":["Manrope"],"display":["Manrope"]},"fontSize":{"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"700"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"code":["13px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"500"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"display-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"800"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.03em","fontWeight":"800"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm"><img alt="TechConnect Brand Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UtXah7v6sDvT1DlbDwMjj_sAxwYlIYMalK4J_2uUS5OvPRWOM_0LAs9bwfOc6vx2Ad8J-UTOXNm6GEgxQ3zZ4Uxu9YGGMzXrffiQsXlQ4Rp-g7EC2ClaezwnJG7vZCybH-bYvNv-gsh0nQWIggKRsCbryoDgr8orFpGgv-i1LRUvV6XG7_fJDyYHDB5K5pVGj-r3STAmtH07_VUiiqKSNtuBjl_r22GaIGfAieoK8zXSjDs26hr030KEak"/><div class="flex flex-col"><span class="font-title-md text-title-md text-primary font-bold">TechConnect</span><span class="font-label-sm text-label-sm text-secondary font-semibold uppercase tracking-wider">Admin Ops</span></div></div><div class="px-space-md py-space-xs"><span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-bold tracking-wider px-space-sm">Operations</span></div><nav class="px-space-md space-y-space-xs" data-active-classes="bg-primary text-on-primary font-label-md shadow-[0_1px_3px_rgba(0,0,0,0.08)]"><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="overview" href="#"><span class="material-symbols-outlined text-title-md">space_dashboard</span><span>Overview</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="applications" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-title-md">how_to_reg</span><span>Applications</span></div><span class="font-label-sm text-label-sm bg-secondary-container text-on-secondary-container px-space-xs rounded-full font-bold">12</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="members" href="#"><span class="material-symbols-outlined text-title-md">group</span><span>Members</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="events" href="#"><span class="material-symbols-outlined text-title-md">calendar_month</span><span>Events</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="meetings" href="#"><span class="material-symbols-outlined text-title-md">groups</span><span>Meetings</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="announcements" href="#"><span class="material-symbols-outlined text-title-md">campaign</span><span>Announcements</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="attendance" href="#"><span class="material-symbols-outlined text-title-md">fact_check</span><span>Attendance</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reports" href="#"><span class="material-symbols-outlined text-title-md">insights</span><span>Reports</span></a></nav><div class="px-space-md pt-space-md pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-bold tracking-wider px-space-sm">System</span></div><nav class="px-space-md" data-active-classes="bg-primary text-on-primary font-label-md shadow-[0_1px_3px_rgba(0,0,0,0.08)]"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined text-title-md">tune</span><span>Settings</span></a></nav></div><div class="p-space-md"><div class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-2 h-2 rounded-full bg-secondary"></div><div class="flex flex-col"><span class="font-label-sm text-label-sm font-bold text-on-surface">Hargeisa Node</span><span class="font-label-sm text-label-sm text-on-surface-variant">v2.4.0 Online</span></div></div><a class="text-on-surface-variant hover:text-on-surface" data-path="home" href="#"><span class="material-symbols-outlined text-title-md">open_in_new</span></a></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center flex-1 max-w-lg"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-title-md">search</span><input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md pl-10 pr-space-md py-space-xs rounded-lg outline-none focus:ring-2 focus:ring-secondary/25 transition-all" placeholder="Search applicants, members, logs (Cmd+K)..." type="search"/></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-title-md">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-secondary"></span></button><button aria-label="Documentation" class="p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-title-md">help_outline</span></button><div class="flex items-center gap-space-sm pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlEZ0YWwI0MRJtGiW20FIv0E-xc9loDYuWLRIMGb8rPT4nAPZqManqbcqJ1KdIZrH6uLUn3_rfZa0zrM-tF6RpYMmMdAt-r7aCJx2Yb7r9Pulck-8LzBjaB-1vzvmEImWXaHbX-bfhh8RUPXbEKPjnRgDWZlJMgQm74HpM2OitPaSzbGIATjonagOlC2bQfHU80pTI8FgFV2bNQttda-vMNnSC8sRjYunhbKAejhvxfC5DuF9Myk6cug"/><div class="hidden md:flex flex-col items-start leading-tight"><span class="font-label-md text-label-md text-on-surface font-bold">Jamaal K.</span><span class="font-label-sm text-label-sm text-secondary font-semibold">Lead Admin</span></div><span class="material-symbols-outlined text-on-surface-variant text-label-md">expand_more</span></div></div></header><main class="relative pt-16 bg-surface w-full px-space-lg py-space-lg"><div class="flex flex-col w-full">
+<!-- BREADCRUMB & HEADER ROW -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-lg">
+<div class="flex flex-col space-y-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span>Community Operations</span>
+<span class="material-symbols-outlined text-label-sm">chevron_right</span>
+<span class="text-secondary font-bold">Broadcasts &amp; Ecosystem Metrics</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Announcements &amp; Analytics Reports</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">
+        Broadcast urgent dispatches, community grants, and venue updates to members, and analyze ecosystem growth, cohort health, and event participation metrics across Horn of Africa nodes.
+      </p>
+</div>
+<!-- Top Action Buttons -->
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg font-label-md text-label-md bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-title-md">download</span>
+<span>Export Report CSV</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg font-label-md text-label-md bg-primary text-on-primary hover:bg-primary-container transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-title-md text-secondary-fixed">campaign</span>
+<span>+ Create New Announcement</span>
+</button>
+</div>
+</div>
+<!-- NAVIGATION TABS -->
+<div class="flex items-center gap-space-xs mb-space-xl p-space-xs bg-surface-container-low rounded-lg w-fit">
+<button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg font-label-md text-label-md bg-surface-container-lowest text-on-surface shadow-sm" type="button">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Announcements Hub</span>
+<span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-space-xs rounded-full">3 Active</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">insights</span>
+<span>Telemetry &amp; Growth Reports</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">history</span>
+<span>Audit Log &amp; Delivery History</span>
+</button>
+</div>
+<!-- SECTION 1: KEY PERFORMANCE TELEMETRY OVERVIEW CARDS (4 across) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md mb-space-xl">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Broadcasts</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-title-md">cell_tower</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-sm mb-space-xs">
+<span class="font-display text-display text-on-surface leading-none">42</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface px-space-xs py-0.5 rounded-full font-bold">+4 this mo</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-md text-body-md text-on-surface-variant">
+<span class="text-secondary font-bold">98.4%</span>
+<span>open rate on WhatsApp &amp; Email</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Active Members</span>
+<div class="w-8 h-8 rounded-lg bg-secondary-container/30 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-title-md">groups</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-sm mb-space-xs">
+<span class="font-display text-display text-on-surface leading-none">1,248</span>
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-container/40 px-space-xs py-0.5 rounded-full font-bold">Node verified</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-md text-body-md text-on-surface-variant">
+<span class="text-on-surface font-semibold">+14% QoQ</span>
+<span>retention (Hargeisa &amp; Borama)</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Avg Attendance</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-title-md">event_available</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-sm mb-space-xs">
+<span class="font-display text-display text-on-surface leading-none">92.4%</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">SLA Top 5%</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-md text-body-md text-on-surface-variant">
+<span>1,890 verified check-ins (Q1-Q2)</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Mentorship SLA</span>
+<div class="w-8 h-8 rounded-lg bg-secondary-container/30 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-title-md">verified</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-sm mb-space-xs">
+<span class="font-display text-display text-on-surface leading-none">96.2%</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface px-space-xs py-0.5 rounded-full font-bold">Optimal</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-md text-body-md text-on-surface-variant">
+<span>184 sessions logged • &lt;3.8% no-show</span>
+</div>
+</div>
+</div>
+<!-- SECTION 2: DUAL-COLUMN LAYOUT -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN - ANNOUNCEMENTS STREAM & MANAGEMENT (8 of 12 cols = ~66%) -->
+<div class="lg:col-span-8 flex flex-col space-y-space-md">
+<!-- Search and Filter Toolbar -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-sm">
+<div class="relative w-full md:flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-title-md">search</span>
+<input class="w-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md pl-10 pr-space-md py-2 rounded-lg outline-none focus:bg-surface-container-lowest transition-colors" placeholder="Search announcements, tags, authors..." type="text"/>
+</div>
+<div class="flex items-center gap-space-xs w-full md:w-auto">
+<select class="bg-surface-container-low text-on-surface font-label-md text-label-md px-space-sm py-2 rounded-lg outline-none cursor-pointer">
+<option>All Audiences</option>
+<option>All Members (1,248)</option>
+<option>Mentors Only (28)</option>
+<option>New Cohort (34)</option>
+<option>Founders &amp; Executives</option>
+</select>
+<select class="bg-surface-container-low text-on-surface font-label-md text-label-md px-space-sm py-2 rounded-lg outline-none cursor-pointer">
+<option>All Statuses</option>
+<option>Published</option>
+<option>Scheduled</option>
+<option>Draft</option>
+</select>
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors" title="Filter options" type="button">
+<span class="material-symbols-outlined text-title-md">tune</span>
+</button>
+</div>
+</div>
+<!-- ANNOUNCEMENT CARD 1 (PINNED & ACTIVE) -->
+<article class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1 bg-secondary"></div>
+<div class="flex items-center justify-between gap-space-sm mb-space-sm">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm bg-secondary-container text-on-secondary-container px-space-xs py-0.5 rounded-full font-bold">
+<span class="material-symbols-outlined text-label-sm">push_pin</span> PINNED DISPATCH
+            </span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm bg-surface-container-high text-on-surface px-space-xs py-0.5 rounded-full font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Published
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">May 20, 2025 • 09:15 EAT</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface transition-colors" title="More options">
+<span class="material-symbols-outlined text-title-md">more_vert</span>
+</button>
+</div>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs hover:text-secondary transition-colors cursor-pointer">
+          Horn of Africa Open-Source Builders Sprint 2025 Registration Open — $5,000 Venture Grant Pool
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md leading-relaxed">
+          TechConnect Hargeisa in partnership with Telesom and Dahabshiil Innovation Labs has unlocked 5 non-dilutive equity grants for community teams shipping public code infrastructure. Mentor reviews open next Monday.
+        </p>
+<!-- Audience Metadata -->
+<div class="bg-surface-container-low p-space-sm rounded-lg mb-space-md flex flex-wrap items-center justify-between gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">hub</span>
+<span class="text-on-surface font-semibold">Target:</span>
+<span>All Verified Members (1,248)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-secondary">mark_chat_read</span>
+<span>Channels: In-App Feed, Email Digest, WhatsApp Node</span>
+</div>
+</div>
+<!-- Metrics Row & Footer Actions -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pt-space-sm gap-space-sm border-t border-surface-container">
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-md text-label-md">
+<span class="flex items-center gap-1"><span class="font-bold text-on-surface">942</span> Views (75.5%)</span>
+<span class="flex items-center gap-1"><span class="font-bold text-on-surface">14</span> Teams Formed</span>
+<span class="flex items-center gap-1"><span class="font-bold text-secondary">38</span> Mentor Reviews</span>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<button class="px-space-sm py-1 rounded font-label-md text-label-md bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors">
+              Edit Dispatch
+            </button>
+<button class="px-space-sm py-1 rounded font-label-md text-label-md bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-label-md">bar_chart</span> Stats
+            </button>
+<button class="px-space-sm py-1 rounded font-label-md text-label-md text-error hover:bg-error-container/40 transition-colors">
+              Archive
+            </button>
+</div>
+</div>
+</article>
+<!-- ANNOUNCEMENT CARD 2 (INFRASTRUCTURE) -->
+<article class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-center justify-between gap-space-sm mb-space-sm">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm bg-surface-container text-on-surface font-bold px-space-xs py-0.5 rounded-full">
+              VENUE &amp; INFRASTRUCTURE
+            </span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm bg-surface-container-high text-on-surface px-space-xs py-0.5 rounded-full font-bold">
+              Published
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">May 19, 2025 • 14:30 EAT</span>
+</div>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-title-md">more_vert</span>
+</button>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs hover:text-secondary transition-colors cursor-pointer">
+          New Dedicated Fiber Uplink &amp; Pair-Programming Pods Active in Room B
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md leading-relaxed">
+          Upgraded dedicated symmetric 1Gbps low-latency lines directly connected to the regional landing node. Dual 4K USB-C docks are ready for member booking via the front desk or mobile dashboard.
+        </p>
+<!-- Audience Metadata -->
+<div class="bg-surface-container-low p-space-sm rounded-lg mb-space-md flex flex-wrap items-center justify-between gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">room</span>
+<span class="text-on-surface font-semibold">Target:</span>
+<span>Hargeisa Local Node Members</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">feed</span>
+<span>Channels: In-App Feed &amp; Campus Screens</span>
+</div>
+</div>
+<!-- Metrics Row & Footer Actions -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pt-space-sm gap-space-sm border-t border-surface-container">
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-md text-label-md">
+<span class="flex items-center gap-1"><span class="font-bold text-on-surface">720</span> Views (57.7%)</span>
+<span class="flex items-center gap-1"><span class="font-bold text-on-surface">48</span> Pod Bookings Logged</span>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<button class="px-space-sm py-1 rounded font-label-md text-label-md bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors">
+              Edit Dispatch
+            </button>
+<button class="px-space-sm py-1 rounded font-label-md text-label-md bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-label-md">bar_chart</span> Stats
+            </button>
+</div>
+</div>
+</article>
+<!-- ANNOUNCEMENT CARD 3 (SCHEDULED) -->
+<article class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-center justify-between gap-space-sm mb-space-sm">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm bg-surface-container-high text-on-surface font-bold px-space-xs py-0.5 rounded-full">
+              SPECIAL TRACK
+            </span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm bg-secondary-container/50 text-secondary font-bold px-space-xs py-0.5 rounded-full">
+<span class="material-symbols-outlined text-label-sm">schedule</span> Shoots in 2 days — May 24, 08:00 EAT
+            </span>
+</div>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-title-md">more_vert</span>
+</button>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs hover:text-secondary transition-colors cursor-pointer">
+          Keynote Preparation &amp; Security Protocols: Scaling Microservices with Dahabshiil Core
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md leading-relaxed">
+          Registered attendees for Friday's architecture session must download the QR entry pass in advance. Laptop charging lockers and guest Wi-Fi passes will be distributed at Door 2.
+        </p>
+<!-- Audience Metadata -->
+<div class="bg-surface-container-low p-space-sm rounded-lg mb-space-md flex flex-wrap items-center justify-between gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-on-surface">badge</span>
+<span class="text-on-surface font-semibold">Target:</span>
+<span>Confirmed RSVPs (85 Engineers)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="text-on-surface-variant">Scheduled by Jamaal K. • Auto-publishes May 24</span>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex items-center justify-between pt-space-sm border-t border-surface-container">
+<div class="text-on-surface-variant font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-title-md text-secondary">pending_actions</span>
+<span>Queued on WhatsApp API &amp; Telegram Bot</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1 rounded font-label-md text-label-md bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors">
+              Edit Schedule
+            </button>
+<button class="px-space-sm py-1 rounded font-label-md text-label-md bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors">
+              Preview
+            </button>
+</div>
+</div>
+</article>
+</div>
+<!-- RIGHT COLUMN - QUICK PUBLISHER / COMPOSER DOCK & COMPACT REPORT CHARTS (4 of 12 cols = ~34%) -->
+<div class="lg:col-span-4 flex flex-col space-y-space-lg">
+<!-- QUICK COMPOSER CARD -->
+<section class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col space-y-space-md relative">
+<div class="flex items-center justify-between pb-space-xs border-b border-surface-container">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-secondary">send</span>
+<h2 class="font-title-md text-title-md text-on-surface">Broadcast New Announcement</h2>
+</div>
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface px-space-xs py-0.5 rounded-full font-bold">Admin Ops</span>
+</div>
+<form class="space-y-space-sm" onsubmit="event.preventDefault();">
+<!-- Title Input -->
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">Dispatch Title</label>
+<input class="w-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md px-space-sm py-2 rounded-lg outline-none focus:bg-surface-container-lowest transition-colors" placeholder="e.g., Q3 Demo Day Applications Open" type="text"/>
+</div>
+<!-- Audience Dropdown -->
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">Target Audience</label>
+<select class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md px-space-sm py-2 rounded-lg outline-none cursor-pointer">
+<option>All Members (1,248)</option>
+<option>Senior Mentors (28)</option>
+<option>New Applicants (34)</option>
+<option>Founders &amp; Executive Track</option>
+<option>Custom Segment...</option>
+</select>
+</div>
+<!-- Delivery Channels -->
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">Channels</label>
+<div class="flex flex-wrap gap-1.5">
+<label class="flex items-center gap-1.5 px-space-sm py-1 rounded bg-surface-container-high font-label-md text-label-md text-on-surface cursor-pointer select-none">
+<input checked="" class="accent-primary rounded" type="checkbox"/>
+<span>App Feed</span>
+</label>
+<label class="flex items-center gap-1.5 px-space-sm py-1 rounded bg-surface-container-high font-label-md text-label-md text-on-surface cursor-pointer select-none">
+<input checked="" class="accent-primary rounded" type="checkbox"/>
+<span>Email</span>
+</label>
+<label class="flex items-center gap-1.5 px-space-sm py-1 rounded bg-surface-container-high font-label-md text-label-md text-on-surface cursor-pointer select-none">
+<input checked="" class="accent-primary rounded" type="checkbox"/>
+<span>WhatsApp Node</span>
+</label>
+</div>
+</div>
+<!-- Priority Pills -->
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">Priority</label>
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="py-1.5 px-space-sm rounded-lg font-label-md text-label-md bg-surface-container-high text-on-surface text-center font-bold" type="button">
+                Standard
+              </button>
+<button class="py-1.5 px-space-sm rounded-lg font-label-md text-label-md bg-secondary-container/40 text-secondary text-center font-bold flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-label-md">push_pin</span> High / Pinned
+              </button>
+</div>
+</div>
+<!-- Body Textarea -->
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">Message Body (Markdown supported)</label>
+<textarea class="w-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md px-space-sm py-2 rounded-lg outline-none focus:bg-surface-container-lowest transition-colors resize-none" placeholder="Draft message markdown..." rows="3"></textarea>
+</div>
+<!-- Action Buttons -->
+<div class="pt-space-xs flex items-center justify-between gap-space-xs">
+<button class="px-space-sm py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+              Save Draft
+            </button>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-2 rounded-lg font-label-md text-label-md bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors" type="button">
+                Schedule
+              </button>
+<button class="px-space-md py-2 rounded-lg font-label-md text-label-md bg-primary text-on-primary hover:bg-primary-container transition-all flex items-center gap-1 shadow-sm" type="submit">
+<span>Publish</span>
+<span class="material-symbols-outlined text-label-md text-secondary-fixed">arrow_forward</span>
+</button>
+</div>
+</div>
+</form>
+</section>
+<!-- ECOSYSTEM REPORTS & GROWTH BREAKDOWN -->
+<section class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col space-y-space-md">
+<div class="flex items-center justify-between pb-space-xs border-b border-surface-container">
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Community Analytics Breakdown</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Live sync from Somaliland nodes</span>
+</div>
+<a class="font-label-sm text-label-sm text-secondary hover:underline flex items-center gap-0.5 font-bold" href="#">
+            Full Report <span class="material-symbols-outlined text-label-sm">trending_flat</span>
+</a>
+</div>
+<!-- SPECIALIZATION BREAKDOWN (HORIZONTAL BARS) -->
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span>Specialization</span>
+<span>Members (%)</span>
+</div>
+<!-- Item 1 -->
+<div class="space-y-1">
+<div class="flex items-center justify-between font-label-md text-label-md text-on-surface">
+<span>Software Engineering (Backend/Mobile)</span>
+<span class="font-bold">42% (524)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-2 rounded-full" style="width: 42%;"></div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="space-y-1">
+<div class="flex items-center justify-between font-label-md text-label-md text-on-surface">
+<span>UI/UX &amp; Product Design</span>
+<span class="font-bold">24% (300)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full" style="width: 24%;"></div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="space-y-1">
+<div class="flex items-center justify-between font-label-md text-label-md text-on-surface">
+<span>Cloud &amp; DevOps Infrastructure</span>
+<span class="font-bold">16% (200)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary-container h-2 rounded-full" style="width: 16%;"></div>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="space-y-1">
+<div class="flex items-center justify-between font-label-md text-label-md text-on-surface">
+<span>Data Science &amp; AI / NLP</span>
+<span class="font-bold">10% (125)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-surface-tint h-2 rounded-full" style="width: 10%;"></div>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="space-y-1">
+<div class="flex items-center justify-between font-label-md text-label-md text-on-surface">
+<span>Technical Founders &amp; CTOs</span>
+<span class="font-bold">8% (99)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-secondary-fixed-dim h-2 rounded-full" style="width: 8%;"></div>
+</div>
+</div>
+</div>
+<!-- APPLICATION PIPELINE STATUS MINI-CHART -->
+<div class="pt-space-sm border-t border-surface-container space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Application Pipeline</span>
+<span class="font-label-sm text-label-sm text-on-surface">1,520 Total</span>
+</div>
+<!-- Mini Stacked Bar Visualizer -->
+<div class="w-full flex h-3 rounded-full overflow-hidden gap-0.5 bg-surface-container">
+<div class="bg-primary h-full" style="width: 82%;" title="Approved: 82%"></div>
+<div class="bg-secondary h-full" style="width: 14%;" title="Pending: 14%"></div>
+<div class="bg-surface-tint h-full" style="width: 4%;" title="Waitlist: 4%"></div>
+</div>
+<!-- Legend -->
+<div class="flex items-center justify-between font-label-sm text-label-sm pt-1">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-on-surface">Approved: 82%</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-on-surface">Pending: 14%</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-surface-tint"></span>
+<span class="text-on-surface">Waitlist: 4%</span>
+</div>
+</div>
+</div>
+<!-- QUICK EXPORT SUMMARY ACTIONS -->
+<div class="pt-space-xs flex flex-col gap-space-xs">
+<button class="w-full flex items-center justify-center gap-space-xs py-2 px-space-md rounded-lg font-label-md text-label-md bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">picture_as_pdf</span>
+<span>Download Monthly PDF Summary</span>
+</button>
+<button class="w-full flex items-center justify-center gap-space-xs py-2 px-space-md rounded-lg font-label-md text-label-md bg-surface-container-low hover:bg-surface-container-high text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">table_view</span>
+<span>Export Raw Cohort Telemetry</span>
+</button>
+</div>
+</section>
+<!-- REGIONAL ECOSYSTEM NODE PULSE -->
+<section class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary shadow-sm">
+<span class="material-symbols-outlined">satellite_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Node Telemetry Active</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Hargeisa Hub + Borama Satellites</span>
+</div>
+</div>
+<div class="flex items-center gap-1 font-code text-code text-secondary font-bold">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span>99.98%</span>
+</div>
+</section>
+</div>
+</div>
+</div></main></div></body></html>

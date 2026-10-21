@@ -1,0 +1,381 @@
+{% extends 'layouts/admin_base.html' %}
+
+{% block title %}Application Management — TechClub Admin Ops{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6">
+  <!-- Top Header & Action Row -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 text-xs font-code uppercase tracking-wider text-secondary font-semibold">
+        <span>Directory Pipeline</span>
+        <span class="text-on-surface-variant">/</span>
+        <span class="text-on-surface-variant">Batch 2025-Q1</span>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight mt-1">Community Applications</h1>
+      <p class="text-xs text-on-surface-variant max-w-2xl mt-1">
+        Review, filter, and approve incoming tech community membership applications. Validate local talent, mentorship capabilities, and ecosystem contributions.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3 shrink-0">
+      <a href="{% url 'admin_export_applications_csv' %}" class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest text-on-surface text-xs font-bold rounded-lg border border-surface-container-high shadow-sm hover:bg-surface-container transition-all">
+        <span class="material-symbols-outlined text-[18px]">download</span>
+        <span>Export CSV</span>
+      </a>
+      <a href="{% url 'admin_notifications_log' %}" class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest text-on-surface text-xs font-bold rounded-lg border border-surface-container-high shadow-sm hover:bg-surface-container transition-all">
+        <span class="material-symbols-outlined text-[18px]">outgoing_mail</span>
+        <span>Email Delivery Log</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Metric Overview Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container-high shadow-sm flex items-center justify-between">
+      <div>
+        <div class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Total Pool</div>
+        <div class="text-2xl font-extrabold text-primary mt-1">{{ total_count }}</div>
+      </div>
+      <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+        <span class="material-symbols-outlined text-[20px]">inbox</span>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container-high shadow-sm flex items-center justify-between">
+      <div>
+        <div class="text-[11px] uppercase tracking-wider text-secondary font-bold">Awaiting Review</div>
+        <div class="text-2xl font-extrabold text-primary mt-1">{{ pending_count }}</div>
+      </div>
+      <div class="w-10 h-10 rounded-lg bg-secondary-container/40 flex items-center justify-center text-on-secondary-container">
+        <span class="material-symbols-outlined text-[20px]">schedule</span>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container-high shadow-sm flex items-center justify-between">
+      <div>
+        <div class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Waitlisted</div>
+        <div class="text-2xl font-extrabold text-primary mt-1">{{ waitlisted_count }}</div>
+      </div>
+      <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+        <span class="material-symbols-outlined text-[20px]">hourglass_top</span>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container-high shadow-sm flex items-center justify-between">
+      <div>
+        <div class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Approved Members</div>
+        <div class="text-2xl font-extrabold text-primary mt-1">{{ approved_count }}</div>
+      </div>
+      <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+        <span class="material-symbols-outlined text-[20px]">verified</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search & Filter Console -->
+  <div class="bg-surface-container-lowest rounded-xl p-5 border border-surface-container-high shadow-sm space-y-4">
+    <!-- Filter Tabs -->
+    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-surface-container-high pb-4">
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
+        <a href="?status=ALL&domain={{ domain_filter }}&q={{ search_query }}"
+           class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all {% if status_filter == 'ALL' %}bg-primary text-on-primary shadow-sm{% else %}bg-surface-container text-on-surface-variant hover:bg-surface-container-high{% endif %}">
+          All <span class="ml-1 opacity-75 font-code">{{ total_count }}</span>
+        </a>
+        <a href="?status=PENDING&domain={{ domain_filter }}&q={{ search_query }}"
+           class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 {% if status_filter == 'PENDING' %}bg-primary text-on-primary shadow-sm{% else %}bg-surface-container text-on-surface-variant hover:bg-surface-container-high{% endif %}">
+          <span>Pending</span>
+          <span class="px-1.5 py-0.2 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold">{{ pending_count }}</span>
+        </a>
+        <a href="?status=WAITLISTED&domain={{ domain_filter }}&q={{ search_query }}"
+           class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all {% if status_filter == 'WAITLISTED' %}bg-primary text-on-primary shadow-sm{% else %}bg-surface-container text-on-surface-variant hover:bg-surface-container-high{% endif %}">
+          Waitlisted <span class="ml-1 opacity-75 font-code">{{ waitlisted_count }}</span>
+        </a>
+        <a href="?status=APPROVED&domain={{ domain_filter }}&q={{ search_query }}"
+           class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all {% if status_filter == 'APPROVED' %}bg-primary text-on-primary shadow-sm{% else %}bg-surface-container text-on-surface-variant hover:bg-surface-container-high{% endif %}">
+          Approved <span class="ml-1 opacity-75 font-code">{{ approved_count }}</span>
+        </a>
+        <a href="?status=REJECTED&domain={{ domain_filter }}&q={{ search_query }}"
+           class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all {% if status_filter == 'REJECTED' %}bg-primary text-on-primary shadow-sm{% else %}bg-surface-container text-on-surface-variant hover:bg-surface-container-high{% endif %}">
+          Rejected <span class="ml-1 opacity-75 font-code">{{ rejected_count }}</span>
+        </a>
+      </div>
+
+      <div class="text-xs font-code text-on-surface-variant flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>PostgreSQL Live Sync</span>
+      </div>
+    </div>
+
+    <!-- Filter Inputs Row -->
+    <form method="GET" class="grid grid-cols-1 md:grid-cols-12 gap-3">
+      <input type="hidden" name="status" value="{{ status_filter }}"/>
+      <div class="md:col-span-8 relative">
+        <span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[18px]">search</span>
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Filter by applicant name, email, stack (e.g. Go, Rust, React, Telesom)..."
+               class="w-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant text-xs pl-10 pr-4 py-2.5 rounded-lg border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+      </div>
+      <div class="md:col-span-3">
+        <select name="domain" onchange="this.form.submit()" class="w-full bg-surface-container-low text-on-surface text-xs px-3 py-2.5 rounded-lg border border-surface-container focus:border-primary outline-none">
+          <option value="ALL" {% if domain_filter == 'ALL' %}selected{% endif %}>All Technical Domains</option>
+          {% for code, label in categories %}
+          <option value="{{ code }}" {% if domain_filter == code %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="md:col-span-1">
+        <button type="submit" class="w-full py-2.5 bg-surface-container hover:bg-surface-container-high rounded-lg text-xs font-bold text-on-surface transition-colors">
+          Filter
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Applications Table -->
+  <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-surface-container-low border-b border-surface-container-high text-on-surface-variant font-bold uppercase tracking-wider">
+          <tr>
+            <th class="p-4">Applicant &amp; Role</th>
+            <th class="p-4">Discipline</th>
+            <th class="p-4">Experience</th>
+            <th class="p-4">Referral Source</th>
+            <th class="p-4">Status</th>
+            <th class="p-4">Submitted</th>
+            <th class="p-4 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-container-high">
+          {% for app in applications %}
+          <tr class="hover:bg-surface-container-low/50 transition-colors">
+            <!-- Applicant & Role -->
+            <td class="p-4">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-surface-container-high text-primary font-bold flex items-center justify-center shrink-0">
+                  {{ app.full_name|slice:':2'|upper }}
+                </div>
+                <div>
+                  <div class="font-bold text-sm text-primary">{{ app.full_name }}</div>
+                  <div class="text-on-surface-variant text-[11px]">{{ app.current_role }}{% if app.organization %} • {{ app.organization }}{% endif %}</div>
+                  <div class="text-on-surface-variant text-[10px]">{{ app.email }}</div>
+                </div>
+              </div>
+            </td>
+
+            <!-- Discipline -->
+            <td class="p-4">
+              <span class="inline-flex items-center px-2.5 py-1 rounded-md bg-surface-container text-on-surface text-[11px] font-medium">
+                {{ app.professional_category }}
+              </span>
+            </td>
+
+            <!-- Experience -->
+            <td class="p-4">
+              <span class="text-on-surface font-medium">{{ app.experience_level }}</span>
+            </td>
+
+            <!-- Referral Source (Quick Improvement #4) -->
+            <td class="p-4">
+              <span class="inline-flex items-center gap-1 text-[11px] font-code px-2 py-0.5 rounded bg-surface-container-low border border-surface-container text-on-surface-variant">
+                <span class="material-symbols-outlined text-[13px] text-secondary">share</span>
+                {{ app.referral_source }}
+              </span>
+            </td>
+
+            <!-- Status Pill -->
+            <td class="p-4">
+              {% if app.status == 'PENDING' %}
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-bold text-[11px]">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                Pending
+              </span>
+              {% elif app.status == 'APPROVED' %}
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[11px]">
+                <span class="material-symbols-outlined text-[13px]">check</span>
+                Approved
+              </span>
+              {% elif app.status == 'WAITLISTED' %}
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold text-[11px]">
+                Waitlisted
+              </span>
+              {% else %}
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 font-bold text-[11px]">
+                Rejected
+              </span>
+              {% endif %}
+            </td>
+
+            <!-- Submitted -->
+            <td class="p-4 text-on-surface-variant font-code text-[11px]">
+              {{ app.created_at|date:"M d, Y" }}
+            </td>
+
+            <!-- Actions -->
+            <td class="p-4 text-right">
+              <button type="button" data-id="{{ app.id }}" onclick="openReviewModal(this.dataset.id)"
+                      class="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-primary hover:text-on-primary text-xs font-bold transition-all">
+                Review Profile
+              </button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7" class="p-8 text-center text-on-surface-variant">
+              <span class="material-symbols-outlined text-3xl block mb-2 opacity-50">search_off</span>
+              No applications match the selected criteria.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW APPLICANT SLIDE-OVER MODAL -->
+<div id="reviewModal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex justify-end">
+  <div class="w-full max-w-xl bg-surface-container-lowest h-full shadow-2xl flex flex-col justify-between overflow-y-auto border-l border-surface-container-high animate-slide-left">
+    <div class="p-6 space-y-6">
+      <div class="flex items-center justify-between pb-4 border-b border-surface-container-high">
+        <div>
+          <span class="text-[10px] font-code uppercase tracking-wider text-secondary font-bold">Applicant Dossier</span>
+          <h2 id="modalName" class="text-xl font-extrabold text-primary">Loading...</h2>
+        </div>
+        <button onclick="closeReviewModal()" class="p-1 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <!-- Applicant Details -->
+      <div class="space-y-4 text-xs">
+        <div class="grid grid-cols-2 gap-3 p-3 bg-surface-container-low rounded-xl">
+          <div>
+            <span class="text-on-surface-variant block text-[10px] uppercase font-bold">Current Role</span>
+            <span id="modalRole" class="font-bold text-primary"></span>
+          </div>
+          <div>
+            <span class="text-on-surface-variant block text-[10px] uppercase font-bold">Domain &amp; Seniority</span>
+            <span id="modalCategory" class="font-bold text-primary"></span>
+          </div>
+          <div>
+            <span class="text-on-surface-variant block text-[10px] uppercase font-bold">Email</span>
+            <span id="modalEmail" class="font-code text-primary"></span>
+          </div>
+          <div>
+            <span class="text-on-surface-variant block text-[10px] uppercase font-bold">Phone / WhatsApp</span>
+            <span id="modalPhone" class="font-code text-primary"></span>
+          </div>
+          <div>
+            <span class="text-on-surface-variant block text-[10px] uppercase font-bold">Referral Source</span>
+            <span id="modalReferral" class="font-semibold text-secondary"></span>
+          </div>
+          <div>
+            <span class="text-on-surface-variant block text-[10px] uppercase font-bold">Location</span>
+            <span id="modalCity" class="text-primary font-semibold"></span>
+          </div>
+        </div>
+
+        <div>
+          <span class="text-on-surface-variant block text-[10px] uppercase font-bold mb-1">Key Skills</span>
+          <div id="modalSkills" class="p-2.5 bg-surface-container-low rounded-lg text-primary font-medium"></div>
+        </div>
+
+        <div>
+          <span class="text-on-surface-variant block text-[10px] uppercase font-bold mb-1">Profile Summary</span>
+          <div id="modalSummary" class="p-3 bg-surface-container-low rounded-lg text-primary leading-relaxed whitespace-pre-line"></div>
+        </div>
+
+        <div>
+          <span class="text-on-surface-variant block text-[10px] uppercase font-bold mb-1">Networking Goals</span>
+          <div id="modalGoals" class="p-2.5 bg-surface-container-low rounded-lg text-on-surface"></div>
+        </div>
+
+        <!-- Links -->
+        <div class="flex flex-wrap gap-2 pt-1" id="modalLinks"></div>
+
+        <!-- Organizer Notes Form -->
+        <form id="actionForm" method="POST" class="pt-4 border-t border-surface-container-high space-y-4">
+          {% csrf_token %}
+          <input type="hidden" name="action" id="actionInput" value="APPROVE"/>
+          <div>
+            <label class="block text-[11px] uppercase tracking-wider text-primary font-bold mb-1">
+              Internal Organizer Review Notes:
+            </label>
+            <textarea name="notes" id="modalNotes" rows="3" placeholder="Add reviewer remarks, mentor matching ideas, or rejection reason..."
+                      class="w-full bg-surface-container-low p-3 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"></textarea>
+          </div>
+
+          <!-- Decision Action Buttons -->
+          <div class="grid grid-cols-3 gap-2 pt-2">
+            <button type="button" onclick="submitDecision('APPROVE')" class="py-2.5 px-3 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1">
+              <span class="material-symbols-outlined text-[16px] text-secondary-container">check_circle</span>
+              <span>Approve Member</span>
+            </button>
+            <button type="button" onclick="submitDecision('WAITLIST')" class="py-2.5 px-3 bg-amber-100 text-amber-900 hover:bg-amber-200 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1">
+              <span class="material-symbols-outlined text-[16px]">hourglass_top</span>
+              <span>Waitlist</span>
+            </button>
+            <button type="button" onclick="submitDecision('REJECT')" class="py-2.5 px-3 bg-red-100 text-red-900 hover:bg-red-200 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1">
+              <span class="material-symbols-outlined text-[16px]">cancel</span>
+              <span>Reject</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openReviewModal(appId) {
+    const modal = document.getElementById('reviewModal');
+    modal.classList.remove('hidden');
+
+    fetch(`/admin-ops/applications/${appId}/json/`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('modalName').innerText = data.full_name;
+        document.getElementById('modalRole').innerText = `${data.current_role} (${data.organization || 'Independent'})`;
+        document.getElementById('modalCategory').innerText = `${data.professional_category} • ${data.experience_level}`;
+        document.getElementById('modalEmail').innerText = data.email;
+        document.getElementById('modalPhone').innerText = data.phone;
+        document.getElementById('modalReferral').innerText = data.referral_source;
+        document.getElementById('modalCity').innerText = data.city;
+        document.getElementById('modalSkills').innerText = data.skills || 'None specified';
+        document.getElementById('modalSummary').innerText = data.profile_summary;
+        document.getElementById('modalGoals').innerText = data.interests || 'General community involvement';
+        document.getElementById('modalNotes').value = data.organizer_notes || '';
+
+        const linksDiv = document.getElementById('modalLinks');
+        linksDiv.innerHTML = '';
+        if (data.github_url) linksDiv.innerHTML += `<a href="${data.github_url}" target="_blank" class="px-2.5 py-1 bg-surface-container rounded font-code text-xs text-primary hover:bg-surface-container-high">GitHub ↗</a>`;
+        if (data.linkedin_url) linksDiv.innerHTML += `<a href="${data.linkedin_url}" target="_blank" class="px-2.5 py-1 bg-surface-container rounded font-code text-xs text-primary hover:bg-surface-container-high">LinkedIn ↗</a>`;
+        if (data.portfolio_url) linksDiv.innerHTML += `<a href="${data.portfolio_url}" target="_blank" class="px-2.5 py-1 bg-surface-container rounded font-code text-xs text-primary hover:bg-surface-container-high">Portfolio ↗</a>`;
+
+        document.getElementById('actionForm').action = `/admin-ops/applications/${appId}/action/`;
+      });
+  }
+
+  function closeReviewModal() {
+    document.getElementById('reviewModal').classList.add('hidden');
+  }
+
+  function submitDecision(action) {
+    document.getElementById('actionInput').value = action;
+    if (action === 'APPROVE') {
+      if (confirm('Approve this applicant? A user account will be created and an activation token will be sent.')) {
+        document.getElementById('actionForm').submit();
+      }
+    } else if (action === 'WAITLIST') {
+      if (confirm('Place applicant on Priority Waiting List?')) {
+        document.getElementById('actionForm').submit();
+      }
+    } else if (action === 'REJECT') {
+      if (confirm('Reject this application?')) {
+        document.getElementById('actionForm').submit();
+      }
+    }
+  }
+</script>
+{% endblock %}

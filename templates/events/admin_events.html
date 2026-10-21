@@ -1,0 +1,407 @@
+{% extends 'layouts/admin_base.html' %}
+
+{% block title %}Event Management — TechClub Admin Ops{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6">
+  <!-- Top Header & Action Row -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 text-xs font-code uppercase tracking-wider text-secondary font-bold">
+        <span>COMMUNITY OPERATIONS</span>
+        <span class="text-on-surface-variant">/</span>
+        <span class="text-on-surface-variant">Gatherings &amp; Workshops</span>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight mt-1">Event Management</h1>
+      <p class="text-xs text-on-surface-variant max-w-2xl mt-1">
+        Schedule, coordinate, and review technical community meetups, fireside panels, and hands-on hackathons across Hargeisa.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3 shrink-0">
+      <a href="{% url 'admin_attendance' %}" class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest text-on-surface text-xs font-bold rounded-lg border border-surface-container-high shadow-sm hover:bg-surface-container transition-all">
+        <span class="material-symbols-outlined text-[18px]">fact_check</span>
+        <span>Mark Attendance</span>
+      </a>
+      <button type="button" onclick="openCreateEventModal()" class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary text-xs font-bold rounded-lg shadow-sm hover:bg-neutral-800 transition-all">
+        <span class="material-symbols-outlined text-[18px] text-secondary-container">add_circle</span>
+        <span>Create New Event</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Metric Statistics Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">Total Events</span>
+        <span class="material-symbols-outlined text-primary text-[20px]">event_available</span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary">{{ total_events }}</div>
+        <span class="text-[11px] text-on-surface-variant mt-1 block">Hosted across Hargeisa hubs</span>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-secondary">Upcoming Sessions</span>
+        <span class="material-symbols-outlined text-secondary text-[20px]">schedule</span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary">{{ upcoming_count }}</div>
+        <span class="text-[11px] text-on-surface-variant mt-1 block">Scheduled on live calendar</span>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">Completed</span>
+        <span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary">{{ completed_count }}</div>
+        <span class="text-[11px] text-on-surface-variant mt-1 block">Past technical labs</span>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">Total RSVPs</span>
+        <span class="material-symbols-outlined text-primary text-[20px]">groups</span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary">{{ total_rsvps }}</div>
+        <span class="text-[11px] text-on-surface-variant mt-1 block">Registered attendees recorded</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Events List Table -->
+  <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-sm overflow-hidden">
+    <div class="p-4 border-b border-surface-container-high flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <a href="?status=ALL" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if status_filter == 'ALL' %}bg-primary text-on-primary{% else %}bg-surface-container text-on-surface-variant hover:bg-surface-container-high{% endif %}">All</a>
+        <a href="?status=OPEN" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if status_filter == 'OPEN' %}bg-primary text-on-primary{% else %}bg-surface-container text-on-surface-variant hover:bg-surface-container-high{% endif %}">Open</a>
+        <a href="?status=COMPLETED" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if status_filter == 'COMPLETED' %}bg-primary text-on-primary{% else %}bg-surface-container text-on-surface-variant hover:bg-surface-container-high{% endif %}">Completed</a>
+      </div>
+      <span class="text-xs font-code text-on-surface-variant">{{ events|length }} Events displayed</span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-surface-container-low border-b border-surface-container-high text-on-surface-variant font-bold uppercase tracking-wider">
+          <tr>
+            <th class="p-4">Event Title &amp; Category</th>
+            <th class="p-4">Date &amp; Schedule</th>
+            <th class="p-4">Venue</th>
+            <th class="p-4">RSVP Capacity</th>
+            <th class="p-4">Status</th>
+            <th class="p-4 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-container-high">
+          {% for ev in events %}
+          <tr class="hover:bg-surface-container-low/50">
+            <td class="p-4">
+              <div class="flex items-center gap-3">
+                <img src="{{ ev.display_cover_image }}" alt="" class="w-12 h-10 rounded-lg object-cover bg-surface-container shrink-0 border border-surface-container"/>
+                <div>
+                  <div class="font-bold text-sm text-primary">{{ ev.title }}</div>
+                  <div class="flex items-center gap-1.5 flex-wrap mt-0.5">
+                    <span class="inline-flex px-2 py-0.5 rounded bg-surface-container text-[10px] font-medium text-on-surface">
+                      {{ ev.category }}
+                    </span>
+                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-bold border {{ ev.audience_badge_info.color }}">
+                      <span class="material-symbols-outlined text-[10px]">{{ ev.audience_badge_info.icon }}</span>
+                      <span>{{ ev.audience_badge_info.label }}</span>
+                    </span>
+                    {% if ev.is_online %}
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold {% if ev.is_live_now %}bg-red-100 text-red-700 animate-pulse{% else %}bg-blue-100 text-blue-800{% endif %}">
+                      {% if ev.is_live_now %}
+                      <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> LIVE NOW
+                      {% else %}
+                      {{ ev.get_event_mode_display }} ({{ ev.meeting_platform }})
+                      {% endif %}
+                    </span>
+                    {% endif %}
+                    {% if ev.resources.all %}
+                    <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-medium" title="{{ ev.resources.count }} resource materials attached">
+                      <span class="material-symbols-outlined text-[12px]">folder</span> {{ ev.resources.count }}
+                    </span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="p-4 font-code text-primary">
+              <div>{{ ev.start_datetime|date:"M d, Y" }}</div>
+              <div class="text-[11px] text-on-surface-variant">{{ ev.start_datetime|date:"H:i" }} – {{ ev.end_datetime|date:"H:i" }} EAT</div>
+            </td>
+            <td class="p-4 text-on-surface-variant">
+              {{ ev.venue }}
+            </td>
+            <td class="p-4">
+              <div class="font-bold text-primary">{{ ev.registered_count }} / {{ ev.capacity }} seats</div>
+              <div class="w-24 bg-surface-container rounded-full h-1.5 mt-1 overflow-hidden">
+                <div class="bg-primary h-full rounded-full" data-width="{% widthratio ev.registered_count ev.capacity 100 %}"></div>
+              </div>
+            </td>
+            <td class="p-4">
+              {% if ev.status == 'OPEN' %}
+              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">Open</span>
+              {% elif ev.status == 'FULL' %}
+              <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold text-[10px]">Full (Waitlist)</span>
+              {% elif ev.status == 'COMPLETED' %}
+              <span class="px-2 py-0.5 rounded-full bg-neutral-200 text-neutral-800 font-bold text-[10px]">Completed</span>
+              {% else %}
+              <span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-bold text-[10px]">{{ ev.status }}</span>
+              {% endif %}
+            </td>
+            <td class="p-4 text-right">
+              <div class="inline-flex items-center gap-1.5 justify-end">
+                <a href="{% url 'admin_event_edit' ev.id %}" class="px-2.5 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-bold text-xs inline-flex items-center gap-1 transition-colors" title="Edit Event Gathering">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                  <span>Edit</span>
+                </a>
+                <a href="{% url 'admin_attendance_event' ev.id %}" class="px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high font-bold text-xs inline-flex items-center gap-1" title="Manage Attendance">
+                  <span class="material-symbols-outlined text-[15px]">fact_check</span>
+                  <span>RSVPs ({{ ev.registered_count }})</span>
+                </a>
+                <a href="{% url 'event_detail' ev.id %}" target="_blank" class="p-1.5 rounded-lg bg-surface-container-high hover:bg-primary hover:text-on-primary text-on-surface font-bold text-xs transition-colors" title="View Public Page">
+                  <span class="material-symbols-outlined text-[16px]">visibility</span>
+                </a>
+                <button type="button" onclick="openDeleteEventModal('{{ ev.id }}', '{{ ev.title|escapejs }}')"
+                        class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-red-50 transition-colors" title="Delete Gathering">
+                  <span class="material-symbols-outlined text-[16px]">delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE EVENT MODAL -->
+<div id="createEventModal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="max-w-xl w-full bg-surface-container-lowest rounded-2xl shadow-2xl border border-surface-container-high p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between pb-3 border-b border-surface-container-high">
+      <h3 class="text-base font-extrabold text-primary">Schedule New Community Gathering</h3>
+      <button onclick="closeCreateEventModal()" class="p-1 rounded hover:bg-surface-container text-on-surface-variant">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <form method="POST" action="{% url 'admin_event_create' %}" enctype="multipart/form-data" class="space-y-4 text-xs">
+      {% csrf_token %}
+      <div>
+        <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Event Title <span class="text-error">*</span></label>
+        <input type="text" name="title" required placeholder="e.g. Hargeisa Rust &amp; Go Performance Meetup"
+               class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Category</label>
+          <select name="category" class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+            {% for code, label in categories %}
+            <option value="{{ code }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Audience Role</label>
+          <select name="audience_role" class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none font-semibold">
+            {% for code, label in audience_roles %}
+            <option value="{{ code }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Max Capacity (Seats)</label>
+          <input type="number" name="capacity" value="50" min="5" required
+               class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Start Date &amp; Time <span class="text-error">*</span></label>
+          <input type="datetime-local" name="start_datetime" required
+                 class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">End Date &amp; Time <span class="text-error">*</span></label>
+          <input type="datetime-local" name="end_datetime" required
+                 class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Venue / Physical Location</label>
+        <input type="text" name="venue" value="Hargeisa, Somaliland" required
+               class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <!-- Online Live Class Settings -->
+      <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container space-y-3">
+        <div class="flex items-center gap-1.5 font-bold uppercase tracking-wider text-primary">
+          <span class="material-symbols-outlined text-[16px] text-secondary">videocam</span>
+          <span>Event Delivery &amp; Live Meeting Setup</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-on-surface mb-1">Delivery Mode</label>
+            <select name="event_mode" id="create_event_mode" onchange="toggleCreateOnlineFields(this.value)" class="w-full bg-surface-container-lowest px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+              <option value="IN_PERSON">In-Person Gathering</option>
+              <option value="ONLINE">Online Session (Zoom / Meet)</option>
+              <option value="HYBRID">Hybrid (In-Person + Live Stream)</option>
+            </select>
+          </div>
+
+          <div id="create_platform_box" class="opacity-50 pointer-events-none">
+            <label class="block font-bold text-on-surface mb-1">Platform</label>
+            <select name="meeting_platform" class="w-full bg-surface-container-lowest px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+              <option value="Zoom">Zoom Meetings</option>
+              <option value="Google Meet">Google Meet</option>
+              <option value="Microsoft Teams">Microsoft Teams</option>
+              <option value="YouTube Live">YouTube Live</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="create_online_fields" class="space-y-2 opacity-50 pointer-events-none">
+          <div>
+            <label class="block font-bold text-on-surface mb-1">Meeting Join URL</label>
+            <input type="url" name="meeting_url" placeholder="https://zoom.us/j/... or https://meet.google.com/..."
+                   class="w-full bg-surface-container-lowest px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none"/>
+          </div>
+          <div>
+            <label class="block font-bold text-on-surface mb-1">Meeting Passcode / PIN (Optional)</label>
+            <input type="text" name="meeting_passcode" placeholder="e.g. 123456"
+                   class="w-full bg-surface-container-lowest px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- File Upload From Computer -->
+      <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container space-y-2">
+        <label class="block font-bold text-on-surface mb-0.5">Upload Event Cover Image From Computer</label>
+        <input type="file" name="cover_image" accept="image/*"
+               class="block w-full text-xs text-on-surface file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary file:text-on-primary hover:file:bg-neutral-800 file:cursor-pointer cursor-pointer border border-surface-container rounded-lg bg-surface-container-lowest p-1"/>
+        <p class="text-[10px] text-on-surface-variant">Select an image file from your computer (JPG, PNG, WebP).</p>
+      </div>
+
+      <!-- Starter Resource Material Upload -->
+      <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container space-y-2">
+        <div class="flex items-center gap-1.5 font-bold uppercase tracking-wider text-primary">
+          <span class="material-symbols-outlined text-[16px] text-secondary">attachment</span>
+          <span>Attach Course Material (PDF, PPT, Excel, Word, Zip)</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <input type="text" name="resource_title" placeholder="Material Title (e.g. Slide Deck)"
+                 class="w-full bg-surface-container-lowest px-3 py-1.5 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none"/>
+          <select name="access_role" class="w-full bg-surface-container-lowest px-2 py-1.5 rounded-lg text-xs font-semibold text-on-surface border border-surface-container focus:border-primary outline-none cursor-pointer">
+            {% for r_code, r_label in resource_roles %}
+            <option value="{{ r_code }}" {% if r_code == 'PUBLIC' %}selected{% endif %}>{{ r_label }}</option>
+            {% endfor %}
+          </select>
+          <input type="file" name="resource_file" accept=".pdf,.ppt,.pptx,.xls,.xlsx,.csv,.doc,.docx,.zip"
+                 class="block w-full text-xs text-on-surface file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[11px] file:font-bold file:bg-primary file:text-on-primary hover:file:bg-neutral-800 file:cursor-pointer cursor-pointer border border-surface-container rounded-lg bg-surface-container-lowest p-1"/>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-bold uppercase tracking-wider text-on-surface mb-1">Description &amp; Agenda <span class="text-error">*</span></label>
+        <textarea name="description" rows="3" required placeholder="Outline topics, speakers, and hands-on lab requirements..."
+                  class="w-full bg-surface-container-low p-3 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"></textarea>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3 border-t border-surface-container-high">
+        <button type="button" onclick="closeCreateEventModal()" class="px-4 py-2 bg-surface-container hover:bg-surface-container-high rounded-lg font-bold">
+          Cancel
+        </button>
+        <button type="submit" class="px-5 py-2 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg font-bold shadow-sm">
+          Publish Event
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- DELETE EVENT MODAL -->
+<div id="deleteEventModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-surface-container-lowest rounded-2xl shadow-2xl border border-red-200 p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2 text-error">
+        <span class="material-symbols-outlined text-[24px]">warning</span>
+        <h3 class="text-base font-bold text-primary">Delete Event Gathering</h3>
+      </div>
+      <button type="button" onclick="closeDeleteEventModal()" class="text-on-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <p class="text-xs text-on-surface leading-relaxed">
+      Are you sure you want to permanently delete event <span id="deleteEventTitle" class="font-bold text-primary"></span>?
+    </p>
+
+    <div class="p-3 bg-red-50 border border-red-200 rounded-xl text-[11px] text-red-800">
+      This will permanently remove the event and all associated attendee RSVP records.
+    </div>
+
+    <form id="deleteEventForm" method="POST" action="" class="flex items-center justify-end gap-2 pt-2">
+      {% csrf_token %}
+      <button type="button" onclick="closeDeleteEventModal()" class="px-4 py-2 rounded-lg text-xs font-semibold text-on-surface hover:bg-surface-container">
+        Cancel
+      </button>
+      <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-error text-white hover:bg-red-700 transition-colors shadow-sm">
+        Yes, Delete Event
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openCreateEventModal() {
+    document.getElementById('createEventModal').classList.remove('hidden');
+  }
+  function closeCreateEventModal() {
+    document.getElementById('createEventModal').classList.add('hidden');
+  }
+
+  function openDeleteEventModal(eventId, eventTitle) {
+    document.getElementById('deleteEventTitle').textContent = '"' + eventTitle + '"';
+    document.getElementById('deleteEventForm').action = '/admin-ops/events/' + eventId + '/delete/';
+    document.getElementById('deleteEventModal').classList.remove('hidden');
+  }
+  function closeDeleteEventModal() {
+    document.getElementById('deleteEventModal').classList.add('hidden');
+  }
+
+  function toggleCreateOnlineFields(mode) {
+    const isOnline = mode === 'ONLINE' || mode === 'HYBRID';
+    ['create_platform_box', 'create_online_fields'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        if (isOnline) {
+          el.classList.remove('opacity-50', 'pointer-events-none');
+        } else {
+          el.classList.add('opacity-50', 'pointer-events-none');
+        }
+      }
+    });
+  }
+
+  document.querySelectorAll('[data-width]').forEach(function(el) {
+    el.style.width = (el.getAttribute('data-width') || '0') + '%';
+  });
+</script>
+{% endblock %}

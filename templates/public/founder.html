@@ -1,0 +1,538 @@
+{% extends 'layouts/public_base.html' %}
+
+{% block title %}Meet the Founder — Ahmed Liban Mohamed | TechClub Somaliland{% endblock %}
+
+{% block content %}
+<div class="bg-[#F8F8F6] text-[#111111]">
+
+  <!-- FLASH MESSAGES -->
+  {% if messages %}
+  <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+    {% for message in messages %}
+    <div class="p-4 rounded-xl {% if message.tags == 'success' %}bg-emerald-50 text-emerald-900 border border-emerald-200{% else %}bg-amber-50 text-amber-900 border border-amber-200{% endif %} flex items-center justify-between text-sm shadow-sm">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-[20px]">{% if message.tags == 'success' %}verified{% else %}info{% endif %}</span>
+        <span class="font-semibold">{{ message }}</span>
+      </div>
+      <button onclick="this.parentElement.remove()" class="text-neutral-500 hover:text-neutral-800">
+        <span class="material-symbols-outlined text-[18px]">close</span>
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- ================================================== -->
+  <!-- 1 & 2. HERO / FOUNDER SECTION (PREMIUM TWO-COLUMN) -->
+  <!-- ================================================== -->
+  <section class="relative py-16 md:py-24 border-b border-[#E5E5E5] bg-white overflow-hidden">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        <!-- LEFT COLUMN: REAL FOUNDER PHOTOGRAPH -->
+        <div class="lg:col-span-5 flex flex-col items-center">
+          <div class="relative w-full max-w-md mx-auto">
+            <!-- Subtle Gold Accent Frame -->
+            <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-tr from-[#D4AF37]/40 via-[#292929] to-[#D4AF37]/30 blur-sm opacity-60"></div>
+            
+            <div class="relative rounded-2xl overflow-hidden bg-[#292929] border border-[#D4AF37]/50 shadow-2xl">
+              <!-- Real Photo of Ahmed Liban Mohamed -->
+              <img src="{{ founder.display_photo }}" 
+                   alt="{{ founder.full_name }} — Founder of TechClub" 
+                   class="w-full h-auto object-cover object-top aspect-[4/5] block hover:scale-[1.01] transition-transform duration-500"/>
+              
+              <!-- Clean Floating Credentials Tag -->
+              <div class="p-4 bg-[#111111]/95 border-t border-[#D4AF37]/30 backdrop-blur-sm space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-white tracking-wide">{{ founder.full_name }}</span>
+                  <span class="text-[10px] font-code px-2 py-0.5 rounded bg-[#D4AF37]/20 text-[#D4AF37] font-bold border border-[#D4AF37]/40">ATU '{{ founder.graduation_year|slice:"-2:" }}</span>
+                </div>
+                <p class="text-[11px] text-neutral-300">{{ founder.education }} • CGPA: {{ founder.cgpa }}</p>
+                <p class="text-[10px] font-code text-neutral-400">{{ founder.university_role }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Credibility Highlights Mini Strip -->
+          <div class="w-full max-w-md grid grid-cols-2 gap-3 mt-4 text-center">
+            <div class="p-3 rounded-xl bg-[#F8F8F6] border border-[#E5E5E5]">
+              <span class="text-[10px] uppercase font-code text-[#735c00] font-bold tracking-wider block">University Role</span>
+              <span class="text-xs font-extrabold text-[#111111] mt-0.5 block">{{ founder.university_role }}</span>
+            </div>
+            <div class="p-3 rounded-xl bg-[#F8F8F6] border border-[#E5E5E5]">
+              <span class="text-[10px] uppercase font-code text-[#735c00] font-bold tracking-wider block">Initiative</span>
+              <span class="text-xs font-extrabold text-[#111111] mt-0.5 block">Founder of TechClub</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: BIOGRAPHY & ACTIONS -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#111111]">
+            <span class="w-2 h-2 rounded-full bg-[#D4AF37]"></span>
+            <span class="text-xs font-bold uppercase tracking-widest font-code text-[#735c00]">MEET THE FOUNDER</span>
+          </div>
+
+          <div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#111111] leading-[1.15]">
+              {{ founder.headline }}
+            </h1>
+            
+            <div class="mt-4 pt-4 border-t border-[#E5E5E5]">
+              <h2 class="text-xl font-bold text-[#111111]">{{ founder.full_name }}</h2>
+              <p class="text-xs sm:text-sm text-[#735c00] font-semibold tracking-wide">
+                {{ founder.title }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Bio Copy -->
+          <div class="space-y-4 text-sm sm:text-base text-neutral-700 leading-relaxed">
+            {{ founder.biography|linebreaks }}
+          </div>
+
+          <!-- Buttons -->
+          <div class="flex flex-wrap items-center gap-4 pt-4">
+            <a href="{{ founder.linkedin_url }}" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="px-6 py-3.5 bg-[#111111] text-white hover:bg-neutral-800 rounded-xl font-bold text-xs shadow-md transition-all inline-flex items-center gap-2.5 active:scale-95 group">
+              <svg class="w-4 h-4 fill-[#D4AF37]" viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+              <span>Connect on LinkedIn</span>
+              <span class="material-symbols-outlined text-[16px] text-neutral-400 group-hover:translate-x-0.5 transition-transform">open_in_new</span>
+            </a>
+
+            <a href="#story" 
+               class="px-6 py-3.5 bg-[#F8F8F6] text-[#111111] hover:bg-[#E5E5E5] border border-[#E5E5E5] rounded-xl font-bold text-xs transition-colors inline-flex items-center gap-2">
+              <span>Discover Our Mission</span>
+              <span class="material-symbols-outlined text-[16px] text-[#735c00]">arrow_downward</span>
+            </a>
+
+            {% if user.is_authenticated and user.is_organizer %}
+            <a href="{% url 'admin_founder_manage' %}" 
+               class="px-4 py-3.5 bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed-dim rounded-xl font-bold text-xs transition-colors inline-flex items-center gap-1.5 shadow-sm">
+              <span class="material-symbols-outlined text-[16px]">edit</span>
+              <span>Edit Founder Profile</span>
+            </a>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================== -->
+  <!-- 7. CREDIBILITY & PROFESSIONAL BACKGROUND -->
+  <!-- ================================================== -->
+  <section class="py-12 bg-[#F8F8F6] border-b border-[#E5E5E5]">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Credential 1 -->
+        <div class="p-6 rounded-2xl bg-white border border-[#E5E5E5] shadow-sm flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-[#111111] text-[#D4AF37] flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[24px]">school</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-code uppercase tracking-wider text-[#735c00] font-bold">Academic Qualification</span>
+            <h3 class="text-base font-bold text-[#111111] mt-0.5">Software Engineering Graduate</h3>
+            <p class="text-xs text-neutral-600 mt-1">
+              {{ founder.education }} (Class of {{ founder.graduation_year }}). Cumulative GPA: <strong>{{ founder.cgpa }}</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- Credential 2 -->
+        <div class="p-6 rounded-2xl bg-white border border-[#E5E5E5] shadow-sm flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-[#111111] text-[#D4AF37] flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[24px]">account_balance</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-code uppercase tracking-wider text-[#735c00] font-bold">Leadership Role</span>
+            <h3 class="text-base font-bold text-[#111111] mt-0.5">{{ founder.university_role }}</h3>
+            <p class="text-xs text-neutral-600 mt-1">
+              Active leadership in student governance, academic guidance, and collaborative institutional affairs across the university community.
+            </p>
+          </div>
+        </div>
+
+        <!-- Credential 3 -->
+        <div class="p-6 rounded-2xl bg-white border border-[#E5E5E5] shadow-sm flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-[#111111] text-[#D4AF37] flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[24px]">hub</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-code uppercase tracking-wider text-[#735c00] font-bold">Community Initiative</span>
+            <h3 class="text-base font-bold text-[#111111] mt-0.5">Founder of TechClub</h3>
+            <p class="text-xs text-neutral-600 mt-1">
+              Spearheading an open, inclusive tech community in Hargeisa to unite developers, students, mentors, and innovators.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Core Competencies Strip -->
+      <div class="mt-6 p-4 rounded-xl bg-white border border-[#E5E5E5] flex flex-wrap items-center justify-between gap-3 text-xs">
+        <span class="font-bold text-[#111111] uppercase tracking-wider text-[11px]">Core Professional Domains:</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-3 py-1 rounded-full bg-[#F8F8F6] border border-[#E5E5E5] text-neutral-700 font-medium">Software Engineering &amp; Development</span>
+          <span class="px-3 py-1 rounded-full bg-[#F8F8F6] border border-[#E5E5E5] text-neutral-700 font-medium">Technology &amp; Digital Innovation</span>
+          <span class="px-3 py-1 rounded-full bg-[#F8F8F6] border border-[#E5E5E5] text-neutral-700 font-medium">Student Leadership &amp; University Affairs</span>
+          <span class="px-3 py-1 rounded-full bg-[#F8F8F6] border border-[#E5E5E5] text-neutral-700 font-medium">Teaching &amp; Knowledge Sharing</span>
+          <span class="px-3 py-1 rounded-full bg-[#F8F8F6] border border-[#E5E5E5] text-neutral-700 font-medium">Community Building &amp; Collaboration</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================== -->
+  <!-- 3. THE STORY BEHIND TECHCLUB -->
+  <!-- ================================================== -->
+  <section id="story" class="py-16 md:py-24 bg-white border-b border-[#E5E5E5]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      
+      <!-- Section Header -->
+      <div class="text-center space-y-3">
+        <span class="text-xs font-code uppercase tracking-widest text-[#735c00] font-bold">THE GENESIS OF TECHCLUB</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-[#111111] tracking-tight">
+          Why I Started TechClub
+        </h2>
+        <p class="text-base sm:text-lg text-[#735c00] font-semibold max-w-xl mx-auto">
+          {{ founder.story_subheading }}
+        </p>
+      </div>
+
+      <!-- Editorial Story Body -->
+      <div class="prose prose-neutral max-w-none text-base sm:text-lg leading-relaxed text-neutral-700 space-y-6">
+        <!-- Central Message Highlight -->
+        <div class="my-6 p-6 sm:p-8 rounded-2xl bg-[#F8F8F6] border-l-4 border-[#D4AF37] shadow-sm">
+          <p class="text-lg sm:text-xl font-bold text-[#111111] italic leading-snug">
+            "{{ founder.central_message }}"
+          </p>
+          <span class="text-xs font-code text-[#735c00] font-bold tracking-wider uppercase mt-2 block">
+            — Core Philosophy of TechClub
+          </span>
+        </div>
+
+        <div class="space-y-4 text-base sm:text-lg leading-relaxed">
+          {{ founder.story_body|linebreaks }}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================== -->
+  <!-- 6. PERSONAL MESSAGE FROM THE FOUNDER -->
+  <!-- ================================================== -->
+  <section class="py-16 md:py-20 bg-[#111111] text-white border-b border-[#292929]">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-center">
+      
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#D4AF37]/20 text-[#D4AF37]">
+        <span class="material-symbols-outlined text-[28px]">format_quote</span>
+      </div>
+
+      <div class="space-y-2">
+        <span class="text-xs font-code uppercase tracking-widest text-[#D4AF37] font-bold">PERSONAL STATEMENT</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+          A Message from Our Founder
+        </h2>
+      </div>
+
+      <div class="space-y-5 text-neutral-300 text-base sm:text-lg leading-relaxed text-left sm:text-center font-light">
+        {{ founder.personal_message|linebreaks }}
+      </div>
+
+      <div class="pt-6 border-t border-[#292929]">
+        <h4 class="text-base font-bold text-white">{{ founder.full_name }}</h4>
+        <p class="text-xs text-[#D4AF37] font-code mt-0.5">Founder of TechClub</p>
+        <p class="text-[11px] text-neutral-400 mt-2 italic">
+          (Draft statement prepared by {{ founder.full_name }} for community members, students, and prospective partners)
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================== -->
+  <!-- 4. LONG-TERM VISION (FOUR ROADMAP STAGES) -->
+  <!-- ================================================== -->
+  <section class="py-16 md:py-24 bg-[#F8F8F6] border-b border-[#E5E5E5]">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="text-xs font-code uppercase tracking-widest text-[#735c00] font-bold">OUR STRATEGIC ROADMAP</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-[#111111] tracking-tight">
+          From a Local Community to a Connected Technology Ecosystem
+        </h2>
+        <p class="text-sm sm:text-base text-neutral-600 leading-relaxed">
+          TechClub aims to grow from a focused community in Hargeisa into a sustainable network that creates meaningful opportunities for young people across Somaliland and beyond.
+        </p>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E5E5E5] text-[11px] font-code text-[#735c00]">
+          <span class="material-symbols-outlined text-[14px]">flag</span>
+          <span>Phased Growth Framework (Future Strategic Goals)</span>
+        </div>
+      </div>
+
+      <!-- 4 Stages Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Stage 1 -->
+        <div class="bg-white p-6 rounded-2xl border border-[#E5E5E5] shadow-sm flex flex-col justify-between space-y-6">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-code font-bold px-2.5 py-1 rounded bg-[#D4AF37]/20 text-[#735c00] border border-[#D4AF37]/40">
+                STAGE 1
+              </span>
+              <span class="material-symbols-outlined text-neutral-400 text-[20px]">group_add</span>
+            </div>
+            <h3 class="text-base font-extrabold text-[#111111]">Build the Community</h3>
+            <p class="text-xs text-neutral-600 leading-relaxed">
+              Bring together technology learners, developers, students, professionals, and enthusiasts.
+            </p>
+            <p class="text-xs text-neutral-600 leading-relaxed pt-2 border-t border-[#F8F8F6]">
+              Organize networking events, discussions, workshops, and opportunities for members to connect.
+            </p>
+          </div>
+          <div class="text-[11px] font-code text-[#735c00] font-semibold">
+            • Foundations in Hargeisa
+          </div>
+        </div>
+
+        <!-- Stage 2 -->
+        <div class="bg-white p-6 rounded-2xl border border-[#E5E5E5] shadow-sm flex flex-col justify-between space-y-6">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-code font-bold px-2.5 py-1 rounded bg-[#D4AF37]/20 text-[#735c00] border border-[#D4AF37]/40">
+                STAGE 2
+              </span>
+              <span class="material-symbols-outlined text-neutral-400 text-[20px]">construction</span>
+            </div>
+            <h3 class="text-base font-extrabold text-[#111111]">Create Practical Opportunities</h3>
+            <p class="text-xs text-neutral-600 leading-relaxed">
+              Encourage collaborative projects, technical workshops, mentorship, competitions, knowledge sharing, and professional development.
+            </p>
+            <p class="text-xs text-neutral-600 leading-relaxed pt-2 border-t border-[#F8F8F6]">
+              Help members turn their learning into practical, portfolio-grade experience.
+            </p>
+          </div>
+          <div class="text-[11px] font-code text-[#735c00] font-semibold">
+            • Practical Execution &amp; Mentorship
+          </div>
+        </div>
+
+        <!-- Stage 3 -->
+        <div class="bg-white p-6 rounded-2xl border border-[#E5E5E5] shadow-sm flex flex-col justify-between space-y-6">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-code font-bold px-2.5 py-1 rounded bg-[#D4AF37]/20 text-[#735c00] border border-[#D4AF37]/40">
+                STAGE 3
+              </span>
+              <span class="material-symbols-outlined text-neutral-400 text-[20px]">laptop_chromebook</span>
+            </div>
+            <h3 class="text-base font-extrabold text-[#111111]">Develop a Strong Platform</h3>
+            <p class="text-xs text-neutral-600 leading-relaxed">
+              Develop a reliable digital platform where members can discover events, connect with others, showcase projects, and share opportunities.
+            </p>
+            <p class="text-xs text-neutral-600 leading-relaxed pt-2 border-t border-[#F8F8F6]">
+              Enable participation in community activities with transparent, structured workflows.
+            </p>
+          </div>
+          <div class="text-[11px] font-code text-[#735c00] font-semibold">
+            • Scalable Digital Infrastructure
+          </div>
+        </div>
+
+        <!-- Stage 4 -->
+        <div class="bg-white p-6 rounded-2xl border border-[#E5E5E5] shadow-sm flex flex-col justify-between space-y-6">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-code font-bold px-2.5 py-1 rounded bg-[#D4AF37]/20 text-[#735c00] border border-[#D4AF37]/40">
+                STAGE 4
+              </span>
+              <span class="material-symbols-outlined text-neutral-400 text-[20px]">handshake</span>
+            </div>
+            <h3 class="text-base font-extrabold text-[#111111]">Build Partnerships &amp; Expand</h3>
+            <p class="text-xs text-neutral-600 leading-relaxed">
+              Establish meaningful relationships with universities, technology companies, startups, and potential sponsors.
+            </p>
+            <p class="text-xs text-neutral-600 leading-relaxed pt-2 border-t border-[#F8F8F6]">
+              Begin with a strong foundation in Hargeisa, expand across Somaliland, and build connections with wider Somali and international communities.
+            </p>
+          </div>
+          <div class="text-[11px] font-code text-[#735c00] font-semibold">
+            • Regional &amp; Diaspora Reach
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================== -->
+  <!-- 5. PARTNERSHIPS AND SPONSORSHIP (+ INQUIRY FORM) -->
+  <!-- ================================================== -->
+  <section id="partner" class="py-16 md:py-24 bg-white">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <!-- Left: Partnership Value & Categories -->
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#735c00]">
+            <span class="material-symbols-outlined text-[16px]">handshake</span>
+            <span class="text-xs font-bold uppercase tracking-widest font-code">STRATEGIC COLLABORATION</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-[#111111] tracking-tight">
+            Let's Build the Future of Technology Together
+          </h2>
+
+          <div class="space-y-4 text-sm sm:text-base text-neutral-700 leading-relaxed">
+            <p>
+              TechClub welcomes collaboration with organizations and individuals who share our commitment to technology education, youth development, innovation, and professional growth.
+            </p>
+            <p>
+              We aim to build partnerships that create practical value for community members through learning opportunities, workshops, networking events, mentorship, competitions, and collaborative initiatives.
+            </p>
+            <p>
+              Together, we can help young people strengthen their skills, build meaningful connections, and contribute to the growing technology ecosystem.
+            </p>
+          </div>
+
+          <!-- Partnership Categories -->
+          <div class="pt-4 space-y-3">
+            <h4 class="text-xs font-code uppercase tracking-wider text-[#111111] font-bold">
+              Potential Partnership Categories:
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="p-3 rounded-xl bg-[#F8F8F6] border border-[#E5E5E5] flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-[#735c00] text-[18px]">campaign</span>
+                <span class="font-semibold text-neutral-800">Event Sponsorship</span>
+              </div>
+              <div class="p-3 rounded-xl bg-[#F8F8F6] border border-[#E5E5E5] flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-[#735c00] text-[18px]">terminal</span>
+                <span class="font-semibold text-neutral-800">Technical Training</span>
+              </div>
+              <div class="p-3 rounded-xl bg-[#F8F8F6] border border-[#E5E5E5] flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-[#735c00] text-[18px]">supervisor_account</span>
+                <span class="font-semibold text-neutral-800">Mentorship &amp; Guest Speakers</span>
+              </div>
+              <div class="p-3 rounded-xl bg-[#F8F8F6] border border-[#E5E5E5] flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-[#735c00] text-[18px]">work</span>
+                <span class="font-semibold text-neutral-800">Internship &amp; Career Opportunities</span>
+              </div>
+              <div class="p-3 rounded-xl bg-[#F8F8F6] border border-[#E5E5E5] flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-[#735c00] text-[18px]">devices</span>
+                <span class="font-semibold text-neutral-800">Learning Resources &amp; Equipment</span>
+              </div>
+              <div class="p-3 rounded-xl bg-[#F8F8F6] border border-[#E5E5E5] flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-[#735c00] text-[18px]">integration_instructions</span>
+                <span class="font-semibold text-neutral-800">Collaborative Projects</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#F8F8F6] border border-[#E5E5E5] text-[11px] text-neutral-500 leading-relaxed">
+            <strong class="font-bold text-[#111111]">Integrity Notice:</strong> TechClub does not publish unverified corporate logos or claim non-existent sponsorships. All discussions are handled with professional transparency and formal agreements.
+          </div>
+        </div>
+
+        <!-- Right: Functional Partnership Inquiry Form -->
+        <div class="lg:col-span-6 bg-[#F8F8F6] p-6 sm:p-8 rounded-3xl border border-[#E5E5E5] shadow-lg">
+          <div class="mb-6 space-y-1">
+            <h3 class="text-xl font-extrabold text-[#111111]">Partner with TechClub</h3>
+            <p class="text-xs text-neutral-600">
+              Submit your inquiry to connect with founder Ahmed Liban Mohamed and our community organizers.
+            </p>
+          </div>
+
+          <form method="POST" action="{% url 'founder' %}" class="space-y-4 text-xs">
+            {% csrf_token %}
+            
+            <div>
+              <label class="block font-bold uppercase tracking-wider text-[#111111] mb-1">
+                Organization / University / Company Name <span class="text-red-600">*</span>
+              </label>
+              <input type="text" name="organization_name" required placeholder="e.g. Abaarso Tech University or Tech Enterprise"
+                     class="w-full bg-white px-4 py-2.5 rounded-xl text-xs text-[#111111] border border-[#E5E5E5] focus:border-[#111111] outline-none shadow-sm"/>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block font-bold uppercase tracking-wider text-[#111111] mb-1">
+                  Contact Person's Name <span class="text-red-600">*</span>
+                </label>
+                <input type="text" name="contact_name" required placeholder="Your full name"
+                       class="w-full bg-white px-4 py-2.5 rounded-xl text-xs text-[#111111] border border-[#E5E5E5] focus:border-[#111111] outline-none shadow-sm"/>
+              </div>
+
+              <div>
+                <label class="block font-bold uppercase tracking-wider text-[#111111] mb-1">
+                  Email Address <span class="text-red-600">*</span>
+                </label>
+                <input type="email" name="email" required placeholder="partner@domain.com"
+                       class="w-full bg-white px-4 py-2.5 rounded-xl text-xs text-[#111111] border border-[#E5E5E5] focus:border-[#111111] outline-none shadow-sm"/>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-bold uppercase tracking-wider text-[#111111] mb-2">
+                Partnership Interests (Select all that apply)
+              </label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <label class="flex items-center gap-2 p-2.5 rounded-lg bg-white border border-[#E5E5E5] hover:bg-neutral-50 cursor-pointer">
+                  <input type="checkbox" name="partnership_interests" value="Event Sponsorship" class="accent-[#111111]"/>
+                  <span class="text-neutral-700">Event Sponsorship</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg bg-white border border-[#E5E5E5] hover:bg-neutral-50 cursor-pointer">
+                  <input type="checkbox" name="partnership_interests" value="Technical Training" class="accent-[#111111]"/>
+                  <span class="text-neutral-700">Technical Training</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg bg-white border border-[#E5E5E5] hover:bg-neutral-50 cursor-pointer">
+                  <input type="checkbox" name="partnership_interests" value="Mentorship & Guest Speakers" class="accent-[#111111]"/>
+                  <span class="text-neutral-700">Mentorship &amp; Speakers</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg bg-white border border-[#E5E5E5] hover:bg-neutral-50 cursor-pointer">
+                  <input type="checkbox" name="partnership_interests" value="Internship & Career Opportunities" class="accent-[#111111]"/>
+                  <span class="text-neutral-700">Internship &amp; Hiring</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg bg-white border border-[#E5E5E5] hover:bg-neutral-50 cursor-pointer">
+                  <input type="checkbox" name="partnership_interests" value="Learning Resources & Equipment" class="accent-[#111111]"/>
+                  <span class="text-neutral-700">Equipment &amp; Resources</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg bg-white border border-[#E5E5E5] hover:bg-neutral-50 cursor-pointer">
+                  <input type="checkbox" name="partnership_interests" value="Collaborative Projects" class="accent-[#111111]"/>
+                  <span class="text-neutral-700">Collaborative Projects</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-bold uppercase tracking-wider text-[#111111] mb-1">
+                Message / Collaboration Proposal <span class="text-red-600">*</span>
+              </label>
+              <textarea name="message" rows="4" required placeholder="Tell us about your organization and how you envision collaborating with TechClub..."
+                        class="w-full bg-white p-3.5 rounded-xl text-xs text-[#111111] border border-[#E5E5E5] focus:border-[#111111] outline-none shadow-sm"></textarea>
+            </div>
+
+            <button type="submit" 
+                    class="w-full py-3.5 bg-[#111111] text-white hover:bg-neutral-800 rounded-xl font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.99]">
+              <span class="material-symbols-outlined text-[18px] text-[#D4AF37]">handshake</span>
+              <span>Submit Partnership Inquiry</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</div>
+{% endblock %}

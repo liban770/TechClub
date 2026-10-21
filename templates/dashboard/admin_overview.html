@@ -1,0 +1,525 @@
+{% extends 'layouts/admin_base.html' %}
+
+{% block title %}Organizer Dashboard &amp; System Analytics — TechClub Admin Ops{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6">
+  <!-- Top Operational Telemetry & Quick Actions Header -->
+  <div class="flex flex-col lg:flex-row lg:items-center justify-between pb-2 gap-4">
+    <div class="space-y-1">
+      <div class="flex items-center gap-2 text-on-surface-variant font-code text-xs uppercase tracking-wider">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-bold text-emerald-800">System Operational</span>
+        <span>•</span>
+        <span>Hargeisa Regional Hub Node</span>
+        <span>•</span>
+        <span>PostgreSQL 18 EAT</span>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight">System Summary &amp; Analytics</h1>
+      <p class="text-xs text-on-surface-variant max-w-2xl">
+        Real-time platform telemetry across admissions pipeline, event attendance velocity, credential issuance, and technical talent distribution.
+      </p>
+    </div>
+
+    <!-- Quick Action Launchpad -->
+    <div class="flex items-center gap-2 flex-wrap">
+      <a href="{% url 'admin_ticket_scan' %}" class="flex items-center gap-1.5 px-3 py-2 bg-primary text-on-primary hover:bg-neutral-800 text-xs font-bold rounded-xl shadow-sm transition-all">
+        <span class="material-symbols-outlined text-[16px]">qr_code_scanner</span>
+        <span>Scan Tickets</span>
+      </a>
+      <a href="{% url 'admin_event_create' %}" class="flex items-center gap-1.5 px-3 py-2 bg-secondary text-white hover:bg-amber-600 text-xs font-bold rounded-xl shadow-sm transition-all">
+        <span class="material-symbols-outlined text-[16px]">add_circle</span>
+        <span>Create Event</span>
+      </a>
+      <a href="{% url 'admin_applications' %}" class="flex items-center gap-1.5 px-3 py-2 bg-surface-container-lowest text-on-surface hover:bg-surface-container text-xs font-bold rounded-xl border border-surface-container-high shadow-sm transition-all">
+        <span class="material-symbols-outlined text-[16px]">how_to_reg</span>
+        <span>Admissions ({{ pending_apps }})</span>
+      </a>
+      <a href="{% url 'admin_reports' %}" class="flex items-center gap-1.5 px-3 py-2 bg-surface-container-lowest text-on-surface hover:bg-surface-container text-xs font-bold rounded-xl border border-surface-container-high shadow-sm transition-all">
+        <span class="material-symbols-outlined text-[16px]">download</span>
+        <span>Export CSVs</span>
+      </a>
+      <a href="{% url 'admin_backup_download' %}" class="flex items-center gap-1.5 px-3 py-2 bg-surface-container-lowest text-on-surface hover:bg-surface-container text-xs font-bold rounded-xl border border-surface-container-high shadow-sm transition-all" title="Download Complete System Database Backup (JSON)">
+        <span class="material-symbols-outlined text-[16px]">cloud_download</span>
+        <span>Backup (JSON)</span>
+      </a>
+      <a href="{% url 'admin_partners' %}" class="flex items-center gap-1.5 px-3 py-2 bg-surface-container-lowest text-on-surface hover:bg-surface-container text-xs font-bold rounded-xl border border-surface-container-high shadow-sm transition-all" title="Manage Corporate Partners &amp; Trust Endorsements">
+        <span class="material-symbols-outlined text-[16px] text-secondary">handshake</span>
+        <span>Partners</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 6 Top Executive KPI Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3.5">
+    <!-- 1. Community Members -->
+    <div class="bg-surface-container-lowest p-4 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+      <div class="flex items-start justify-between">
+        <span class="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant">Verified Members</span>
+        <span class="p-1 rounded-lg bg-surface-container text-primary">
+          <span class="material-symbols-outlined text-[18px]">groups</span>
+        </span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary leading-none">{{ total_members }}</div>
+        <div class="flex items-center gap-1 mt-1.5 text-[11px] text-on-surface-variant">
+          <span class="font-bold text-secondary font-code">{{ total_mentors }}</span>
+          <span>mentors active</span>
+        </div>
+      </div>
+      <div class="text-[10px] text-on-surface-variant mt-2 pt-2 border-t border-surface-container/60 font-code truncate">
+        {{ total_users }} user accounts
+      </div>
+    </div>
+
+    <!-- 2. Admissions Pipeline -->
+    <div class="bg-surface-container-lowest p-4 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+      <div class="flex items-start justify-between">
+        <span class="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant">Admissions Pool</span>
+        <span class="p-1 rounded-lg bg-secondary-container/40 text-secondary">
+          <span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+        </span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary leading-none">{{ total_applications }}</div>
+        <div class="flex items-center gap-1 mt-1.5 text-[11px]">
+          <span class="font-bold text-emerald-700 font-code">{{ acceptance_rate }}%</span>
+          <span class="text-on-surface-variant">acceptance</span>
+        </div>
+      </div>
+      <div class="text-[10px] text-secondary mt-2 pt-2 border-t border-surface-container/60 font-bold truncate">
+        {% if pending_apps > 0 %}{{ pending_apps }} awaiting review{% else %}Reviews up to date{% endif %}
+      </div>
+    </div>
+
+    <!-- 3. Event Attendance Rate -->
+    <div class="bg-surface-container-lowest p-4 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+      <div class="flex items-start justify-between">
+        <span class="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant">Attendance Rate</span>
+        <span class="p-1 rounded-lg bg-emerald-50 text-emerald-700">
+          <span class="material-symbols-outlined text-[18px]">fact_check</span>
+        </span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary leading-none">{{ attendance_rate }}%</div>
+        <div class="flex items-center gap-1 mt-1.5 text-[11px] text-on-surface-variant truncate">
+          <span class="font-bold text-primary font-code">{{ total_checkins }}</span>
+          <span>of {{ total_rsvps }} check-ins</span>
+        </div>
+      </div>
+      <div class="text-[10px] text-on-surface-variant mt-2 pt-2 border-t border-surface-container/60 font-code truncate">
+        {{ total_events }} masterclasses
+      </div>
+    </div>
+
+    <!-- 4. Verified Certificates -->
+    <div class="bg-surface-container-lowest p-4 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+      <div class="flex items-start justify-between">
+        <span class="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant">Certificates</span>
+        <span class="p-1 rounded-lg bg-amber-50 text-amber-700">
+          <span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+        </span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary leading-none">{{ total_certificates }}</div>
+        <div class="flex items-center gap-1 mt-1.5 text-[11px] text-amber-800 font-semibold truncate">
+          <span>Verified Credentials</span>
+        </div>
+      </div>
+      <div class="text-[10px] text-on-surface-variant mt-2 pt-2 border-t border-surface-container/60 font-code truncate">
+        With LinkedIn Share
+      </div>
+    </div>
+
+    <!-- 5. Attendee Satisfaction -->
+    <div class="bg-surface-container-lowest p-4 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+      <div class="flex items-start justify-between">
+        <span class="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant">Satisfaction</span>
+        <span class="p-1 rounded-lg bg-amber-100 text-amber-900">
+          <span class="material-symbols-outlined text-[18px]">star</span>
+        </span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary leading-none flex items-center gap-1">
+          <span>{{ avg_satisfaction|default:'5.0' }}</span>
+          <span class="text-sm text-amber-500 font-normal">★</span>
+        </div>
+        <div class="flex items-center gap-1 mt-1.5 text-[11px] text-on-surface-variant truncate">
+          <span class="font-bold text-primary font-code">{{ total_feedbacks }}</span>
+          <span>attendee reviews</span>
+        </div>
+      </div>
+      <div class="text-[10px] text-emerald-700 mt-2 pt-2 border-t border-surface-container/60 font-bold truncate">
+        Verified Attended Only
+      </div>
+    </div>
+
+    <!-- 6. Mentorship & Meetings -->
+    <div class="bg-surface-container-lowest p-4 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+      <div class="flex items-start justify-between">
+        <span class="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant">Mentorship</span>
+        <span class="p-1 rounded-lg bg-surface-container text-primary">
+          <span class="material-symbols-outlined text-[18px]">diversity_3</span>
+        </span>
+      </div>
+      <div class="mt-3">
+        <div class="text-2xl font-extrabold text-primary leading-none">{{ completed_meetings }}</div>
+        <div class="flex items-center gap-1 mt-1.5 text-[11px] text-on-surface-variant truncate">
+          <span class="font-bold text-primary font-code">{{ total_meetings }}</span>
+          <span>total sessions</span>
+        </div>
+      </div>
+      <div class="text-[10px] text-on-surface-variant mt-2 pt-2 border-t border-surface-container/60 font-code truncate">
+        Small Group Circles
+      </div>
+    </div>
+  </div>
+
+  <!-- Deep Dive Analytics Bento Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    
+    <!-- LEFT COLUMN: Admissions Funnel & Applications Queue (8 Cols) -->
+    <div class="lg:col-span-8 space-y-6">
+
+      <!-- 1. Admissions Pipeline Funnel Breakdown -->
+      <div class="bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-sm p-5 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-surface-container-high">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-[20px]">filter_alt</span>
+            <h2 class="text-sm font-extrabold text-primary">Admissions Conversion Funnel</h2>
+          </div>
+          <span class="text-[11px] font-code text-on-surface-variant">
+            Acceptance Rate: <strong class="text-primary">{{ acceptance_rate }}%</strong>
+          </span>
+        </div>
+
+        <!-- Segmented Funnel Bar -->
+        {% if total_applications > 0 %}
+        <div class="space-y-2">
+          <div class="w-full bg-surface-container-low rounded-xl h-4 overflow-hidden flex p-0.5 gap-0.5">
+            <div class="bg-emerald-600 rounded-l-lg transition-all" title="Approved ({{ approved_apps }})" data-width="{% widthratio approved_apps total_applications 100 %}"></div>
+            <div class="bg-amber-500 transition-all" title="Pending ({{ pending_apps }})" data-width="{% widthratio pending_apps total_applications 100 %}"></div>
+            <div class="bg-blue-500 transition-all" title="Waitlisted ({{ waitlisted_apps }})" data-width="{% widthratio waitlisted_apps total_applications 100 %}"></div>
+            <div class="bg-rose-500 rounded-r-lg transition-all" title="Rejected ({{ rejected_apps }})" data-width="{% widthratio rejected_apps total_applications 100 %}"></div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
+            <div class="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200 text-xs">
+              <div class="text-[10px] uppercase font-bold text-emerald-800 flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-600"></span> Approved
+              </div>
+              <div class="text-lg font-black text-emerald-950 font-code mt-1">{{ approved_apps }}</div>
+              <div class="text-[10px] text-emerald-700">{% widthratio approved_apps total_applications 100 %}% pool</div>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200 text-xs">
+              <div class="text-[10px] uppercase font-bold text-amber-800 flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span> Pending
+              </div>
+              <div class="text-lg font-black text-amber-950 font-code mt-1">{{ pending_apps }}</div>
+              <div class="text-[10px] text-amber-700">{% widthratio pending_apps total_applications 100 %}% queue</div>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-blue-50/70 border border-blue-200 text-xs">
+              <div class="text-[10px] uppercase font-bold text-blue-800 flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span> Waitlisted
+              </div>
+              <div class="text-lg font-black text-blue-950 font-code mt-1">{{ waitlisted_apps }}</div>
+              <div class="text-[10px] text-blue-700">{% widthratio waitlisted_apps total_applications 100 %}% pool</div>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-rose-50/70 border border-rose-200 text-xs">
+              <div class="text-[10px] uppercase font-bold text-rose-800 flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-rose-500"></span> Rejected
+              </div>
+              <div class="text-lg font-black text-rose-950 font-code mt-1">{{ rejected_apps }}</div>
+              <div class="text-[10px] text-rose-700">{% widthratio rejected_apps total_applications 100 %}% pool</div>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="py-4 text-center text-xs text-on-surface-variant italic">
+          No applications recorded yet.
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- 2. Recent Admissions Queue -->
+      <div class="bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-sm p-5 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-surface-container-high">
+          <div>
+            <h2 class="text-sm font-extrabold text-primary">Admissions Review Queue</h2>
+            <p class="text-xs text-on-surface-variant">Incoming applicant profiles awaiting organizer evaluation.</p>
+          </div>
+          <a href="{% url 'admin_applications' %}" class="text-xs font-bold text-secondary hover:underline flex items-center gap-1">
+            <span>View All ({{ total_applications }})</span>
+            <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+          </a>
+        </div>
+
+        <div class="divide-y divide-surface-container-high">
+          {% for app in recent_applications %}
+          <div class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-surface-container text-primary font-bold text-xs flex items-center justify-center shrink-0">
+                {{ app.full_name|slice:':2'|upper }}
+              </div>
+              <div>
+                <div class="font-bold text-xs text-primary">{{ app.full_name }}</div>
+                <div class="text-[11px] text-on-surface-variant">{{ app.current_role }} • <span class="font-code">{{ app.professional_category }}</span></div>
+                <div class="text-[10px] text-on-surface-variant font-code">{{ app.email }} • via <strong>{{ app.referral_source }}</strong></div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 self-start sm:self-center">
+              {% if app.status == 'PENDING' %}
+              <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold">Pending</span>
+              {% elif app.status == 'APPROVED' %}
+              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Approved</span>
+              {% elif app.status == 'WAITLISTED' %}
+              <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">Waitlisted</span>
+              {% else %}
+              <span class="px-2 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold">{{ app.status }}</span>
+              {% endif %}
+
+              <a href="{% url 'admin_applications' %}?q={{ app.full_name }}" class="px-2.5 py-1 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded-lg transition-colors">
+                Review
+              </a>
+            </div>
+          </div>
+          {% empty %}
+          <div class="py-6 text-center text-xs text-on-surface-variant">
+            No applicant submissions currently in queue.
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- 3. Inbound Strategic Partnerships & Sponsor Leads -->
+      <div class="bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-sm p-5 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-surface-container-high">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-[20px]">handshake</span>
+            <h3 class="text-sm font-extrabold text-primary">Strategic Partnership &amp; Sponsor Inquiries</h3>
+          </div>
+          {% if pending_inquiries_count > 0 %}
+          <span class="px-2.5 py-0.5 rounded-full bg-secondary text-white text-[10px] font-bold">
+            {{ pending_inquiries_count }} Pending Review
+          </span>
+          {% else %}
+          <span class="text-[11px] font-code text-on-surface-variant">Inbound Form Leads</span>
+          {% endif %}
+        </div>
+
+        <div class="divide-y divide-surface-container-high">
+          {% for inq in partnership_inquiries %}
+          <div class="py-3 space-y-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-xs text-primary">{{ inq.organization_name }}</span>
+                  <span class="text-[10px] text-on-surface-variant font-code">• {{ inq.contact_name }} ({{ inq.email }})</span>
+                </div>
+                <div class="text-[10px] text-secondary font-semibold mt-0.5">
+                  Focus: {{ inq.partnership_interests }}
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                {% if inq.is_reviewed %}
+                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Reviewed</span>
+                {% else %}
+                <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">Pending</span>
+                {% endif %}
+                <a href="{% url 'admin_inquiry_toggle' inq.id %}" class="px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-[11px] font-bold text-primary transition-colors">
+                  {% if inq.is_reviewed %}Mark Pending{% else %}Mark Reviewed{% endif %}
+                </a>
+              </div>
+            </div>
+            <p class="text-xs text-on-surface-variant bg-surface-container-low p-2.5 rounded-xl border border-surface-container leading-relaxed">
+              "{{ inq.message }}"
+            </p>
+          </div>
+          {% empty %}
+          <div class="py-4 text-center text-xs text-on-surface-variant">
+            No partnership inquiries received yet.
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN: Telemetry, Domain Distributions & System Activity (4 Cols) -->
+    <div class="lg:col-span-4 space-y-6">
+
+      <!-- 1. Next Masterclass & Attendance Quick Card -->
+      <div class="bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-sm p-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Next Masterclass Session</h3>
+          <a href="{% url 'admin_events' %}" class="text-[10px] font-bold text-secondary hover:underline">All Events ({{ total_events }}) ↗</a>
+        </div>
+
+        {% if upcoming_event_list %}
+        {% with next_ev=upcoming_event_list.0 %}
+        <div class="p-3.5 bg-surface-container-low rounded-xl border border-surface-container space-y-2">
+          <div class="flex items-center justify-between text-xs font-code text-secondary font-bold">
+            <span>{{ next_ev.start_datetime|date:"l, M d" }}</span>
+            <span class="px-2 py-0.5 rounded bg-surface-container text-on-surface text-[10px]">{{ next_ev.category }}</span>
+          </div>
+          <div class="font-bold text-sm text-primary">{{ next_ev.title }}</div>
+          <div class="text-xs text-on-surface-variant flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">location_on</span>
+            <span class="truncate">{{ next_ev.venue }}</span>
+          </div>
+
+          <!-- Capacity Bar -->
+          <div class="space-y-1 pt-1">
+            <div class="flex items-center justify-between text-[11px] font-code">
+              <span class="text-on-surface-variant">Seat Capacity:</span>
+              <span class="font-bold text-primary">{{ next_ev.registered_count }} / {{ next_ev.capacity }}</span>
+            </div>
+            <div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+              <div class="bg-primary h-full rounded-full" data-width="{% widthratio next_ev.registered_count next_ev.capacity 100 %}"></div>
+            </div>
+          </div>
+
+          <div class="pt-2 flex items-center justify-between text-xs font-code border-t border-surface-container">
+            <a href="{% url 'admin_attendance_event' next_ev.id %}" class="font-bold text-secondary hover:underline flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">checklist</span>
+              <span>Roster &amp; Check-in</span>
+            </a>
+            <a href="{% url 'admin_event_edit' next_ev.id %}" class="font-bold text-primary hover:underline">
+              Edit ↗
+            </a>
+          </div>
+        </div>
+        {% endwith %}
+        {% else %}
+        <div class="text-xs text-on-surface-variant italic py-3">No upcoming live sessions currently scheduled.</div>
+        {% endif %}
+      </div>
+
+      <!-- 2. Technical Disciplines & Talent Domain Breakdown -->
+      <div class="bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-sm p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Technical Disciplines</h3>
+          <span class="text-[10px] font-code text-on-surface-variant font-bold">Roster Breakdown</span>
+        </div>
+
+        <div class="space-y-2.5">
+          {% for disc in discipline_stats %}
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs font-medium">
+              <span class="text-primary truncate font-medium">{{ disc.name }}</span>
+              <span class="font-code text-on-surface-variant font-bold shrink-0 ml-2">{{ disc.total }} members</span>
+            </div>
+            <div class="w-full bg-surface-container-low rounded-full h-1.5 overflow-hidden">
+              <div class="bg-primary h-full rounded-full" data-width="{% widthratio disc.total total_members|default:1 100 %}"></div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="text-xs text-on-surface-variant italic">No discipline data recorded yet.</div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- 3. Acquisition Channels (Referral Telemetry) -->
+      <div class="bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-sm p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Talent Acquisition Channels</h3>
+          <span class="text-[10px] font-code text-secondary font-bold">Channel Share</span>
+        </div>
+
+        <div class="space-y-2.5">
+          {% for ref in referral_stats %}
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs font-medium">
+              <span class="text-primary flex items-center gap-1.5 truncate">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0"></span>
+                <span>{{ ref.referral_source }}</span>
+              </span>
+              <span class="font-code text-on-surface-variant font-bold shrink-0">{{ ref.total }}</span>
+            </div>
+            <div class="w-full bg-surface-container-low rounded-full h-1.5 overflow-hidden">
+              <div class="bg-secondary h-full rounded-full" data-width="{% widthratio ref.total total_applications|default:1 100 %}"></div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="text-xs text-on-surface-variant italic">No referral data recorded yet.</div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- 4. Account Roles Breakdown -->
+      <div class="bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-sm p-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-primary">User Accounts &amp; Access Roles</h3>
+          <a href="{% url 'admin_users' %}" class="text-[10px] font-bold text-secondary hover:underline">Manage ↗</a>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl bg-surface-container-low border border-surface-container">
+            <span class="text-[10px] font-bold text-on-surface-variant uppercase">Organizers</span>
+            <div class="text-base font-extrabold text-primary font-code mt-0.5">{{ role_counts.organizers }}</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-surface-container-low border border-surface-container">
+            <span class="text-[10px] font-bold text-on-surface-variant uppercase">Members</span>
+            <div class="text-base font-extrabold text-primary font-code mt-0.5">{{ role_counts.members }}</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-surface-container-low border border-surface-container">
+            <span class="text-[10px] font-bold text-on-surface-variant uppercase">Applicants</span>
+            <div class="text-base font-extrabold text-primary font-code mt-0.5">{{ role_counts.applicants }}</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-surface-container-low border border-surface-container">
+            <span class="text-[10px] font-bold text-on-surface-variant uppercase">Superusers</span>
+            <div class="text-base font-extrabold text-primary font-code mt-0.5">{{ role_counts.superusers }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Real-Time Audit Activity Log -->
+      <div class="bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-sm p-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Live Activity Stream</h3>
+          </div>
+          <span class="text-[10px] font-code text-on-surface-variant">Audit Trail</span>
+        </div>
+
+        <div class="divide-y divide-surface-container-high">
+          {% for act in recent_activities %}
+          <div class="py-2.5 flex items-start gap-2.5">
+            <div class="w-6 h-6 rounded-lg bg-surface-container text-primary flex items-center justify-center shrink-0 mt-0.5">
+              <span class="material-symbols-outlined text-[14px]">
+                {% if 'LOGIN' in act.activity_type %}login{% elif 'LOGOUT' in act.activity_type %}logout{% elif 'PASSWORD' in act.activity_type %}lock_reset{% elif 'APPLICATION' in act.activity_type %}how_to_reg{% elif 'ROLE' in act.activity_type or 'STATUS' in act.activity_type %}manage_accounts{% elif 'EVENT' in act.activity_type or 'CHECKIN' in act.activity_type %}celebration{% elif 'CERTIFICATE' in act.activity_type %}workspace_premium{% elif 'FEEDBACK' in act.activity_type %}star{% else %}bolt{% endif %}
+              </span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-bold text-primary truncate">{{ act.title }}</p>
+                <span class="text-[10px] text-on-surface-variant font-code shrink-0">{{ act.created_at|timesince }} ago</span>
+              </div>
+              <p class="text-[11px] text-on-surface-variant mt-0.5 leading-snug">{{ act.description }}</p>
+            </div>
+          </div>
+          {% empty %}
+          <div class="py-4 text-center text-xs text-on-surface-variant">
+            No activity events recorded yet.
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-width]').forEach(function(el) {
+    var w = parseInt(el.getAttribute('data-width') || '0', 10);
+    el.style.width = Math.min(100, Math.max(0, w)) + '%';
+  });
+</script>
+{% endblock %}

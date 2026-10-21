@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-container": "#745c00", "primary": "#000000", "secondary-fixed-dim": "#e9c349", "on-primary-container": "#858383", "outline-variant": "#c4c7c7", "on-background": "#1b1c1c", "tertiary": "#000000", "tertiary-fixed-dim": "#c6c7c5", "surface-container-highest": "#e3e2e2", "surface-container": "#efeded", "tertiary-container": "#1a1c1b", "on-secondary-fixed-variant": "#574500", "on-secondary": "#ffffff", "tertiary-fixed": "#e2e3e1", "surface-bright": "#fbf9f9", "inverse-primary": "#c8c6c5", "surface-container-lowest": "#ffffff", "outline": "#747878", "primary-container": "#1c1b1b", "on-primary": "#ffffff", "surface-container-low": "#f5f3f3", "surface": "#fbf9f9", "on-surface-variant": "#444748", "secondary-fixed": "#ffe088", "secondary-container": "#fed65b", "on-tertiary-fixed": "#1a1c1b", "surface-container-high": "#e9e8e7", "on-surface": "#1b1c1c", "on-secondary-fixed": "#241a00", "inverse-on-surface": "#f2f0f0", "on-tertiary": "#ffffff", "primary-fixed": "#e5e2e1", "surface-variant": "#e3e2e2", "error-container": "#ffdad6", "on-tertiary-fixed-variant": "#454746", "on-error-container": "#93000a", "on-error": "#ffffff", "on-tertiary-container": "#838483", "on-primary-fixed": "#1c1b1b", "primary-fixed-dim": "#c8c6c5", "secondary": "#735c00", "surface-dim": "#dbdad9", "error": "#ba1a1a", "on-primary-fixed-variant": "#474646", "surface-tint": "#5f5e5e", "inverse-surface": "#303031", "background": "#fbf9f9" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2.5rem", "space-xs": "0.25rem", "margin": "3rem", "space-sm": "0.5rem", "gutter-mobile": "1rem", "margin-mobile": "1.25rem", "margin-tablet": "2rem", "space-md": "1rem", "gutter": "1.5rem", "space-lg": "1.5rem" }, "fontFamily": { "headline-sm": ["Manrope"], "display-mobile": ["Manrope"], "title-md": ["Manrope"], "label-sm": ["Manrope"], "headline-md": ["Manrope"], "headline-lg": ["Manrope"], "display": ["Manrope"], "headline-lg-mobile": ["Manrope"], "code": ["JetBrains Mono"], "body-lg": ["Manrope"], "label-md": ["Manrope"], "body-md": ["Manrope"] }, "fontSize": { "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "700" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "code": ["13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "500" }], "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter-mobile flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary font-headline-sm text-label-md">TC</div><div class="flex flex-col"><span class="font-headline-sm text-title-md text-on-surface font-bold tracking-tight">TechConnect</span><span class="font-label-sm text-[10px] text-secondary font-semibold uppercase tracking-wider">Hargeisa Hub</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Notifications" class="relative w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-secondary ring-2 ring-surface"></span></button><div class="flex items-center gap-space-xs pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="hidden font-label-md text-label-md text-on-surface font-medium">Guled A.</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full pb-8">
+<!-- Member Welcome Card -->
+<div class="px-gutter-mobile pt-space-sm pb-space-xs">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-start justify-between gap-space-sm mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Portrait photo of a young professional Somali male software engineer wearing glasses and a minimalist charcoal sweater, smiling warmly in a bright modern tech innovation space in Hargeisa with soft natural sunlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWIaOOssuKJgTHb5cigUkB-JJDD--D7mMxjOUNtIUo58Xj2Oliz9EUrfUJhGcUdLC3XLe-fJzTzFOMjJnsRLgPjqqq5MZe01GN6y-8nq_y9JQ_XA7san57TlkF3MmQ2cNFmFlhCcFb-ZsrBctVz4BgSrxsslENjujhpgsCp9Ib6u7Rhs9A4n1f82E2F1YnZmNrkgwrAqerNryIY-gQxvwemIoBHli7GMXjQ7bIAG0-DXmd4NfqbXsMPg"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h1 class="font-headline-sm text-title-md text-on-surface font-bold truncate">Guled Abdi</h1>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-label-sm text-[10px] tracking-wide uppercase">Verified</span>
+</div>
+<p class="font-body-md text-label-md text-on-surface-variant truncate">Sr. Full Stack · Telesom Core Lab</p>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-[11px] mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Cohort #2</span>
+<span>•</span>
+<span class="text-on-surface font-medium">Hargeisa Node</span>
+</div>
+</div>
+</div>
+<button aria-label="QR Check-in Pass" class="w-10 h-10 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface flex items-center justify-center transition-colors shadow-sm" id="openPassBtn">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+</button>
+</div>
+<!-- Quick Action CTA Buttons -->
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs pb-space-sm">
+<button class="h-11 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px]">calendar_add_on</span>
+<span>Book Mentorship</span>
+</button>
+<button class="h-11 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px]">explore</span>
+<span>Browse Events</span>
+</button>
+</div>
+<!-- Profile Completion Tracker -->
+<div class="bg-surface-container-low rounded-lg p-space-sm mt-1">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-[11px] font-bold text-on-surface">Profile Strength</span>
+<span class="font-code text-label-sm text-secondary font-semibold">85%</span>
+</div>
+<button class="font-label-sm text-[11px] text-secondary font-bold hover:underline flex items-center gap-0.5">
+<span>Complete</span>
+<span class="material-symbols-outlined text-[12px]">arrow_forward</span>
+</button>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 85%;"></div>
+</div>
+<p class="font-body-md text-[11px] text-on-surface-variant mt-1.5 line-clamp-1">
+          Add GitHub repository showcase to unlock priority co-working pass
+        </p>
+</div>
+</div>
+</div>
+<!-- Hub Live Status Banner -->
+<div class="px-gutter-mobile py-space-xs">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-2">
+<div class="relative flex items-center justify-center w-2.5 h-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">Hargeisa Hub Live</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-[10px]">OPEN</span>
+</div>
+<span class="font-code text-[11px] text-on-surface-variant">Closes 22:00 EAT</span>
+</div>
+<div class="grid grid-cols-3 gap-2 pt-1 text-center">
+<div class="bg-surface-container-low rounded-lg py-1.5 px-1">
+<div class="font-headline-sm text-title-md font-bold text-on-surface">68%</div>
+<div class="font-label-sm text-[10px] text-on-surface-variant leading-tight">Occupied (34/50)</div>
+</div>
+<div class="bg-surface-container-low rounded-lg py-1.5 px-1">
+<div class="font-headline-sm text-title-md font-bold text-secondary">2 Pods</div>
+<div class="font-label-sm text-[10px] text-on-surface-variant leading-tight">Available Now</div>
+</div>
+<div class="bg-surface-container-low rounded-lg py-1.5 px-1">
+<div class="font-headline-sm text-title-md font-bold text-on-surface">940</div>
+<div class="font-label-sm text-[10px] text-on-surface-variant leading-tight">Mbps Fiber Uplink</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Metrics 2x2 Grid -->
+<div class="px-gutter-mobile py-space-xs">
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-1">
+<span class="material-symbols-outlined text-[18px]">confirmation_number</span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">2</div>
+<div class="font-label-md text-label-md font-semibold text-on-surface">Confirmed RSVPs</div>
+<div class="font-label-sm text-[11px] text-on-surface-variant truncate mt-0.5">Next: Fri 17:00 EAT</div>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-1">
+<span class="material-symbols-outlined text-[18px]">hourglass_top</span>
+<span class="font-label-sm text-[10px] font-bold text-secondary">Action Req</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">1</div>
+<div class="font-label-md text-label-md font-semibold text-on-surface">Office Hour</div>
+<div class="font-label-sm text-[11px] text-on-surface-variant truncate mt-0.5">Pending Jamaal K.</div>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-1">
+<span class="material-symbols-outlined text-[18px]">school</span>
+<span class="font-label-sm text-[10px] font-bold px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface">Tier 3</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">4</div>
+<div class="font-label-md text-label-md font-semibold text-on-surface">Mentees Guided</div>
+<div class="font-label-sm text-[11px] text-on-surface-variant truncate mt-0.5">2 active requests</div>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-1">
+<span class="material-symbols-outlined text-[18px]">hub</span>
+<span class="font-label-sm text-[10px] font-bold text-emerald-600">+6 this wk</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">34</div>
+<div class="font-label-md text-label-md font-semibold text-on-surface">Connections</div>
+<div class="font-label-sm text-[11px] text-on-surface-variant truncate mt-0.5">Hargeisa Network</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pinned Announcement Banner -->
+<div class="px-gutter-mobile py-space-xs">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1 bg-secondary"></div>
+<div class="flex items-center justify-between gap-2 mb-1.5">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-label-sm text-[10px] font-bold uppercase">
+<span class="material-symbols-outlined text-[12px]">campaign</span>
+<span>Pinned Grant</span>
+</div>
+<span class="font-label-sm text-[11px] text-on-surface-variant">2d ago</span>
+</div>
+<h3 class="font-headline-sm text-title-md font-bold text-on-surface mb-1">Horn of Africa Open-Source Builders Sprint 2025</h3>
+<p class="font-body-md text-[13px] text-on-surface-variant mb-space-sm">
+        $5,000 Venture Grant Pool sponsored by local ecosystem partners. Building financial rails and logistics tooling for regional tech autonomy.
+      </p>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-3 font-code text-label-sm text-on-surface font-semibold">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-secondary">payments</span>$5k USD</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-on-surface-variant">group</span>14 Teams</span>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-sm text-[12px] font-semibold flex items-center gap-1 shadow-sm active:scale-95 transition-transform">
+<span>Apply</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Upcoming Events & Sessions -->
+<div class="px-gutter-mobile pt-space-sm pb-space-xs">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface">Upcoming Schedule</h2>
+<span class="w-5 h-5 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center font-label-sm text-[11px]">2</span>
+</div>
+<a class="font-label-md text-label-md text-secondary font-semibold hover:underline" href="#">View Calendar</a>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Event Card 1: Keynote -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-start justify-between gap-2 mb-2">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-[11px] font-semibold">
+<span class="material-symbols-outlined text-[12px]">mic</span>
+<span>Keynote Seminar</span>
+</div>
+<span class="font-code text-[11px] text-on-surface-variant font-medium">May 24 · 17:00 EAT</span>
+</div>
+<h3 class="font-headline-sm text-title-md font-bold text-on-surface mb-1">
+          Scaling Microservices &amp; Mobile Money Rails in Somaliland
+        </h3>
+<p class="font-body-md text-[13px] text-on-surface-variant mb-space-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span>Hargeisa Tech Center · Hall A</span>
+</p>
+<!-- Speaker Info & Actions -->
+<div class="pt-space-xs flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Close up professional portrait of Khadar Warsame, a senior cloud infrastructure architect from Hargeisa wearing dark framed spectacles with a neutral corporate technology backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZcOVhR6eQvy49J6sKiE_I6uzkcCO-lw4Iabnmwv0BQRXIkviw43fgxZBRS8CCMcnf_X2VP-V9X62jHsoF0dPDWeZWegU-4rnHECR5HrIMFkF8dn4SdwETWcRjqmQmoSs2RK0oYJahz_zaSQRw2EiMja3TqETpxKIMeknf1SHirD9g5sJXzRED0ED2vrg-9f-bYOGXPPl7-kRbbQ4bK6FoLe2oJoPUa8J1IRrruYmiworGM63APU5tLw"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Khadar Warsame</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant leading-tight">Dahabshiil Core</span>
+</div>
+</div>
+<button class="h-9 px-3 rounded-lg bg-primary text-on-primary font-label-sm text-[12px] font-semibold flex items-center gap-1 shadow-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[16px]">qr_code</span>
+<span>Pass &amp; QR</span>
+</button>
+</div>
+</div>
+<!-- Event Card 2: 1-on-1 Mentorship -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-start justify-between gap-2 mb-2">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-label-sm text-[11px] font-semibold">
+<span class="material-symbols-outlined text-[12px]">handshake</span>
+<span>1-on-1 Mentorship</span>
+</div>
+<span class="font-code text-[11px] text-on-surface-variant font-medium">May 22 · 10:00 EAT</span>
+</div>
+<h3 class="font-headline-sm text-title-md font-bold text-on-surface mb-1">
+          Senior Backend Mentorship: Database Sharding &amp; Indexing Strategies
+        </h3>
+<p class="font-body-md text-[13px] text-on-surface-variant mb-space-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">meeting_room</span>
+<span>Innovation Hub · Pod 3</span>
+</p>
+<!-- Topic Prep Confirmation -->
+<div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container-low mb-space-sm font-label-sm text-[11px] text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+<span class="truncate">Topic prep submitted: <span class="font-code text-on-surface-variant">PostgreSQL partitions</span></span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Portrait of Jamaal K., seasoned engineering director in Hargeisa with a composed, knowledgeable expression wearing business casual attire." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA__0aW7_MQr7qzktE1Sfo-N3MjXPnlE1c2-CR8C4soJWxC2hL5gA1ouS3S9-enCJ4oKqU9pkvY2td8c8UsnVKv-mwLDWYuBEyCzQot5kbVbqv8wbKD5zEAKpXvxqbSOVeoOGIVHlgF7WEotO9CXcG9jkQynqzGXpUuZTZmFKkzVN8f_00cEGEzipgFn0U0Z4jRKnNvVMeohlm_Xxkspq7Ng8OSLDlMbCqDUaIdbY0eeSQjG5D6dniXjQ"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Jamaal K.</span>
+<span class="font-label-sm text-[11px] text-secondary font-semibold leading-tight">Lead Mentor</span>
+</div>
+</div>
+<button class="h-9 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-[12px] font-bold flex items-center gap-1 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[16px]">videocam</span>
+<span>Launch Link</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Mentorship Quick Dock -->
+<div class="px-gutter-mobile pt-space-sm pb-space-xs">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-sm">
+<h2 class="font-headline-sm text-title-md font-bold text-on-surface">Mentorship Hub</h2>
+<span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-label-sm text-[10px] font-bold">2 Slots Open</span>
+</div>
+<!-- Segmented Tabs -->
+<div class="flex bg-surface-container-low p-1 rounded-lg mb-space-sm" id="mentorTabs">
+<button class="flex-1 py-1.5 text-center rounded-md font-label-md text-label-md font-bold bg-surface-container-lowest text-on-surface shadow-xs transition-all" data-tab="mentor" type="button">
+          As Mentor (4)
+        </button>
+<button class="flex-1 py-1.5 text-center rounded-md font-label-md text-label-md font-medium text-on-surface-variant hover:text-on-surface transition-all" data-tab="mentee" type="button">
+          As Mentee (1)
+        </button>
+</div>
+<!-- Focus Domain Pill -->
+<div class="flex items-center justify-between mb-space-sm bg-surface-container-low/70 rounded-lg p-2.5">
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Offering Guidance In</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Backend &amp; Distributed Systems</span>
+</div>
+<button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+</button>
+</div>
+<!-- Active Mentees List -->
+<div class="flex flex-col gap-2">
+<span class="font-label-sm text-[11px] text-on-surface-variant font-semibold uppercase tracking-wider">Active Cohort Mentees</span>
+<!-- Mentee 1 -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-9 h-9 rounded-full overflow-hidden bg-surface-container-high shrink-0">
+<img class="w-full h-full object-cover" data-alt="Portrait of Suleiman Yonis, an ambitious Somali junior software engineer wearing a modern teal polo shirt in an engineering incubator office." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5go2NKuWR9SQ0PG3KadiSFTChq7If-YtA9yjiCR4KvK7Cxy5IbDOpXoGzVgAJvTae_HRqLoHVZjNwXufNr7ZdbpU2-g2IfpMBhLPP3xo6r7H9hGH4Aznmbe6mf1xaZjIiF5hDgIaszXPOXVIRBOgw9F5-rn1iCbmL8YMtc0oAzUYSPJjPyp72x_VfWiXc9B3rmZV1cae845Pjx-hRnii4pqyJ0c2RfCbbuxHmXP6eZkHFOedeuXKAxg"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md font-bold text-on-surface truncate">Suleiman Yonis</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant truncate">Next: Code Review · Tomorrow</span>
+</div>
+</div>
+<button aria-label="Chat with Suleiman" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center shadow-xs hover:bg-surface-container-high active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+</div>
+<!-- Mentee 2 -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-9 h-9 rounded-full overflow-hidden bg-surface-container-high shrink-0">
+<img class="w-full h-full object-cover" data-alt="Headshot of Fadumo Omer, an aspiring cloud backend engineer with a bright smile wearing a light beige headscarf in a modern Somali tech hub co-working space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDySdtdTG5eVD5Mq1K_dXEBmUln-oHOKP6eKeyrgxpaNZu-2vks78Adn_-uSNdXhfBk0RfEyJbjk-p1kgZzboj1V2qbQ3pqlzRziJeMIIr1Dp9uOzKoCM4qgNxESv1gc0VHFB45xUOO3XzJnHO7HB9Sg9aYkryIme3DHte1HJcrKRZoiWrHXQccr-mU694N3m7tSf9wVP5Y0puYGWrhwrNQSb98Hhyn1qAsGqM1UOpyRYEUOTw5OqezTg"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md font-bold text-on-surface truncate">Fadumo Omer</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant truncate">Task: Redis Caching Layer submitted</span>
+</div>
+</div>
+<button aria-label="Chat with Fadumo" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center shadow-xs hover:bg-surface-container-high active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Recommended Tech Connections -->
+<div class="px-gutter-mobile pt-space-sm pb-space-md">
+<div class="flex items-center justify-between mb-space-xs">
+<h2 class="font-headline-sm text-title-md font-bold text-on-surface">Grow Your Network</h2>
+<a class="font-label-md text-label-md text-secondary font-semibold hover:underline" href="#">Explore Directory</a>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Connection 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex items-center justify-between gap-space-sm">
+<div class="flex items-start gap-3 min-w-0">
+<div class="w-11 h-11 rounded-full overflow-hidden bg-surface-container-high shrink-0 mt-0.5">
+<img class="w-full h-full object-cover" data-alt="Portrait of Amina Yusuf, an elegant Somali lead product designer wearing a stylish minimalist black outfit, in a brightly lit architectural studio in Hargeisa." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDthRcGURC7UOac4muL0u8yIOqbreyn0Me2qIJVXDFItSFslGGES1K9D84CKHhy1mkbMTtEWbSiQLz7NsJTUOGy3yNJN9YHpslEP-ADgT95BbNvs44kZNaIHGLIgbuCv1nSThTL3NbnRaflHKN8O_bYjpY59EAWwj6WS85clv3V1HbtIQ6q509xWUnISD0zooN2ImGa_mwTwYMl9Gft-KS-X5HYH_RnCbJJR4CEooBzmOI3MhMsR9Dlog"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md font-bold text-on-surface truncate">Amina Yusuf</span>
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-body-md text-[12px] text-on-surface-variant truncate">Lead Product Designer · Eastwave</span>
+<span class="font-label-sm text-[11px] text-secondary font-medium mt-1 truncate">Shared interest: Fintech UX</span>
+</div>
+</div>
+<button class="px-3 h-9 rounded-lg bg-primary text-on-primary font-label-sm text-[12px] font-semibold shrink-0 shadow-sm active:scale-95 transition-transform">
+          Connect
+        </button>
+</div>
+<!-- Connection 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex items-center justify-between gap-space-sm">
+<div class="flex items-start gap-3 min-w-0">
+<div class="w-11 h-11 rounded-full overflow-hidden bg-surface-container-high shrink-0 mt-0.5">
+<img class="w-full h-full object-cover" data-alt="Portrait of Khadar Warsame, a senior Somali DevOps and systems engineer smiling calmly with laptop in background in a modern technical workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvzX9k2LtzFsfkV7o4ECG6YC73UGs50h0XHlyrOe0ogdQKgp4eeO3wUXSGH-XsHzVFs4pZ3EAgIJ1splu5mahZFfK0TwJVIEOnVWGswM_nSjo58nongItBWRXb6GJ117XPCuxJNYD30l1eLtPC7oOIyuJVZtxKF_U8PKKIB6ghliP9MYcd8zG0uInHanMmsmj6wi22iknAGsnF3CAadv313TbtXl8E1Rnx09_6Ap1yS8a8dP9IlNbk-g"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md font-bold text-on-surface truncate">Khadar Warsame</span>
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-body-md text-[12px] text-on-surface-variant truncate">DevOps Lead · Dahabshiil Core</span>
+<span class="font-label-sm text-[11px] text-secondary font-medium mt-1 truncate">Shared: Kubernetes, Go</span>
+</div>
+</div>
+<button class="px-3 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-[12px] font-bold shrink-0 active:scale-95 transition-transform">
+          Connect
+        </button>
+</div>
+</div>
+</div>
+<!-- Quick Pass Modal Overlay -->
+<div class="hidden fixed inset-0 z-50 bg-primary/40 backdrop-blur-xs flex items-center justify-center p-gutter-mobile" id="passModal">
+<div class="bg-surface-container-lowest rounded-xl p-space-lg w-full max-w-sm shadow-xl flex flex-col items-center text-center">
+<div class="flex items-center justify-between w-full mb-space-sm">
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-secondary font-bold">Hargeisa Hub Member Pass</span>
+<button class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface" id="closePassBtn">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="p-3 bg-surface-container-lowest rounded-lg shadow-sm my-space-xs">
+<!-- Visual QR Mockup -->
+<div class="w-44 h-44 bg-surface-container-low rounded flex items-center justify-center p-2">
+<svg class="w-full h-full text-primary" fill="currentColor" viewbox="0 0 100 100">
+<path d="M0,0 h30 v30 h-30 z M5,5 v20 h20 v-20 z M10,10 h10 v10 h-10 z"></path>
+<path d="M70,0 h30 v30 h-30 z M75,5 v20 h20 v-20 z M80,10 h10 v10 h-10 z"></path>
+<path d="M0,70 h30 v30 h-30 z M5,75 v20 h20 v-20 z M10,80 h10 v10 h-10 z"></path>
+<rect height="8" width="8" x="40" y="10"></rect>
+<rect height="8" width="8" x="52" y="10"></rect>
+<rect height="6" width="20" x="40" y="25"></rect>
+<rect height="6" width="12" x="10" y="40"></rect>
+<rect height="15" width="8" x="25" y="45"></rect>
+<rect height="10" width="10" x="40" y="40"></rect>
+<rect height="8" width="8" x="55" y="40"></rect>
+<rect height="8" width="20" x="70" y="45"></rect>
+<rect height="8" width="15" x="40" y="60"></rect>
+<rect height="20" width="10" x="60" y="60"></rect>
+<rect height="15" width="10" x="45" y="75"></rect>
+<rect height="15" width="15" x="75" y="75"></rect>
+</svg>
+</div>
+</div>
+<div class="font-headline-sm text-title-md font-bold text-on-surface mt-space-xs">Guled Abdi</div>
+<div class="font-code text-label-sm text-on-surface-variant">ID: TC-HGA-0428</div>
+<div class="flex items-center gap-1.5 text-emerald-700 font-label-sm text-[11px] mt-space-xs bg-emerald-50 px-2.5 py-1 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+<span>Priority Co-Working Access Verified</span>
+</div>
+<button class="mt-space-md w-full h-11 bg-primary text-on-primary rounded-lg font-label-md text-label-md font-semibold" id="closePassDoneBtn">
+        Done
+      </button>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    // Mentorship Segmented Tabs Interaction
+    const mentorTabs = document.querySelectorAll('#mentorTabs button');
+    mentorTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        mentorTabs.forEach(t => {
+          t.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'font-bold', 'shadow-xs');
+          t.classList.add('text-on-surface-variant', 'font-medium');
+        });
+        tab.classList.remove('text-on-surface-variant', 'font-medium');
+        tab.classList.add('bg-surface-container-lowest', 'text-on-surface', 'font-bold', 'shadow-xs');
+      });
+    });
+
+    // Pass Modal Interaction
+    const passModal = document.getElementById('passModal');
+    const openPassBtn = document.getElementById('openPassBtn');
+    const closePassBtn = document.getElementById('closePassBtn');
+    const closePassDoneBtn = document.getElementById('closePassDoneBtn');
+
+    if (openPassBtn && passModal) {
+      openPassBtn.addEventListener('click', () => {
+        passModal.classList.remove('hidden');
+      });
+      closePassBtn?.addEventListener('click', () => {
+        passModal.classList.add('hidden');
+      });
+      closePassDoneBtn?.addEventListener('click', () => {
+        passModal.classList.add('hidden');
+      });
+      passModal.addEventListener('click', (e) => {
+        if (e.target === passModal) {
+          passModal.classList.add('hidden');
+        }
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 transition-colors text-primary font-bold" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-label-sm text-[11px]">Home</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="directory" href="#"><span class="material-symbols-outlined text-[22px]">badge</span><span class="font-label-sm text-[11px]">Directory</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="events" href="#"><span class="material-symbols-outlined text-[22px]">event</span><span class="font-label-sm text-[11px]">Events</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="mentorship" href="#"><span class="material-symbols-outlined text-[22px]">school</span><span class="font-label-sm text-[11px]">Mentorship</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="profile" href="#"><span class="material-symbols-outlined text-[22px]">account_circle</span><span class="font-label-sm text-[11px]">Profile</span></a></div></nav></body></html>

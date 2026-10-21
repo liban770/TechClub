@@ -1,0 +1,268 @@
+{% extends 'layouts/public_base.html' %}
+
+{% block title %}Corporate Partners &amp; Industry Trust — TechClub Hargeisa{% endblock %}
+
+{% block content %}
+<div
+  class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin py-8 md:py-16 space-y-12 md:space-y-20">
+
+  <!-- Hero Header -->
+  <header class="text-center max-w-3xl mx-auto space-y-4">
+    <div
+      class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high border border-surface-container">
+      <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+      <span class="text-[11px] font-bold text-primary uppercase tracking-widest font-label-sm">Institutional Trust &amp;
+        Industry Endorsements</span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-primary tracking-tight leading-tight">
+      Backed by the Leaders Shaping Our Tech &amp; Economic Future
+    </h1>
+    <p class="text-sm md:text-base text-on-surface-variant leading-relaxed">
+      TechClub partners with forward-thinking telecommunication groups, financial institutions, and tech enterprises
+      committed to elevating engineering talent, cloud architecture, and digital innovation in Somaliland.
+    </p>
+    <div class="flex items-center justify-center flex-wrap gap-3 pt-2">
+      <a href="{% url 'partner_apply' %}"
+        class="h-11 px-6 rounded-xl bg-primary hover:bg-neutral-800 text-on-primary font-bold text-xs tracking-wide shadow-md transition-all flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">handshake</span>
+        <span>Become a Corporate Partner</span>
+      </a>
+      <a href="{% url 'about' %}"
+        class="h-11 px-5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold text-xs transition-colors flex items-center gap-2">
+        <span>About TechClub Mission</span>
+        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Chairman & Executive Trust Endorsements -->
+  {% if chairman_endorsements %}
+  <section class="space-y-6">
+    <div class="flex items-center justify-between border-b border-surface-container-high pb-4">
+      <div>
+        <span class="text-[11px] font-bold uppercase tracking-wider text-secondary">Executive Leadership</span>
+        <h2 class="text-xl md:text-2xl font-extrabold text-primary tracking-tight">Chairman &amp; Executive Endorsements
+        </h2>
+      </div>
+      <span class="text-xs font-code text-on-surface-variant font-medium">Verified Corporate Backing</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {% for partner in chairman_endorsements %}
+      <div
+        class="bg-surface-container-lowest border border-surface-container-high rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between space-y-6 relative overflow-hidden group hover:border-secondary/50 transition-colors">
+        <span
+          class="material-symbols-outlined text-6xl text-surface-container absolute top-4 right-4 pointer-events-none opacity-40 select-none">format_quote</span>
+
+        <div class="space-y-4 relative z-10">
+          <div
+            class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-surface-container text-[11px] font-bold text-primary">
+            <span>{{ partner.company_name }}</span>
+            <span class="text-on-surface-variant">•</span>
+            <span class="text-secondary font-code">{{ partner.get_tier_display }}</span>
+          </div>
+
+          <p class="text-sm md:text-base text-on-surface leading-relaxed italic font-medium">
+            "{{ partner.chairman_quote }}"
+          </p>
+        </div>
+
+        <div class="pt-4 border-t border-surface-container-high flex flex-wrap sm:flex-nowrap items-center justify-between gap-4 relative z-10">
+          <div class="flex items-center gap-3.5">
+            {% if partner.display_chairman_photo %}
+            <img src="{{ partner.display_chairman_photo }}" alt="{{ partner.chairman_name }}"
+              class="w-13 h-13 rounded-full object-cover ring-2 ring-surface shadow-sm" />
+            {% else %}
+            <div
+              class="w-13 h-13 rounded-full bg-primary text-secondary-container font-extrabold text-base flex items-center justify-center ring-2 ring-surface shadow-sm">
+              {{ partner.chairman_name|slice:':2'|upper }}
+            </div>
+            {% endif %}
+            <div>
+              <h3 class="font-bold text-sm text-primary">{{ partner.chairman_name }}</h3>
+              <p class="text-xs text-on-surface-variant leading-tight mt-0.5">{{ partner.chairman_title }}</p>
+              <p class="text-[11px] font-code text-secondary font-bold mt-0.5">{{ partner.company_name }}</p>
+            </div>
+          </div>
+
+          {% if partner.display_logo %}
+          <img src="{{ partner.display_logo }}" alt="{{ partner.company_name }} Logo"
+            class="h-8 max-w-[100px] object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Verified Corporate Partners Grid -->
+  <section class="space-y-10">
+    <!-- Strategic Headline Partners -->
+    {% if strategic_partners %}
+    <div class="space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary text-[20px]">diamond</span>
+        <h3 class="text-xs uppercase tracking-widest font-extrabold text-primary">Strategic Headline Partners</h3>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for p in strategic_partners %}
+        <a href="{{ p.website_url }}" target="_blank" rel="noopener noreferrer"
+          class="bg-surface-container-lowest border-2 border-primary/20 hover:border-primary rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+          <div class="flex items-center justify-between gap-3 mb-6">
+            <span
+              class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold tracking-tight">Strategic
+              Partner</span>
+            <span
+              class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">open_in_new</span>
+          </div>
+          <div class="h-16 flex items-center justify-center my-2">
+            {% if p.display_logo %}
+            <img src="{{ p.display_logo }}" alt="{{ p.company_name }}"
+              class="max-h-14 max-w-[180px] object-contain group-hover:scale-105 transition-transform" />
+            {% else %}
+            <span class="font-extrabold text-lg text-primary">{{ p.company_name }}</span>
+            {% endif %}
+          </div>
+          <div class="pt-4 border-t border-surface-container text-center mt-4">
+            <span class="text-xs font-bold text-primary">{{ p.company_name }}</span>
+            <span class="block text-[11px] text-on-surface-variant font-code">{{ p.industry }}</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Premier & Ecosystem Partners -->
+    {% if premier_partners or ecosystem_partners %}
+    <div class="space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary text-[20px]">verified</span>
+        <h3 class="text-xs uppercase tracking-widest font-extrabold text-primary">Premier &amp; Ecosystem Partners</h3>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {% for p in premier_partners %}
+        <a href="{{ p.website_url }}" target="_blank" rel="noopener noreferrer"
+          class="bg-surface-container-lowest border border-surface-container-high hover:border-secondary rounded-xl p-5 shadow-xs hover:shadow-sm transition-all flex flex-col items-center justify-center text-center group">
+          <div class="h-12 flex items-center justify-center mb-3">
+            <img src="{{ p.display_logo }}" alt="{{ p.company_name }}"
+              class="max-h-10 max-w-[130px] object-contain group-hover:scale-105 transition-transform" />
+          </div>
+          <span class="text-xs font-bold text-primary truncate max-w-full">{{ p.company_name }}</span>
+          <span class="text-[10px] text-on-surface-variant font-code mt-0.5">Premier Innovation</span>
+        </a>
+        {% endfor %}
+
+        {% for p in ecosystem_partners %}
+        <a href="{{ p.website_url }}" target="_blank" rel="noopener noreferrer"
+          class="bg-surface-container-lowest border border-surface-container-high hover:border-secondary rounded-xl p-5 shadow-xs hover:shadow-sm transition-all flex flex-col items-center justify-center text-center group">
+          <div class="h-12 flex items-center justify-center mb-3">
+            <img src="{{ p.display_logo }}" alt="{{ p.company_name }}"
+              class="max-h-10 max-w-[130px] object-contain group-hover:scale-105 transition-transform" />
+          </div>
+          <span class="text-xs font-bold text-primary truncate max-w-full">{{ p.company_name }}</span>
+          <span class="text-[10px] text-on-surface-variant font-code mt-0.5">Ecosystem Partner</span>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Community & Venue Supporters -->
+    {% if community_supporters %}
+    <div class="space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary text-[20px]">groups</span>
+        <h3 class="text-xs uppercase tracking-widest font-extrabold text-primary">Community &amp; Venue Supporters</h3>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {% for p in community_supporters %}
+        <a href="{{ p.website_url }}" target="_blank" rel="noopener noreferrer"
+          class="bg-surface-container-lowest border border-surface-container-high rounded-xl p-4 flex items-center gap-3 group hover:border-primary transition-colors">
+          <img src="{{ p.display_logo }}" alt="{{ p.company_name }}" class="w-8 h-8 object-contain" />
+          <div class="min-w-0">
+            <span class="text-xs font-bold text-primary truncate block">{{ p.company_name }}</span>
+            <span class="text-[10px] text-on-surface-variant font-code">{{ p.industry }}</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Empty State (When no partners are approved yet) -->
+    {% if not all_partners %}
+    <div
+      class="bg-surface-container-lowest border border-surface-container-high rounded-2xl p-12 text-center max-w-xl mx-auto space-y-4 shadow-sm">
+      <div
+        class="w-14 h-14 rounded-2xl bg-secondary-container text-on-secondary-container flex items-center justify-center mx-auto shadow-sm">
+        <span class="material-symbols-outlined text-[32px]">handshake</span>
+      </div>
+      <div class="space-y-1">
+        <h3 class="text-lg font-bold text-primary">Be the Inaugural Corporate Partner</h3>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          We are currently formalizing partnerships with leading telecommunication networks, banks, and technology
+          leaders. Join as a founding sponsor and position your brand at the forefront of the ecosystem.
+        </p>
+      </div>
+      <a href="{% url 'partner_apply' %}"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-on-primary hover:bg-neutral-800 text-xs font-bold transition-all shadow-sm">
+        <span>Submit Partnership Proposal</span>
+        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </a>
+    </div>
+    {% endif %}
+  </section>
+
+  <!-- Partnership Value & CTA Section -->
+  <section
+    class="bg-primary text-on-primary rounded-3xl p-8 md:p-12 shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+    <div class="md:col-span-2 space-y-3">
+      <span class="text-xs uppercase tracking-widest font-extrabold text-secondary-container font-code">Why Companies
+        Partner With TechClub</span>
+      <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight">
+        Direct Access to Somaliland’s Top Engineering &amp; Architecture Talent
+      </h2>
+      <p class="text-xs md:text-sm text-neutral-300 leading-relaxed max-w-xl">
+        Partnering organizations receive direct employer branding across tech masterclasses, priority talent recruitment
+        from our vetted member directory, and high-visibility corporate endorsement on all official credentials.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+        <div class="border-l-2 border-secondary-container pl-3">
+          <span class="block text-xl font-black text-white">500+</span>
+          <span class="text-[11px] text-neutral-400">Vetted Developers &amp; Architects</span>
+        </div>
+        <div class="border-l-2 border-secondary-container pl-3">
+          <span class="block text-xl font-black text-white">100%</span>
+          <span class="text-[11px] text-neutral-400">Technical Focus</span>
+        </div>
+        <div class="border-l-2 border-secondary-container pl-3">
+          <span class="block text-xl font-black text-white">Direct</span>
+          <span class="text-[11px] text-neutral-400">Executive Endorsement Visibility</span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-surface-container-lowest/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center space-y-4">
+      <h3 class="text-sm font-bold text-white">Ready to Back the Movement?</h3>
+      <p class="text-xs text-neutral-300 leading-relaxed">
+        Submit your corporate proposal or contact our founder directly on WhatsApp to explore strategic tiers.
+      </p>
+      <a href="{% url 'partner_apply' %}"
+        class="w-full py-3 rounded-xl bg-secondary-container text-on-secondary-container hover:bg-amber-400 font-extrabold text-xs tracking-wide shadow-md transition-all flex items-center justify-center gap-1.5">
+        <span>Submit Partnership Proposal</span>
+        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </a>
+      <a href="https://api.whatsapp.com/send?phone=252637170860&text=Hello%20TechClub%20Leadership,%20our%20company%20is%20interested%20in%20a%20Corporate%20Partnership."
+        target="_blank" rel="noopener noreferrer"
+        class="inline-flex items-center gap-1.5 text-[11px] font-bold text-neutral-300 hover:text-white transition-colors">
+        <span class="material-symbols-outlined text-[14px] text-emerald-400">chat</span>
+        <span>Chat with Founder on WhatsApp</span>
+      </a>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

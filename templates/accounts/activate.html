@@ -1,0 +1,45 @@
+{% extends 'layouts/public_base.html' %}
+
+{% block title %}Set Password & Activate Member Account — TechClub{% endblock %}
+
+{% block content %}
+<div class="min-h-[80vh] flex items-center justify-center px-4 py-12">
+  <div class="max-w-md w-full bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high p-8">
+    <div class="text-center space-y-2 mb-8">
+      <div class="inline-flex w-12 h-12 rounded-xl bg-secondary-container text-on-secondary-container items-center justify-center mb-2">
+        <span class="material-symbols-outlined text-[24px]">verified</span>
+      </div>
+      <h1 class="text-2xl font-extrabold text-primary tracking-tight">Activate Your Account</h1>
+      <p class="text-xs text-on-surface-variant">
+        Welcome, <strong>{{ target_user.get_full_name|default:target_user.email }}</strong>! Your application has been approved. Please set your account password below.
+      </p>
+    </div>
+
+    <form method="POST" class="space-y-5">
+      {% csrf_token %}
+      <div>
+        <label for="password" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-2">Create New Password</label>
+        <div class="relative">
+          <input type="password" name="password" id="password" required minlength="6" placeholder="At least 6 characters"
+                 class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-transparent focus:border-primary outline-none transition-all"/>
+          <span class="material-symbols-outlined absolute right-3 top-2.5 text-on-surface-variant text-[18px]">lock</span>
+        </div>
+      </div>
+
+      <div>
+        <label for="confirm_password" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-2">Confirm Password</label>
+        <div class="relative">
+          <input type="password" name="confirm_password" id="confirm_password" required minlength="6" placeholder="Repeat your password"
+                 class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-transparent focus:border-primary outline-none transition-all"/>
+          <span class="material-symbols-outlined absolute right-3 top-2.5 text-on-surface-variant text-[18px]">lock_reset</span>
+        </div>
+      </div>
+
+      <button type="submit" class="w-full py-3 px-4 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg text-sm font-bold shadow transition-all active:scale-[0.99] flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-[18px] text-secondary-container">key</span>
+        <span>Set Password &amp; Enter Dashboard</span>
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

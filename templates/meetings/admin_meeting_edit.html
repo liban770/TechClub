@@ -1,0 +1,235 @@
+{% extends 'layouts/admin_base.html' %}
+
+{% block title %}Edit Session: {{ meeting.title }} — TechClub Admin Ops{% endblock %}
+
+{% block admin_content %}
+<div class="max-w-4xl mx-auto space-y-6">
+  <!-- Breadcrumb & Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2 border-b border-surface-container-high">
+    <div>
+      <div class="flex items-center gap-2 text-xs font-code uppercase tracking-wider text-secondary font-bold">
+        <a href="{% url 'admin_meetings' %}" class="hover:underline text-on-surface-variant">Meetings &amp; Mentorship</a>
+        <span>/</span>
+        <span class="text-primary">Edit Session</span>
+      </div>
+      <h1 class="text-2xl font-extrabold text-primary tracking-tight mt-1">Edit Meeting / Mentorship Session</h1>
+      <p class="text-xs text-on-surface-variant">Update session title, purpose, scheduled time, venue, linked participants, or cover banner.</p>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a href="{% url 'admin_meetings' %}" class="px-3 py-2 bg-surface-container-lowest border border-surface-container-high text-on-surface hover:bg-surface-container rounded-lg text-xs font-bold transition-colors">
+        Back to Sessions
+      </a>
+    </div>
+  </div>
+
+  <!-- Edit Form -->
+  <form method="POST" action="{% url 'admin_meeting_edit' meeting.id %}" enctype="multipart/form-data" class="bg-surface-container-lowest rounded-2xl p-6 sm:p-8 border border-surface-container-high shadow-sm space-y-6">
+    {% csrf_token %}
+
+    <div class="space-y-4">
+      <div>
+        <label for="meeting_title" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+          Session Title <span class="text-error">*</span>
+        </label>
+        <input type="text" name="title" id="meeting_title" value="{{ meeting.title }}" required
+               class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="meeting_purpose" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Purpose / Track <span class="text-error">*</span>
+          </label>
+          <select name="purpose" id="meeting_purpose" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none">
+            {% for code, label in purposes %}
+            <option value="{{ code }}" {% if meeting.purpose == code %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label for="meeting_status" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Status <span class="text-error">*</span>
+          </label>
+          <select name="status" id="meeting_status" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none">
+            {% for code, label in statuses %}
+            <option value="{{ code }}" {% if meeting.status == code %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="meeting_start" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Start Date &amp; Time <span class="text-error">*</span>
+          </label>
+          <input type="datetime-local" name="start_datetime" id="meeting_start" value="{{ meeting.start_datetime|date:'Y-m-d\TH:i' }}" required
+                 class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+        </div>
+
+        <div>
+          <label for="meeting_end" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            End Date &amp; Time <span class="text-error">*</span>
+          </label>
+          <input type="datetime-local" name="end_datetime" id="meeting_end" value="{{ meeting.end_datetime|date:'Y-m-d\TH:i' }}" required
+                 class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="meeting_venue" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Venue / Physical Location <span class="text-error">*</span>
+          </label>
+          <input type="text" name="venue" id="meeting_venue" value="{{ meeting.venue }}" required
+                 class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+        </div>
+
+        <div>
+          <label for="meeting_link" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Virtual Meeting URL (Google Meet / Zoom)
+          </label>
+          <input type="url" name="meeting_link" id="meeting_link" value="{{ meeting.meeting_link }}" placeholder="https://meet.google.com/..."
+                 class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all"/>
+        </div>
+      </div>
+
+      <!-- Linked Participants -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-xl bg-surface-container-low border border-surface-container">
+        <div>
+          <label for="mentor_select" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Assigned Senior Mentor
+          </label>
+          <select name="mentor_id" id="mentor_select" class="w-full bg-surface-container-lowest px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+            <option value="">-- No Mentor Assigned --</option>
+            {% for m in all_members %}
+            <option value="{{ m.id }}" {% if current_mentor_id == m.id %}selected{% endif %}>
+              {{ m.full_name }} ({{ m.professional_title }}) {% if m.is_mentor %}★ Mentor{% endif %}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label for="mentee_select" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+            Assigned Mentee / Learner
+          </label>
+          <select name="mentee_id" id="mentee_select" class="w-full bg-surface-container-lowest px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:border-primary outline-none">
+            <option value="">-- No Mentee Assigned --</option>
+            {% for m in all_members %}
+            <option value="{{ m.id }}" {% if current_mentee_id == m.id %}selected{% endif %}>
+              {{ m.full_name }} ({{ m.professional_title }})
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <!-- Cover Image Upload Section -->
+      <div class="p-5 bg-surface-container-low rounded-xl border border-surface-container space-y-4">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[20px]">image</span>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Session Banner / Cover Image</h3>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-5 items-start">
+          <div class="w-full sm:w-48 h-32 rounded-lg overflow-hidden bg-surface-container border border-surface-container-high shrink-0 relative group">
+            <img src="{{ meeting.display_cover_image }}" id="meetingCoverPreview" alt="{{ meeting.title }}" class="w-full h-full object-cover"/>
+            <div class="absolute inset-0 bg-black/40 text-white text-[10px] font-bold flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              Current Banner
+            </div>
+          </div>
+
+          <div class="space-y-2 flex-1 w-full">
+            <label for="cover_image_input" class="block text-xs font-bold text-on-surface">Upload New Image From Computer</label>
+            <input type="file" name="cover_image" id="cover_image_input" accept="image/*" onchange="previewMeetingImage(this)"
+                   class="block w-full text-xs text-on-surface file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary file:text-on-primary hover:file:bg-neutral-800 file:cursor-pointer cursor-pointer border border-surface-container rounded-lg bg-surface-container-lowest p-1"/>
+            <p class="text-[10px] text-on-surface-variant">Upload meeting cover or banner from your computer (JPG, PNG, WebP).</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="meeting_notes" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+          Organizer Internal Notes &amp; Preparation Guidelines
+        </label>
+        <textarea name="notes" id="meeting_notes" rows="4"
+                  class="w-full bg-surface-container-low p-4 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none transition-all leading-relaxed">{{ meeting.organizer_notes }}</textarea>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center justify-between pt-4 border-t border-surface-container-high">
+      <button type="button" onclick="openDeleteMeetingModal()" class="px-4 py-2 bg-red-50 text-error hover:bg-red-100 border border-red-200 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors">
+        <span class="material-symbols-outlined text-[16px]">delete</span>
+        <span>Delete Session</span>
+      </button>
+
+      <div class="flex items-center gap-2">
+        <a href="{% url 'admin_meetings' %}" class="px-5 py-2.5 bg-surface-container text-on-surface hover:bg-surface-container-high rounded-lg text-xs font-bold transition-colors">
+          Cancel
+        </a>
+        <button type="submit" class="px-6 py-2.5 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg text-xs font-bold shadow-sm transition-all flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">save</span>
+          <span>Save Changes</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteMeetingModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-surface-container-lowest rounded-2xl shadow-2xl border border-red-200 p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2 text-error">
+        <span class="material-symbols-outlined text-[24px]">warning</span>
+        <h3 class="text-base font-bold text-primary">Delete Meeting Session</h3>
+      </div>
+      <button type="button" onclick="closeDeleteMeetingModal()" class="text-on-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <p class="text-xs text-on-surface leading-relaxed">
+      Are you sure you want to permanently delete session <span class="font-bold text-primary">"{{ meeting.title }}"</span>?
+    </p>
+
+    <div class="p-3 bg-red-50 border border-red-200 rounded-xl text-[11px] text-red-800">
+      This action is permanent and will remove participant link records for this session.
+    </div>
+
+    <form method="POST" action="{% url 'admin_meeting_delete' meeting.id %}" class="flex items-center justify-end gap-2 pt-2">
+      {% csrf_token %}
+      <button type="button" onclick="closeDeleteMeetingModal()" class="px-4 py-2 rounded-lg text-xs font-semibold text-on-surface hover:bg-surface-container">
+        Cancel
+      </button>
+      <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-error text-white hover:bg-red-700 transition-colors shadow-sm">
+        Yes, Delete Session
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function previewMeetingImage(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('meetingCoverPreview').src = e.target.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function openDeleteMeetingModal() {
+    document.getElementById('deleteMeetingModal').classList.remove('hidden');
+  }
+
+  function closeDeleteMeetingModal() {
+    document.getElementById('deleteMeetingModal').classList.add('hidden');
+  }
+</script>
+{% endblock %}

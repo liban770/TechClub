@@ -1,0 +1,432 @@
+{% extends 'layouts/member_base.html' %}
+
+{% block title %}Member Hub & Analytics — TechClub Hargeisa{% endblock %}
+
+{% block member_content %}
+<div class="space-y-8">
+  <!-- Member Welcome Hero Banner -->
+  <div class="relative bg-surface-container-lowest rounded-2xl p-6 sm:p-8 border border-surface-container-high shadow-sm overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-secondary-container via-[#D4AF37] to-secondary-container"></div>
+    <div class="flex items-start sm:items-center gap-5 pt-1">
+      <div class="relative shrink-0">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-primary text-on-primary flex items-center justify-center font-extrabold text-2xl shadow ring-4 ring-surface-container-lowest">
+          {% if profile.display_avatar %}
+          <img src="{{ profile.display_avatar }}" alt="{{ profile.full_name }}" class="w-full h-full object-cover"/>
+          {% else %}
+          {{ profile.initials }}
+          {% endif %}
+        </div>
+        {% if profile.is_mentor %}
+        <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-secondary text-white flex items-center justify-center ring-2 ring-white shadow-sm" title="Verified Active Mentor">
+          <span class="material-symbols-outlined text-[14px]">stars</span>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="space-y-1">
+        <div class="flex flex-wrap items-center gap-2">
+          <h1 class="text-2xl font-extrabold text-primary tracking-tight">Welcome, {{ profile.full_name }}!</h1>
+          <span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-xs font-code font-bold text-on-surface">
+            {{ profile.cohort }}
+          </span>
+          {% if profile.is_mentor %}
+          <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold">
+            Active Mentor
+          </span>
+          {% endif %}
+        </div>
+        <p class="text-xs text-on-surface-variant font-medium">
+          {{ profile.professional_title }} {% if profile.organization %}at {{ profile.organization }}{% endif %} • {{ profile.location }}
+        </p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 shrink-0">
+      <a href="{% url 'profile_edit' %}" class="px-4 py-2 bg-surface-container hover:bg-surface-container-high text-primary rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-[16px]">edit</span>
+        <span>Edit Profile</span>
+      </a>
+      <a href="{% url 'member_profile' profile.id %}" class="px-4 py-2 bg-primary hover:bg-neutral-800 text-on-primary rounded-lg text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-[16px]">visibility</span>
+        <span>View Public Badge</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MEMBER ANALYTICS & TELEMETRY GRID (NEW REQUESTED FEATURE)
+       =================================================================== -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    
+    <!-- 1. Gathering & Event Attendance Metric -->
+    <div class="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-high shadow-sm flex flex-col justify-between space-y-3 relative overflow-hidden group hover:border-primary/30 transition-all">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">Gatherings &amp; Events</span>
+        <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px]">event_available</span>
+        </div>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-extrabold text-primary">{{ attended_count }}</span>
+          <span class="text-xs font-code text-on-surface-variant font-semibold">/ {{ total_rsvps }} RSVP'd</span>
+        </div>
+        <div class="mt-2 w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+          <div class="bg-emerald-600 h-full rounded-full transition-all duration-500" data-width="{{ attendance_rate|default:0 }}"></div>
+        </div>
+        <p class="text-[11px] text-emerald-700 font-medium mt-1.5 flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">check_circle</span>
+          <span>{{ attendance_rate }}% Verified Attendance Rate</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- 2. Earned Digital Credentials -->
+    <div class="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-high shadow-sm flex flex-col justify-between space-y-3 relative overflow-hidden group hover:border-secondary/40 transition-all">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">Credentials Earned</span>
+        <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px]">workspace_premium</span>
+        </div>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-extrabold text-primary">{{ certificates_count }}</span>
+          <span class="text-xs font-code text-amber-800 font-semibold">Certificates</span>
+        </div>
+        <p class="text-[11px] text-on-surface-variant mt-2">
+          Official tamper-proof certificates with public scannable QR verification.
+        </p>
+      </div>
+    </div>
+
+    <!-- 3. Mentorship & Collaborative Sessions -->
+    <div class="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-high shadow-sm flex flex-col justify-between space-y-3 relative overflow-hidden group hover:border-primary/30 transition-all">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">Collaborative Sessions</span>
+        <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px]">groups</span>
+        </div>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-extrabold text-primary">{{ completed_meetings }}</span>
+          <span class="text-xs font-code text-on-surface-variant font-semibold">/ {{ total_meetings }} Total Sessions</span>
+        </div>
+        <p class="text-[11px] text-on-surface-variant mt-2">
+          1-on-1 mentorship sessions, code reviews, and office hours booked.
+        </p>
+      </div>
+    </div>
+
+    <!-- 4. Community Profile Strength -->
+    <div class="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-high shadow-sm flex flex-col justify-between space-y-3 relative overflow-hidden group hover:border-primary/30 transition-all">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">Profile Strength</span>
+        <div class="w-9 h-9 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px]">shield_person</span>
+        </div>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-extrabold text-primary">{{ profile_completion }}%</span>
+          <span class="text-xs font-code text-purple-800 font-semibold">Complete</span>
+        </div>
+        <div class="mt-2 w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+          <div class="bg-purple-600 h-full rounded-full transition-all duration-500" data-width="{{ profile_completion|default:0 }}"></div>
+        </div>
+        <p class="text-[11px] text-on-surface-variant mt-1.5">
+          {{ skills_count }} technical skills listed on your directory profile.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===================================================================
+       OFFICIAL VERIFIED CERTIFICATES SHOWCASE (IF EARNED)
+       =================================================================== -->
+  {% if certificates_earned %}
+  <div class="bg-gradient-to-br from-[#FCFCFA] to-amber-50/40 rounded-2xl border-2 border-[#D4AF37]/50 p-6 shadow-sm space-y-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#D4AF37]/30">
+      <div class="flex items-center gap-2.5">
+        <span class="material-symbols-outlined text-amber-600 text-[24px]">verified</span>
+        <div>
+          <h2 class="text-base font-extrabold text-primary">Your Official Verified Credentials</h2>
+          <p class="text-xs text-on-surface-variant">Accredited certificates of technical participation registered in the TechClub ledger.</p>
+        </div>
+      </div>
+      <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold font-code self-start sm:self-auto">
+        {{ certificates_count }} Active Certificate{{ certificates_count|pluralize }}
+      </span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+      {% for cert in certificates_earned %}
+      <div class="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm hover:shadow-md transition-all space-y-3">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <span class="text-[10px] font-bold font-code uppercase tracking-wider text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+              {{ cert.certificate_id }}
+            </span>
+            <h3 class="font-bold text-sm text-primary mt-1.5 leading-snug">
+              {{ cert.event.title }}
+            </h3>
+            <p class="text-[11px] text-on-surface-variant mt-0.5">
+              Issued on {{ cert.certificate_issued_at|date:"M d, Y" }} • {{ cert.event.venue }}
+            </p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#B38F00] to-[#FFEB99] p-0.5 shrink-0 shadow">
+            <div class="w-full h-full rounded-full bg-amber-700 text-white flex items-center justify-center">
+              <span class="material-symbols-outlined text-[16px]">military_tech</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-neutral-100">
+          <a href="{% url 'event_certificate' cert.certificate_id %}" 
+             class="px-3.5 py-1.5 bg-primary hover:bg-neutral-800 text-white rounded-lg text-xs font-bold transition-all shadow-sm inline-flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px] text-amber-300">workspace_premium</span>
+            <span>View Certificate</span>
+          </a>
+          <a href="{% url 'verify_certificate' cert.certificate_id %}" target="_blank"
+             class="px-3 py-1.5 bg-surface-container-low hover:bg-surface-container text-primary rounded-lg text-xs font-bold transition-colors inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-[15px]">verified_user</span>
+            <span>Verify Live</span>
+          </a>
+          <a href="{% url 'event_ticket' cert.ticket_code %}" 
+             class="px-2.5 py-1.5 text-on-surface-variant hover:text-primary text-xs font-bold transition-colors inline-flex items-center gap-1 ml-auto">
+            <span class="material-symbols-outlined text-[15px]">qr_code</span>
+            <span>Pass</span>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ===================================================================
+       MAIN TWO-COLUMN WORKSPACE
+       =================================================================== -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <!-- Left Column: Events & Mentorship Sessions -->
+    <div class="lg:col-span-8 space-y-8">
+      
+      <!-- Registered Gatherings & Tickets -->
+      <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-sm p-6 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-surface-container-high">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-[20px]">calendar_month</span>
+            <h2 class="text-base font-extrabold text-primary">My Gathering RSVPs &amp; Digital Passes</h2>
+          </div>
+          <a href="{% url 'public_events' %}" class="text-xs font-bold text-primary hover:text-secondary flex items-center gap-1">
+            <span>Browse All Gatherings</span>
+            <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+          </a>
+        </div>
+
+        <div class="divide-y divide-surface-container-high">
+          {% for reg in my_registrations %}
+          <div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 text-xs font-code text-secondary font-bold">
+                <span>{{ reg.event.start_datetime|date:"l, M d, Y" }}</span>
+                <span>•</span>
+                <span>{{ reg.event.start_datetime|date:"H:i" }} EAT</span>
+              </div>
+              <h3 class="font-bold text-sm text-primary mt-1">
+                <a href="{% url 'event_detail' reg.event.id %}" class="hover:underline">{{ reg.event.title }}</a>
+              </h3>
+              <div class="flex items-center gap-2 text-xs text-on-surface-variant mt-0.5 flex-wrap">
+                <span>{{ reg.event.venue }}</span>
+                <span>•</span>
+                <span class="font-code font-bold text-neutral-600">Ticket: {{ reg.ticket_code }}</span>
+                {% if reg.event.is_online %}
+                <span>•</span>
+                <span class="inline-flex items-center gap-1 font-bold {% if reg.event.is_live_now %}text-red-600 animate-pulse{% else %}text-blue-700{% endif %}">
+                  <span class="material-symbols-outlined text-[14px]">videocam</span>
+                  {% if reg.event.is_live_now %}🔴 LIVE NOW ({{ reg.event.meeting_platform }}){% else %}{{ reg.event.get_event_mode_display }}{% endif %}
+                </span>
+                {% endif %}
+                {% if reg.event.resources.all %}
+                <span>•</span>
+                <span class="text-amber-800 font-medium">📎 {{ reg.event.resources.count }} Material{{ reg.event.resources.count|pluralize }}</span>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 self-start sm:self-center">
+              {% if reg.event.is_online and reg.event.meeting_url %}
+              <a href="{% url 'event_join_live' reg.ticket_code %}" target="_blank" rel="noopener noreferrer"
+                 class="px-3 py-1 text-xs font-bold rounded-lg transition-all flex items-center gap-1 shadow-sm {% if reg.event.is_live_now %}bg-red-600 hover:bg-red-700 text-white animate-pulse{% else %}bg-blue-600 hover:bg-blue-700 text-white{% endif %}"
+                 title="Join Live Class (Auto-verifies attendance & unlocks certificate)">
+                <span class="material-symbols-outlined text-[14px]">videocam</span>
+                <span>{% if reg.event.is_live_now %}🔴 Join Live{% else %}Join Online{% endif %}</span>
+              </a>
+              {% endif %}
+
+              {% if reg.attendance_status == 'ATTENDED' %}
+                <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px]">verified</span>
+                  <span>Attended</span>
+                </span>
+                {% if reg.certificate_id %}
+                <a href="{% url 'event_certificate' reg.certificate_id %}" 
+                   class="px-3 py-1 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white text-xs font-bold rounded-lg shadow-sm transition-all flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px]">workspace_premium</span>
+                  <span>Certificate</span>
+                </a>
+                {% endif %}
+              {% elif reg.status == 'REGISTERED' %}
+                <span class="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold">Confirmed RSVP</span>
+              {% elif reg.status == 'WAITLISTED' %}
+                <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">Waitlisted</span>
+              {% else %}
+                <span class="px-2.5 py-1 rounded-full bg-surface-container text-xs font-bold">{{ reg.status }}</span>
+              {% endif %}
+
+              <!-- Digital Ticket Pass Link -->
+              <a href="{% url 'event_ticket' reg.ticket_code %}" 
+                 class="px-3 py-1 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded-lg transition-colors flex items-center gap-1"
+                 title="View Digital Ticket Pass & QR">
+                <span class="material-symbols-outlined text-[14px]">qr_code</span>
+                <span>Ticket Pass</span>
+              </a>
+            </div>
+          </div>
+          {% empty %}
+          <div class="py-8 text-center text-xs text-on-surface-variant space-y-3">
+            <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mx-auto text-neutral-400">
+              <span class="material-symbols-outlined text-[24px]">event_busy</span>
+            </div>
+            <p>You have not registered for any upcoming gatherings yet.</p>
+            <a href="{% url 'public_events' %}" class="inline-block px-4 py-2 bg-primary text-on-primary rounded-lg font-bold text-xs shadow-sm hover:bg-neutral-800 transition-colors">
+              Explore Technical Gatherings
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Scheduled Mentorship Sessions -->
+      <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-sm p-6 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-surface-container-high">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-[20px]">groups</span>
+            <h2 class="text-base font-extrabold text-primary">Scheduled Mentorship &amp; Architecture Reviews</h2>
+          </div>
+          <span class="text-xs font-code text-on-surface-variant font-bold">{{ total_meetings }} Scheduled</span>
+        </div>
+
+        <div class="divide-y divide-surface-container-high">
+          {% for m in my_meetings %}
+          <div class="py-3.5 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-surface-container text-[10px] font-code font-bold text-on-surface">
+                {{ m.purpose }}
+              </span>
+              <span class="text-xs font-code text-secondary font-bold">
+                {{ m.start_datetime|date:"M d, Y" }} at {{ m.start_datetime|date:"H:i" }} EAT
+              </span>
+            </div>
+            <h3 class="font-bold text-sm text-primary">{{ m.title }}</h3>
+            <p class="text-xs text-on-surface-variant">{{ m.venue }}</p>
+            {% if m.meeting_link %}
+            <a href="{{ m.meeting_link }}" target="_blank" class="inline-flex items-center gap-1 text-xs font-bold text-secondary hover:underline">
+              <span>Join Google Meet Session</span>
+              <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+            </a>
+            {% endif %}
+          </div>
+          {% empty %}
+          <div class="py-6 text-center text-xs text-on-surface-variant">
+            No 1-on-1 sessions scheduled for your account. Organizers assign mentorship slots during community sprints.
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Announcements, Profile Strengths & Activity Feed -->
+    <div class="lg:col-span-4 space-y-6">
+      
+      <!-- Community Announcements -->
+      <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-sm p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-[18px]">campaign</span>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Community Broadcasts</h3>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          {% for an in announcements %}
+          <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container space-y-1.5 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold text-secondary uppercase">{{ an.category }}</span>
+              <span class="text-[10px] font-code text-on-surface-variant">{{ an.created_at|date:"M d" }}</span>
+            </div>
+            <h4 class="font-bold text-primary">{{ an.title }}</h4>
+            <p class="text-on-surface-variant text-[11px] leading-relaxed">{{ an.content }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Member Personal Activity Feed -->
+      <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-sm p-5 space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-surface-container-high">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-[18px]">history</span>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Your Activity Timeline</h3>
+          </div>
+          <span class="text-[10px] font-code text-on-surface-variant">Log</span>
+        </div>
+
+        <div class="space-y-3">
+          {% for act in my_activities %}
+          <div class="flex items-start gap-2.5 text-xs">
+            <div class="w-6 h-6 rounded-md bg-surface-container text-primary flex items-center justify-center shrink-0 mt-0.5">
+              <span class="material-symbols-outlined text-[14px]">
+                {% if 'LOGIN' in act.activity_type %}login{% elif 'EVENT' in act.activity_type %}event_available{% elif 'PROFILE' in act.activity_type %}manage_accounts{% elif 'PASSWORD' in act.activity_type %}lock_reset{% else %}check_circle{% endif %}
+              </span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-primary truncate text-[11px]">{{ act.title }}</span>
+                <span class="text-[10px] font-code text-on-surface-variant shrink-0">{{ act.created_at|timesince }} ago</span>
+              </div>
+              <p class="text-[10px] text-on-surface-variant mt-0.5">{{ act.description }}</p>
+            </div>
+          </div>
+          {% empty %}
+          <div class="py-4 text-center text-xs text-on-surface-variant">
+            No recent activity recorded.
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Quick Action: Explore Directory -->
+      <div class="bg-primary text-on-primary rounded-xl p-6 shadow-md space-y-3">
+        <h3 class="text-sm font-extrabold">Connect With Peers</h3>
+        <p class="text-xs text-on-primary-container leading-relaxed">
+          Browse verified engineers, founders, and designers across Hargeisa, Borama, and Diaspora.
+        </p>
+        <a href="{% url 'member_directory' %}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed-dim rounded-lg text-xs font-bold shadow-sm transition-all">
+          <span>Search Member Directory</span>
+          <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-width]').forEach(function(el) {
+    el.style.width = (el.getAttribute('data-width') || '0') + '%';
+  });
+</script>
+{% endblock %}

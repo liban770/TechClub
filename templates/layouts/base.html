@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>{% block title %}TechClub — Connect. Learn. Build Together.{% endblock %}</title>
+  <meta name="description" content="TechClub is Hargeisa's premier community connecting emerging technology talent with experienced software engineers, designers, and tech leaders."/>
+  <link rel="icon" type="image/png" href="/static/images/logo-icon-transparent.png"/>
+
+  <!-- Fonts & Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <!-- Tailwind CSS CDN + Design Tokens from DESIGN.md -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#fbf9f9",
+            "surface-dim": "#dbdad9",
+            "surface-bright": "#fbf9f9",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f5f3f3",
+            "surface-container": "#efeded",
+            "surface-container-high": "#e9e8e7",
+            "surface-container-highest": "#e3e2e2",
+            "on-surface": "#1b1c1c",
+            "on-surface-variant": "#444748",
+            "inverse-surface": "#303031",
+            "inverse-on-surface": "#f2f0f0",
+            "outline": "#747878",
+            "outline-variant": "#c4c7c7",
+            "primary": "#111111",
+            "on-primary": "#ffffff",
+            "primary-container": "#1c1b1b",
+            "on-primary-container": "#858383",
+            "secondary": "#735c00",
+            "on-secondary": "#ffffff",
+            "secondary-container": "#fed65b",
+            "on-secondary-container": "#745c00",
+            "secondary-fixed": "#ffe088",
+            "secondary-fixed-dim": "#e9c349",
+            "gold-accent": "#D4AF37",
+            "error": "#ba1a1a",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "background": "#fbf9f9",
+            "on-background": "#1b1c1c",
+          },
+          fontFamily: {
+            "manrope": ["Manrope", "sans-serif"],
+            "code": ["JetBrains Mono", "monospace"],
+            "headline-lg": ["Manrope"],
+            "body-lg": ["Manrope"],
+            "body-md": ["Manrope"],
+            "display": ["Manrope"],
+            "title-md": ["Manrope"],
+            "label-md": ["Manrope"],
+            "label-sm": ["Manrope"],
+          },
+          borderRadius: {
+            DEFAULT: "0.375rem",
+            md: "0.5rem",
+            lg: "0.75rem",
+            xl: "1rem",
+            full: "9999px",
+          },
+          spacing: {
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2.5rem",
+            "margin-mobile": "1.25rem",
+            "margin-tablet": "2rem",
+            "margin": "3rem",
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @layer base {
+      html {
+        margin: 0;
+        padding: 0;
+        scroll-behavior: smooth;
+      }
+      body { 
+        margin: 0; 
+        padding: 0; 
+        font-family: 'Manrope', sans-serif;
+        overflow-x: clip;
+      }
+    }
+    .overflow-x-auto {
+      -webkit-overflow-scrolling: touch;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f5f3f3; }
+    ::-webkit-scrollbar-thumb { background: #c4c7c7; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #747878; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col font-manrope">
+
+  <!-- Flash Messages Notification Toast -->
+  {% if messages %}
+  <div class="fixed top-20 left-4 right-4 sm:left-auto sm:right-5 z-[999] flex flex-col gap-2 max-w-md mx-auto sm:mx-0 w-auto">
+    {% for message in messages %}
+    <div class="p-4 rounded-xl shadow-lg border flex items-start gap-3 transition-all duration-300 {% if message.tags == 'error' %}bg-error-container text-on-error-container border-error/30{% else %}bg-surface-container-lowest text-primary border-secondary/40 shadow-secondary/5{% endif %}" role="alert">
+      <span class="material-symbols-outlined text-title-md shrink-0 {% if message.tags == 'error' %}text-error{% else %}text-secondary{% endif %}">
+        {% if message.tags == 'error' %}error{% else %}check_circle{% endif %}
+      </span>
+      <div class="flex-1 text-sm font-medium">{{ message }}</div>
+      <button onclick="this.parentElement.remove()" class="text-on-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined text-sm">close</span>
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% block layout_content %}{% endblock %}
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

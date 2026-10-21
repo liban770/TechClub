@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-variant": "#e3e2e2", "inverse-on-surface": "#f2f0f0", "error": "#ba1a1a", "on-surface-variant": "#444748", "tertiary-fixed": "#e2e3e1", "on-error": "#ffffff", "on-primary": "#ffffff", "tertiary-fixed-dim": "#c6c7c5", "primary-fixed": "#e5e2e1", "error-container": "#ffdad6", "tertiary-container": "#1a1c1b", "outline": "#747878", "secondary-fixed": "#ffe088", "on-secondary": "#ffffff", "on-primary-fixed-variant": "#474646", "secondary-fixed-dim": "#e9c349", "primary-container": "#1c1b1b", "secondary": "#735c00", "on-surface": "#1b1c1c", "background": "#fbf9f9", "surface-container": "#efeded", "on-primary-container": "#858383", "on-tertiary-container": "#838483", "surface-container-highest": "#e3e2e2", "surface": "#fbf9f9", "surface-tint": "#5f5e5e", "on-secondary-container": "#745c00", "on-tertiary-fixed-variant": "#454746", "inverse-surface": "#303031", "surface-dim": "dbdad9", "secondary-container": "#fed65b", "on-secondary-fixed": "#241a00", "on-tertiary-fixed": "#1a1c1b", "on-error-container": "#93000a", "outline-variant": "#c4c7c7", "on-background": "#1b1c1c", "surface-container-lowest": "#ffffff", "on-primary-fixed": "#1c1b1b", "inverse-primary": "#c8c6c5", "surface-container-high": "#e9e8e7", "on-tertiary": "#ffffff", "on-secondary-fixed-variant": "#574500", "surface-bright": "#fbf9f9", "surface-container-low": "#f5f3f3", "primary-fixed-dim": "#c8c6c5", "primary": "#000000", "tertiary": "#000000" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin": "3rem", "gutter-mobile": "1rem", "space-xl": "2.5rem", "margin-tablet": "2rem", "space-md": "1rem", "space-lg": "1.5rem", "gutter": "1.5rem", "margin-mobile": "1.25rem", "space-xs": "0.25rem", "space-sm": "0.5rem" }, "fontFamily": { "title-md": ["Manrope"], "label-sm": ["Manrope"], "headline-lg": ["Manrope"], "label-md": ["Manrope"], "headline-sm": ["Manrope"], "display": ["Manrope"], "headline-md": ["Manrope"], "headline-lg-mobile": ["Manrope"], "body-lg": ["Manrope"], "code": ["JetBrains Mono"], "body-md": ["Manrope"], "display-mobile": ["Manrope"] }, "fontSize": { "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "700" }], "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }], "code": ["13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "500" }], "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }], "display-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "800" }] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">hub</span></div><div class="flex flex-col"><span class="font-title-md text-title-md text-on-surface leading-none tracking-tight">TechConnect</span><span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest mt-1">Hargeisa</span></div></div></div><div class="px-space-md py-space-sm"><div class="px-space-sm mb-space-xs font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Community Ops</div><nav class="flex flex-col gap-1" data-active-classes="bg-primary text-on-primary font-title-md"><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="overview" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Overview</span></div></a><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="applications" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">how_to_reg</span><span>Applications</span></div><span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">12</span></a><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="member-directory" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">badge</span><span>Members</span></div></a><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="events" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span>Events</span></div></a><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="meetings" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">groups</span><span>Meetings</span></div></a><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="announcements" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">campaign</span><span>Announcements</span></div></a><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="attendance" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">check_circle</span><span>Attendance</span></div></a><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="reports" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">monitoring</span><span>Reports</span></div></a></nav></div></div><div class="p-space-md flex flex-col gap-2"><nav class="flex flex-col" data-active-classes="bg-primary text-on-primary font-title-md"><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-md text-body-md" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></a></nav><div class="flex items-center gap-3 p-space-sm rounded-lg bg-surface-container-low"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col min-w-0"><span class="font-label-md text-label-md text-on-surface truncate leading-tight">Jamaal K.</span><span class="font-label-sm text-label-sm text-on-surface-variant truncate">Lead Admin</span></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40"><div class="h-16 w-full px-space-lg flex items-center justify-between gap-space-lg"><div class="flex-1 max-w-lg"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[20px]">search</span><input class="w-full h-10 pl-10 pr-4 bg-surface-container-lowest rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all" placeholder="Search members, skills, cohorts in Hargeisa..." type="text"/></div></div><div class="flex items-center gap-space-sm"><button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">help_outline</span></button><div class="relative"><button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-secondary"></span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-16 bg-background min-h-screen"><div class="flex flex-col w-full">
+<div class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin py-space-xl flex flex-col gap-space-xl">
+<!-- Top Utility & Breadcrumb Bar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
+<a class="hover:text-on-surface transition-colors" href="#">Community Network</a>
+<span>/</span>
+<a class="hover:text-on-surface transition-colors" href="#">Members</a>
+<span>/</span>
+<span class="text-on-surface">Guled Abdi</span>
+</div>
+<a class="inline-flex items-center gap-2 font-label-md text-label-md text-on-surface hover:text-secondary transition-colors w-fit mt-1" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>Back to Member Directory</span>
+</a>
+</div>
+<div class="flex items-center gap-space-sm self-start sm:self-auto">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+          Active in Cohort #2
+        </span>
+<button class="p-2 rounded-lg bg-surface-container-lowest shadow-sm hover:bg-surface-container transition-colors text-on-surface-variant hover:text-on-surface" title="Share profile link" type="button">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+</div>
+</div>
+<!-- Profile Header Master Surface -->
+<div class="relative bg-surface-container-lowest rounded-xl shadow-sm p-space-md lg:p-space-xl overflow-hidden flex flex-col gap-space-lg">
+<!-- Subtle Architectural Accent Bar -->
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-secondary"></div>
+<div class="flex flex-col lg:flex-row items-start justify-between gap-space-lg pt-2">
+<!-- Avatar and Core Identity -->
+<div class="flex flex-col sm:flex-row items-start gap-space-lg">
+<div class="relative shrink-0">
+<div class="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-surface-container shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Editorial portrait of Guled Abdi, a confident Somali software engineer in his late twenties wearing a sharp dark merino turtleneck sweater, warm soft office studio light, clean minimal background with neutral tones, hyper-realistic, professional tech leader aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4DOwOo7J5dVNm0tYxBybPVAGREGVUkTpv1CSg1Q4olxORENo7SidwOVQh7R8APduzz_Dp3OHCOcyEECLVPJak6l3KNYSzJcAwyX9VVPDxKFGup1I9sIgnlElARLrOEpmeJbl0Kypa236kY3UtFCwJplnuB2USM6oPFG21x_ksBYd7X_6oo5UnvEzwQia9Jg4oS15a2S8maY4tkNF46OHd_mihwenOeq-bVWgONJwJjgf21RaGjpJi8g"/>
+</div>
+<div class="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-secondary text-surface-container-lowest flex items-center justify-center shadow-md ring-4 ring-surface-container-lowest" title="Verified Member">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex flex-wrap items-center gap-2">
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Guled Abdi</h1>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">stars</span>
+                Active Mentor
+              </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">
+                Hargeisa Node
+              </span>
+</div>
+<div class="flex items-center gap-2 font-title-md text-title-md text-on-surface mt-0.5">
+<span>Senior Full Stack Developer</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-on-surface-variant font-body-md text-body-md">5 Years Exp</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 font-body-md text-body-md text-on-surface-variant mt-1">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-secondary">domain</span>
+                Telesom Core Lab (Mobile Money &amp; Core Banking)
+              </span>
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+                Hargeisa, Somaliland
+              </span>
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                Member since Oct 2023
+              </span>
+</div>
+</div>
+</div>
+<!-- Primary Action Suite -->
+<div class="flex flex-wrap sm:flex-nowrap items-center gap-space-sm w-full lg:w-auto mt-2 lg:mt-0">
+<button class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-space-lg py-2.5 rounded-lg bg-primary text-on-primary font-title-md text-title-md hover:bg-neutral-800 transition-all shadow-sm active:scale-95" type="button">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+<span>Request 1-on-1 Mentorship</span>
+</button>
+<button class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-space-md py-2.5 rounded-lg bg-surface-container-low text-on-surface font-title-md text-title-md hover:bg-surface-container transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">event</span>
+<span>Schedule Meeting</span>
+</button>
+<button class="p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" title="Copy profile URL" type="button">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Links & Metadata Strips -->
+<div class="pt-space-md bg-surface-container-low rounded-lg p-space-md flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-lg">
+<a class="flex items-center gap-2 font-code text-code text-on-surface hover:text-secondary transition-colors" href="https://github.com/guled-abdi" rel="noopener" target="_blank">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span>github.com/guled-abdi</span>
+</a>
+<a class="flex items-center gap-2 font-code text-code text-on-surface hover:text-secondary transition-colors" href="https://guled.dev" rel="noopener" target="_blank">
+<span class="material-symbols-outlined text-[18px]">language</span>
+<span>guled.dev</span>
+</a>
+<a class="flex items-center gap-2 font-code text-code text-on-surface hover:text-secondary transition-colors" href="https://linkedin.com/in/guled-abdi-so" rel="noopener" target="_blank">
+<span class="material-symbols-outlined text-[18px]">work</span>
+<span>in/guled-abdi-so</span>
+</a>
+<div class="flex items-center gap-2 font-code text-code text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px] text-emerald-600">verified_user</span>
+<span>guled.abdi@telesom.net</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Verification Level:</span>
+<span class="font-label-sm text-label-sm text-on-surface px-2 py-0.5 rounded bg-surface-container font-semibold">Tier 3 (Institutional Partner)</span>
+</div>
+</div>
+</div>
+<!-- Main Workspace Grid (65% / 35%) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- LEFT COLUMN: In-depth Technical & Community Profile (7 cols on lg, or ~60-65%) -->
+<div class="lg:col-span-8 flex flex-col gap-space-xl">
+<!-- About Section -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">subject</span>
+              Professional Overview
+            </h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Core Banking Architect</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface leading-relaxed">
+            Passionate software engineer with over 5 years of experience architecting high-throughput financial microservices, SMS gateway aggregators, and Zaad / e-Dahab offline reconciliation protocols. Dedicated to cultivating local engineering capacity in Somaliland and championing open-source software across East Africa.
+          </p>
+<!-- Core Metric Highlight Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md pt-2">
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">System Throughput</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">12k TPS</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Peak mobile money core transactions</span>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Reconciliation SLA</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">99.98%</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Zaad-to-Bank automated audit</span>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Mentees Mentored</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">4 Engineers</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Promoted to mid-level roles</span>
+</div>
+</div>
+</section>
+<!-- Technical Skillset Breakdown -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">terminal</span>
+                Verified Technical Stack &amp; Competencies
+              </h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Endorsed by Telesom Technical Committee</span>
+</div>
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">Audited 2024</span>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Group 1: Backend & Distributed Systems -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between font-label-md text-label-md text-on-surface">
+<span class="font-bold flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  Backend &amp; Distributed Architecture
+                </span>
+<span class="font-code text-code text-on-surface-variant">Primary Expertise</span>
+</div>
+<div class="flex flex-wrap gap-2 pt-1">
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-semibold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Go (Golang)
+                </span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-semibold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span> PostgreSQL
+                </span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-semibold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Apache Kafka
+                </span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Redis Cluster</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">gRPC / Protocol Buffers</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Event-Driven Architecture</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Database Sharding</span>
+</div>
+</div>
+<!-- Group 2: Frontend & Interface Design -->
+<div class="flex flex-col gap-space-xs pt-2">
+<div class="flex items-center justify-between font-label-md text-label-md text-on-surface">
+<span class="font-bold flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                  Frontend &amp; UI Engineering
+                </span>
+<span class="font-code text-code text-on-surface-variant">Production Ready</span>
+</div>
+<div class="flex flex-wrap gap-2 pt-1">
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-semibold">React.js</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-semibold">TypeScript</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Next.js</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Tailwind CSS</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Design Systems</span>
+</div>
+</div>
+<!-- Group 3: Cloud & Operations -->
+<div class="flex flex-col gap-space-xs pt-2">
+<div class="flex items-center justify-between font-label-md text-label-md text-on-surface">
+<span class="font-bold flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                  Cloud, Infrastructure &amp; Delivery
+                </span>
+<span class="font-code text-code text-on-surface-variant">Self-Hosted &amp; Cloud</span>
+</div>
+<div class="flex flex-wrap gap-2 pt-1">
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Docker Engine</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Kubernetes (K8s)</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Linux Bare-Metal Config</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">CI/CD GitHub Actions</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">Prometheus &amp; Grafana</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Community Leadership & Initiatives -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">hub</span>
+              Community Involvement &amp; Interests
+            </h2>
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">Hargeisa Hub Active</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">school</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface mt-1">Mentorship &amp; Guidance</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Actively mentoring 4 junior backend developers in Hargeisa. Weekly 1-on-1 code reviews and system design guidance.
+              </p>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-secondary text-on-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">code</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface mt-1">Open Source Somalia</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Maintainer of Somali localization packages and lightweight Somali telecom API wrappers on GitHub.
+              </p>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface mt-1">Discussion Tracks</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Financial Technology, Distributed Systems, High Availability Infrastructure, and Offline First mobile solutions.
+              </p>
+</div>
+</div>
+</section>
+<!-- Upcoming Sessions & Events Attending -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">event_available</span>
+                Upcoming Community Commitments
+              </h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Confirmed attendance &amp; active speaking slots</span>
+</div>
+<button class="font-label-md text-label-md text-secondary hover:underline">View Calendar</button>
+</div>
+<div class="flex flex-col gap-space-sm pt-2">
+<!-- Event 1 -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="px-3 py-2 rounded-lg bg-surface-container-lowest text-center min-w-[64px] shadow-sm">
+<span class="block font-label-sm text-label-sm text-on-surface-variant uppercase">MAY</span>
+<span class="block font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">24</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-secondary-fixed text-on-secondary-fixed">Keynote Speaker</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">17:00 EAT</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mt-0.5">Scaling Microservices &amp; Mobile Money Rails in Somaliland</h4>
+<span class="font-body-md text-body-md text-on-surface-variant">Telesom Innovation Hall &amp; Virtual Stream</span>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors self-start sm:self-auto">
+                Session Info
+              </button>
+</div>
+<!-- Event 2 -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="px-3 py-2 rounded-lg bg-surface-container-lowest text-center min-w-[64px] shadow-sm">
+<span class="block font-label-sm text-label-sm text-on-surface-variant uppercase">JUN</span>
+<span class="block font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">15</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-surface-container-high text-on-surface">Team Lead</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">48-Hour Sprint</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mt-0.5">Horn of Africa Open-Source Builders Sprint</h4>
+<span class="font-body-md text-body-md text-on-surface-variant">TechConnect Hub Hargeisa (Downtown Campus)</span>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors self-start sm:self-auto">
+                Hackathon Details
+              </button>
+</div>
+<!-- Event 3 -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="px-3 py-2 rounded-lg bg-surface-container-lowest text-center min-w-[64px] shadow-sm">
+<span class="block font-label-sm text-label-sm text-on-surface-variant uppercase">JUN</span>
+<span class="block font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">22</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-surface-container-high text-on-surface">Mentorship Cohort</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Closed Workshop</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mt-0.5">Senior Backend Mentorship: Database Sharding &amp; Indexing</h4>
+<span class="font-body-md text-body-md text-on-surface-variant">TechConnect Hub Lab Room B</span>
+</div>
+</div>
+<span class="px-3 py-1 rounded bg-secondary-fixed/50 text-secondary font-label-sm text-label-sm font-semibold self-start sm:self-auto">
+                Fully Booked
+              </span>
+</div>
+</div>
+</section>
+</div>
+<!-- RIGHT COLUMN: Sidebar (4 cols on lg, or ~35-40%) -->
+<div class="lg:col-span-4 flex flex-col gap-space-xl">
+<!-- 1. Mentorship & Availability Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-secondary/5 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-bold">Mentorship Intake</span>
+<span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-bold ring-1 ring-emerald-200">2 Slots Open</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Accepting Mentees</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+              Guled takes on committed mid-level engineers looking to master high-scale architecture and fintech system reliability.
+            </p>
+</div>
+<div class="flex flex-col gap-space-sm pt-2">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant shrink-0 mt-0.5">apartment</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Available Formats</span>
+<span class="font-body-md text-body-md text-on-surface-variant">In-Person (TechConnect Hub Room B) or Virtual (Google Meet)</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant shrink-0 mt-0.5">psychology</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Mentorship Focus</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Distributed Go Services, DB Optimization, Senior Promotion Roadmaps</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant shrink-0 mt-0.5">schedule</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Cadence</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Bi-weekly 45 min deep dives</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-2 py-2.5 rounded-lg bg-primary text-on-primary font-title-md text-title-md hover:bg-neutral-800 transition-colors shadow-sm text-center" type="button">
+            Apply for Mentorship
+          </button>
+</div>
+<!-- 2. Ecosystem Affiliations & Credentials -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">badge</span>
+            Affiliations &amp; Credentials
+          </h3>
+<div class="flex flex-col gap-space-md">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center shrink-0 text-on-surface">
+<span class="material-symbols-outlined text-[20px]">corporate_fare</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface truncate">Telesom Core Lab</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Senior Software Engineer</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2021 — Present • 3 yrs 8 mos</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center shrink-0 text-on-surface">
+<span class="material-symbols-outlined text-[20px]">school</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface truncate">University of Hargeisa</span>
+<span class="font-body-md text-body-md text-on-surface-variant">B.S. Computer Science</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Class of 2020 • Honors</span>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center gap-3">
+<span class="material-symbols-outlined text-emerald-600 text-[22px]">gavel</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">TechConnect Code of Conduct</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Signed &amp; in Full Compliance</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Member Activity & Contribution Summary -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Ecosystem Output</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Lifetime</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">groups</span>
+<span class="font-body-md text-body-md text-on-surface">Mentorship Sessions</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface font-bold">14 Conducted</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">architecture</span>
+<span class="font-body-md text-body-md text-on-surface">Architecture Reviews</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface font-bold">6 Completed</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">pin_drop</span>
+<span class="font-body-md text-body-md text-on-surface">Meetups Attended</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface font-bold">8 Physical</span>
+</div>
+</div>
+<!-- Peer Endorsement Snippet -->
+<div class="p-space-md rounded-lg bg-surface-container mt-1 flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Recent Peer Feedback</span>
+<p class="font-body-md text-body-md italic text-on-surface">
+              “Guled's teardown of transaction deadlocks saved our remittance bridge weeks of trial-and-error.”
+            </p>
+<span class="font-label-sm text-label-sm text-on-surface-variant">— Mahad E., Fintech Engineer</span>
+</div>
+</div>
+<!-- 4. Admin Notes / Organizer Actions (Subtle & Restrained) -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+              Organizer Console
+            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">
+              Good Standing
+            </span>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-body-md text-body-md text-on-surface-variant">Profile ID: TC-HGA-0428</span>
+<a class="font-label-md text-label-md text-secondary hover:underline" href="#">Manage Privileges</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

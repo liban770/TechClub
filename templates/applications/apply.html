@@ -1,0 +1,715 @@
+{% extends 'layouts/public_base.html' %}
+
+{% block title %}Apply for Membership — TechClub Hargeisa{% endblock %}
+
+{% block content %}
+<div class="relative w-full overflow-hidden bg-surface-container-low py-10 md:py-14 border-b border-surface-container-high">
+  <div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin relative z-10">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-6">
+      <div class="max-w-2xl space-y-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container">
+          <span class="material-symbols-outlined text-sm">verified</span>
+          <span class="font-label-sm text-[11px] uppercase tracking-wider font-bold">Admissions 2025</span>
+          <span class="text-on-surface-variant font-label-sm text-[11px]">• Somaliland Tech Ecosystem</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight">TechClub Membership Application</h1>
+        <p class="text-base text-on-surface-variant">Join Somaliland's vetted network of software engineers, system architects, and technical leaders building regional digital infrastructure.</p>
+      </div>
+
+      <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container-high flex items-center gap-4 lg:min-w-[300px]">
+        <div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+          <span class="material-symbols-outlined text-[24px]">schedule</span>
+        </div>
+        <div>
+          <div class="font-label-sm text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Review Velocity</div>
+          <div class="text-base font-bold text-primary">Decisions within 48h</div>
+          <div class="font-code text-xs text-secondary font-medium">Batch #25-HGA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stepper Navigation Header -->
+    <div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-surface-container-high">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-sm font-bold text-primary" id="stepCounterText">Step 1 of 4</span>
+          <span class="text-on-surface-variant text-sm">—</span>
+          <span class="text-sm font-semibold text-on-surface-variant" id="stepNameText">Personal Details</span>
+        </div>
+        <div class="font-code text-xs text-on-surface-variant flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-secondary"></span>
+          <span id="progressPercent">25% Completed</span>
+        </div>
+      </div>
+
+      <div class="w-full bg-surface-container rounded-full h-2 mb-6 overflow-hidden">
+        <div class="h-full bg-secondary-container rounded-full transition-all duration-300 ease-out" id="formProgressBar" style="width: 25%;"></div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <button type="button" onclick="goToStep(1)" id="stepTab-1" class="step-tab text-left p-3 rounded-lg bg-surface-container transition-all flex items-center gap-3 border border-transparent">
+          <div id="stepBadge-1" class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center text-xs font-bold shrink-0">1</div>
+          <div class="min-w-0">
+            <div class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Step 1</div>
+            <div class="text-xs font-bold text-primary truncate">Personal Info</div>
+          </div>
+        </button>
+
+        <button type="button" onclick="goToStep(2)" id="stepTab-2" class="step-tab text-left p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex items-center gap-3 border border-transparent">
+          <div id="stepBadge-2" class="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center text-xs font-bold shrink-0">2</div>
+          <div class="min-w-0">
+            <div class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Step 2</div>
+            <div class="text-xs font-bold text-on-surface-variant truncate">Background</div>
+          </div>
+        </button>
+
+        <button type="button" onclick="goToStep(3)" id="stepTab-3" class="step-tab text-left p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex items-center gap-3 border border-transparent">
+          <div id="stepBadge-3" class="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center text-xs font-bold shrink-0">3</div>
+          <div class="min-w-0">
+            <div class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Step 3</div>
+            <div class="text-xs font-bold text-on-surface-variant truncate">Profile &amp; Links</div>
+          </div>
+        </button>
+
+        <button type="button" onclick="goToStep(4)" id="stepTab-4" class="step-tab text-left p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex items-center gap-3 border border-transparent">
+          <div id="stepBadge-4" class="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center text-xs font-bold shrink-0">4</div>
+          <div class="min-w-0">
+            <div class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Step 4</div>
+            <div class="text-xs font-bold text-on-surface-variant truncate">Goals &amp; Referral</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Form Container -->
+<div class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-6 sm:p-8 shadow-sm border border-surface-container-high">
+      
+      {% if user.is_authenticated %}
+        {% if not user.is_active %}
+        <div class="flex items-start gap-3 p-4 rounded-xl bg-red-50 border border-red-200 mb-6 text-red-900">
+          <span class="material-symbols-outlined text-red-600 shrink-0 mt-0.5 text-2xl">block</span>
+          <div class="text-xs space-y-1">
+            <strong class="font-bold text-sm text-red-900">Account Deactivated:</strong>
+            <p class="leading-relaxed">Your TechClub account ({{ user.email }}) is currently deactivated. You cannot submit new applications. Please contact the organizers directly at admissions@techclub.so.</p>
+          </div>
+        </div>
+        {% else %}
+        <div class="flex items-start justify-between gap-4 p-5 rounded-xl bg-emerald-50 border border-emerald-200 mb-6 text-emerald-900">
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-emerald-600 shrink-0 mt-0.5 text-2xl">verified_user</span>
+            <div class="text-xs space-y-1">
+              <strong class="font-bold text-sm text-emerald-900">Active Membership Detected</strong>
+              <p class="leading-relaxed">You are currently signed in as <strong>{{ user.get_full_name|default:user.username }}</strong> ({{ user.email }}). Your member profile is already active, so re-applying is not needed.</p>
+            </div>
+          </div>
+          <a href="{% url 'dashboard_dispatch' %}" class="px-4 py-2 bg-primary text-secondary-container hover:bg-neutral-800 rounded-lg text-xs font-bold transition-all shadow-sm shrink-0">
+            Go to Dashboard
+          </a>
+        </div>
+        {% endif %}
+      {% endif %}
+
+      <div class="flex items-start gap-3 p-4 rounded-lg bg-surface-container-low border border-surface-container mb-6">
+        <span class="material-symbols-outlined text-secondary shrink-0 mt-0.5">info</span>
+        <div class="text-xs text-on-surface leading-relaxed">
+          <strong class="text-primary font-bold">Admissions Note:</strong>
+          Every application is reviewed personally by community organizers. Account access is activated upon review to preserve community quality.
+        </div>
+      </div>
+
+      <form method="POST" action="{% url 'apply' %}" id="applicationForm" novalidate class="space-y-6">
+        {% csrf_token %}
+
+        <!-- STEP 1: Personal Info -->
+        <div id="stepSection-1" class="step-content space-y-6">
+          <div>
+            <h2 class="text-xl font-bold text-primary">1. Personal Information</h2>
+            <p class="text-xs text-on-surface-variant mt-1">Provide your identifying details for cohort membership records.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="md:col-span-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+                Full Name <span class="text-error">*</span>
+              </label>
+              <input type="text" name="full_name" id="fullNameInput" required placeholder="e.g. Nimco Ahmed Farhan"
+                     class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-surface-container focus:border-primary outline-none transition-all"/>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+                Email Address <span class="text-error">*</span>
+              </label>
+              <input type="email" name="email" id="emailInput" required placeholder="developer@domain.so"
+                     class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-surface-container focus:border-primary outline-none transition-all"/>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+                Phone Number (WhatsApp) <span class="text-error">*</span>
+              </label>
+              <input type="tel" name="phone" id="phoneInput" required placeholder="+252 63 4400000"
+                     class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-surface-container focus:border-primary outline-none transition-all"/>
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+                City / Location <span class="text-error">*</span>
+              </label>
+              <input type="text" name="city" value="Hargeisa" required placeholder="e.g. Hargeisa, Borama, Burco, Diaspora"
+                     class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-surface-container focus:border-primary outline-none transition-all"/>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-4 border-t border-surface-container">
+            <button type="button" onclick="validateAndNext(1)" class="px-6 py-2.5 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg text-sm font-bold flex items-center gap-2 shadow-sm">
+              <span>Next: Background</span>
+              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Background -->
+        <div id="stepSection-2" class="step-content space-y-6 hidden">
+          <div>
+            <h2 class="text-xl font-bold text-primary">2. Technical &amp; Professional Background</h2>
+            <p class="text-xs text-on-surface-variant mt-1">Tell us about your current technical discipline and experience level.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+                Current Role / Title <span class="text-error">*</span>
+              </label>
+              <input type="text" name="current_role" id="currentRoleInput" required placeholder="e.g. Full Stack Developer, CS Student"
+                     class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-surface-container focus:border-primary outline-none transition-all"/>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+                Technical Category <span class="text-error">*</span>
+              </label>
+              <select name="professional_category" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none">
+                {% for code, label in categories %}
+                <option value="{{ code }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+                Organization / University
+              </label>
+              <input type="text" name="organization" placeholder="e.g. Telesom, Univ of Hargeisa, Independent"
+                     class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-surface-container focus:border-primary outline-none transition-all"/>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+                Experience Level <span class="text-error">*</span>
+              </label>
+              <select name="experience_level" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none">
+                {% for code, label in experience_levels %}
+                <option value="{{ code }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+                Key Skills (comma-separated)
+              </label>
+              <input type="text" name="skills" placeholder="e.g. Python, Django, React, Docker, Figma, Go"
+                     class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-surface-container focus:border-primary outline-none transition-all"/>
+            </div>
+          </div>
+
+          <div class="flex justify-between pt-4 border-t border-surface-container">
+            <button type="button" onclick="goToStep(1)" class="px-5 py-2.5 bg-surface-container text-on-surface hover:bg-surface-container-high rounded-lg text-sm font-semibold">
+              Back
+            </button>
+            <button type="button" onclick="validateAndNext(2)" class="px-6 py-2.5 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg text-sm font-bold flex items-center gap-2 shadow-sm">
+              <span>Next: Profile &amp; Links</span>
+              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Profile & URLs -->
+        <div id="stepSection-3" class="step-content space-y-6 hidden">
+          <div>
+            <h2 class="text-xl font-bold text-primary">3. Profile Summary &amp; Professional Links</h2>
+            <p class="text-xs text-on-surface-variant mt-1">Share a brief summary of what you are working on and where mentors can view your code or portfolio.</p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+                Profile Summary / Introduction <span class="text-error">*</span>
+              </label>
+              <textarea name="profile_summary" id="profileSummaryInput" rows="4" required placeholder="Tell the community about your background, what projects you are building, and what you hope to achieve in TechClub..."
+                        class="w-full bg-surface-container-low p-4 rounded-lg text-sm text-on-surface focus:bg-white border border-surface-container focus:border-primary outline-none transition-all"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">GitHub Profile</label>
+                <input type="text" inputmode="url" name="github_url" id="githubUrlInput" placeholder="https://github.com/yourhandle" onblur="autoNormalizeUrl(this)"
+                       class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-surface-container focus:border-primary outline-none transition-all"/>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">LinkedIn Profile</label>
+                <input type="text" inputmode="url" name="linkedin_url" id="linkedinUrlInput" placeholder="https://linkedin.com/in/yourhandle" onblur="autoNormalizeUrl(this)"
+                       class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-surface-container focus:border-primary outline-none transition-all"/>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">Portfolio or Website</label>
+                <input type="text" inputmode="url" name="portfolio_url" id="portfolioUrlInput" placeholder="https://yourportfolio.com" onblur="autoNormalizeUrl(this)"
+                       class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-surface-container focus:border-primary outline-none transition-all"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between pt-4 border-t border-surface-container">
+            <button type="button" onclick="goToStep(2)" class="px-5 py-2.5 bg-surface-container text-on-surface hover:bg-surface-container-high rounded-lg text-sm font-semibold">
+              Back
+            </button>
+            <button type="button" onclick="validateAndNext(3)" class="px-6 py-2.5 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg text-sm font-bold flex items-center gap-2 shadow-sm">
+              <span>Next: Goals &amp; Consent</span>
+              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Goals & Referral Source -->
+        <div id="stepSection-4" class="step-content space-y-6 hidden">
+          <div>
+            <h2 class="text-xl font-bold text-primary">4. Networking Goals &amp; Referral Source</h2>
+            <p class="text-xs text-on-surface-variant mt-1">Select your primary community goals and tell us how you discovered TechClub.</p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-2">What do you hope to gain from TechClub? (Select multiple)</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <label class="flex items-center gap-2 p-3 rounded-lg bg-surface-container-low border border-surface-container hover:bg-surface-container cursor-pointer">
+                  <input type="checkbox" name="interests" value="Professional networking" checked class="accent-primary"/>
+                  <span>Professional Networking</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 rounded-lg bg-surface-container-low border border-surface-container hover:bg-surface-container cursor-pointer">
+                  <input type="checkbox" name="interests" value="Finding a mentor" checked class="accent-primary"/>
+                  <span>Finding an Engineering Mentor</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 rounded-lg bg-surface-container-low border border-surface-container hover:bg-surface-container cursor-pointer">
+                  <input type="checkbox" name="interests" value="Sharing knowledge" class="accent-primary"/>
+                  <span>Sharing Knowledge / Speaking</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 rounded-lg bg-surface-container-low border border-surface-container hover:bg-surface-container cursor-pointer">
+                  <input type="checkbox" name="interests" value="Collaborating on projects" checked class="accent-primary"/>
+                  <span>Collaborating on Code &amp; Projects</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 rounded-lg bg-surface-container-low border border-surface-container hover:bg-surface-container cursor-pointer">
+                  <input type="checkbox" name="interests" value="Discovering career opportunities" class="accent-primary"/>
+                  <span>Discovering Regional Tech Jobs</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 rounded-lg bg-surface-container-low border border-surface-container hover:bg-surface-container cursor-pointer">
+                  <input type="checkbox" name="interests" value="Participating in technology events" checked class="accent-primary"/>
+                  <span>Attending Meetups &amp; Hackathons</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Referral Source Tracking (Quick Improvement #4) -->
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">
+                How did you hear about TechClub? <span class="text-error">*</span>
+              </label>
+              <select name="referral_source" required class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none">
+                {% for code, label in referral_sources %}
+                <option value="{{ code }}" {% if code == 'WhatsApp' %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+              <p class="text-[11px] text-on-surface-variant mt-1">Helps organizers allocate community resources effectively.</p>
+            </div>
+
+            <!-- Agreement Checkboxes -->
+            <div class="space-y-3 pt-2">
+              <div class="p-4 bg-surface-container-low rounded-xl border border-surface-container hover:border-surface-container-high transition-colors">
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" name="accept_code_of_conduct" required class="mt-1 w-4 h-4 accent-primary rounded cursor-pointer shrink-0" id="codeOfConductCheck"/>
+                  <span class="text-xs text-on-surface leading-relaxed">
+                    <strong class="font-bold text-primary">I have read and accept the Community Code of Conduct &amp; Terms:</strong>
+                    I agree to treat all members with respect, maintain professional behavior, uphold confidentiality, and build collaboratively according to the
+                    <button type="button" onclick="openCodeOfConductModal(event)" class="text-secondary font-bold hover:underline inline-flex items-center gap-0.5 cursor-pointer underline decoration-secondary">
+                      <span>TechClub Code of Conduct &amp; Terms</span>
+                      <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+                    </button>.
+                  </span>
+                </label>
+              </div>
+
+              <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container hover:border-surface-container-high transition-colors">
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" name="confirm_accuracy" required class="mt-0.5 w-4 h-4 accent-primary rounded cursor-pointer shrink-0" id="consentCheck"/>
+                  <span class="text-xs text-on-surface-variant leading-relaxed">
+                    I confirm that all submitted professional information is accurate and understand that applications are reviewed by organizers before account creation.
+                  </span>
+                </label>
+              </div>
+            </div>
+            <!-- Inline validation notice for Step 4 -->
+            <div id="step4ErrorBox" class="hidden p-3.5 bg-red-50 text-error border border-red-200 rounded-xl text-xs font-semibold flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px] shrink-0">error</span>
+              <span id="step4ErrorMsg">Please accept the Code of Conduct and confirm accuracy to submit your application.</span>
+            </div>
+          </div>
+
+          <div class="flex justify-between pt-4 border-t border-surface-container">
+            <button type="button" onclick="goToStep(3)" class="px-5 py-2.5 bg-surface-container text-on-surface hover:bg-surface-container-high rounded-lg text-sm font-semibold">
+              Back
+            </button>
+            <button type="submit" id="submitAppBtn" class="px-8 py-3 bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed-dim rounded-lg text-sm font-extrabold flex items-center gap-2 shadow-md transition-all active:scale-[0.99] cursor-pointer">
+              <span id="submitBtnText">Submit Application</span>
+              <span id="submitBtnIcon" class="material-symbols-outlined text-[18px]">send</span>
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Right Side Benefits & Help Column -->
+    <div class="lg:col-span-4 space-y-6">
+      <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-surface-container-high space-y-4">
+        <h3 class="text-sm font-extrabold uppercase tracking-wider text-primary">Member Benefits</h3>
+        <ul class="space-y-3 text-xs text-on-surface-variant leading-relaxed">
+          <li class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-secondary text-base shrink-0">check_circle</span>
+            <span><strong>Searchable Member Directory:</strong> Discover verified engineers, designers, and CTOs in Somaliland.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-secondary text-base shrink-0">check_circle</span>
+            <span><strong>1-on-1 Mentorship Sessions:</strong> Book architecture reviews and career guidance with senior staff.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-secondary text-base shrink-0">check_circle</span>
+            <span><strong>Exclusive Community Meetups:</strong> Priority RSVPs for hands-on labs and hackathons.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-secondary text-base shrink-0">check_circle</span>
+            <span><strong>Privacy Protection:</strong> Phone and email addresses remain private by default.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-primary text-on-primary rounded-xl p-6 shadow-md space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary-container">help</span>
+          <h4 class="text-sm font-bold">Have Questions?</h4>
+        </div>
+        <p class="text-xs text-on-primary-container leading-relaxed">
+          If you are an experienced engineering manager interested in becoming a community mentor, please contact the admissions board directly.
+        </p>
+        <div class="text-xs font-code text-secondary-container">admissions@techclub.so</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentStep = 1;
+
+  function autoNormalizeUrl(input) {
+    if (!input) return;
+    let val = input.value.trim();
+    if (val && !val.startsWith('http://') && !val.startsWith('https://')) {
+      input.value = 'https://' + val;
+    }
+  }
+
+  function updateStepUI(step) {
+    currentStep = step;
+    
+    // Hide all step sections
+    for (let i = 1; i <= 4; i++) {
+      const sec = document.getElementById(`stepSection-${i}`);
+      const tab = document.getElementById(`stepTab-${i}`);
+      const badge = document.getElementById(`stepBadge-${i}`);
+      if (sec) sec.classList.toggle('hidden', i !== step);
+
+      if (tab && badge) {
+        if (i === step) {
+          tab.className = "step-tab text-left p-3 rounded-lg bg-surface-container transition-all flex items-center gap-3 border border-primary/20";
+          badge.className = "w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center text-xs font-bold shrink-0";
+        } else if (i < step) {
+          tab.className = "step-tab text-left p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex items-center gap-3 border border-transparent";
+          badge.className = "w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-xs font-bold shrink-0";
+        } else {
+          tab.className = "step-tab text-left p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex items-center gap-3 border border-transparent";
+          badge.className = "w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center text-xs font-bold shrink-0";
+        }
+      }
+    }
+
+    const stepNames = ["Personal Details", "Technical Background", "Profile & Links", "Goals & Referral"];
+    document.getElementById('stepCounterText').innerText = `Step ${step} of 4`;
+    document.getElementById('stepNameText').innerText = stepNames[step - 1];
+    const pct = step * 25;
+    document.getElementById('progressPercent').innerText = `${pct}% Completed`;
+    document.getElementById('formProgressBar').style.width = `${pct}%`;
+
+    window.scrollTo({ top: 150, behavior: 'smooth' });
+  }
+
+  function validateStep(step) {
+    if (step === 1) {
+      const name = document.getElementById('fullNameInput').value.trim();
+      const email = document.getElementById('emailInput').value.trim();
+      const phone = document.getElementById('phoneInput').value.trim();
+      if (!name) {
+        alert('Please fill in your Full Name.');
+        document.getElementById('fullNameInput').focus();
+        return false;
+      }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('Please enter a valid Email Address (e.g. name@domain.com).');
+        document.getElementById('emailInput').focus();
+        return false;
+      }
+      if (!phone || phone.length < 6) {
+        alert('Please enter your WhatsApp Phone Number.');
+        document.getElementById('phoneInput').focus();
+        return false;
+      }
+      return true;
+    } else if (step === 2) {
+      const role = document.getElementById('currentRoleInput').value.trim();
+      if (!role) {
+        alert('Please specify your Current Role or Title.');
+        document.getElementById('currentRoleInput').focus();
+        return false;
+      }
+      return true;
+    } else if (step === 3) {
+      const summary = document.getElementById('profileSummaryInput').value.trim();
+      if (!summary) {
+        alert('Please write a brief Profile Summary / Introduction.');
+        document.getElementById('profileSummaryInput').focus();
+        return false;
+      }
+      // Normalize URLs
+      const gUrl = document.getElementById('githubUrlInput');
+      const lUrl = document.getElementById('linkedinUrlInput');
+      const pUrl = document.getElementById('portfolioUrlInput');
+      if (gUrl) autoNormalizeUrl(gUrl);
+      if (lUrl) autoNormalizeUrl(lUrl);
+      if (pUrl) autoNormalizeUrl(pUrl);
+      return true;
+    } else if (step === 4) {
+      const conductCheck = document.getElementById('codeOfConductCheck');
+      const consentCheck = document.getElementById('consentCheck');
+      const errorBox = document.getElementById('step4ErrorBox');
+      const errorMsg = document.getElementById('step4ErrorMsg');
+
+      if (!conductCheck.checked) {
+        if (errorBox) {
+          errorMsg.textContent = 'Please check the box confirming you read and accept the Community Code of Conduct & Terms.';
+          errorBox.classList.remove('hidden');
+        } else {
+          alert('Please accept the Code of Conduct & Terms.');
+        }
+        conductCheck.focus();
+        return false;
+      }
+
+      if (!consentCheck.checked) {
+        if (errorBox) {
+          errorMsg.textContent = 'Please confirm that all submitted professional information is accurate.';
+          errorBox.classList.remove('hidden');
+        } else {
+          alert('Please confirm that your submitted professional details are accurate.');
+        }
+        consentCheck.focus();
+        return false;
+      }
+
+      if (errorBox) errorBox.classList.add('hidden');
+      return true;
+    }
+    return true;
+  }
+
+  function goToStep(step) {
+    if (step > currentStep) {
+      for (let s = currentStep; s < step; s++) {
+        if (!validateStep(s)) {
+          updateStepUI(s);
+          return;
+        }
+      }
+    }
+    updateStepUI(step);
+  }
+
+  function validateAndNext(step) {
+    if (validateStep(step)) {
+      updateStepUI(step + 1);
+    }
+  }
+
+  // Intercept application form submission
+  document.getElementById('applicationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Sequentially validate all 4 steps
+    for (let s = 1; s <= 4; s++) {
+      if (!validateStep(s)) {
+        updateStepUI(s);
+        return false;
+      }
+    }
+
+    // Defensive URL normalization
+    const gUrl = document.getElementById('githubUrlInput');
+    const lUrl = document.getElementById('linkedinUrlInput');
+    const pUrl = document.getElementById('portfolioUrlInput');
+    if (gUrl) autoNormalizeUrl(gUrl);
+    if (lUrl) autoNormalizeUrl(lUrl);
+    if (pUrl) autoNormalizeUrl(pUrl);
+
+    // Show loading state
+    const submitBtn = document.getElementById('submitAppBtn');
+    const btnText = document.getElementById('submitBtnText');
+    const btnIcon = document.getElementById('submitBtnIcon');
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+    }
+    if (btnText) btnText.textContent = 'Submitting Application...';
+    if (btnIcon) {
+      btnIcon.textContent = 'hourglass_top';
+      btnIcon.classList.add('animate-spin');
+    }
+
+    // Submit natively
+    this.submit();
+  });
+
+  function openCodeOfConductModal(e) {
+    if (e) e.preventDefault();
+    const modal = document.getElementById('codeOfConductModal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeCodeOfConductModal() {
+    const modal = document.getElementById('codeOfConductModal');
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function acceptCodeOfConductFromModal() {
+    const check = document.getElementById('codeOfConductCheck');
+    if (check) check.checked = true;
+    const errorBox = document.getElementById('step4ErrorBox');
+    if (errorBox) errorBox.classList.add('hidden');
+    closeCodeOfConductModal();
+  }
+</script>
+
+<!-- Interactive Code of Conduct & Agreement Modal -->
+<div id="codeOfConductModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
+  <div class="max-w-2xl w-full bg-surface-container-lowest rounded-2xl shadow-2xl border border-surface-container-high flex flex-col max-h-[88vh] overflow-hidden animate-fadeIn">
+    
+    <!-- Modal Header -->
+    <div class="p-5 border-b border-surface-container-high flex items-center justify-between bg-surface-container-low shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold">
+          <span class="material-symbols-outlined text-[20px]">gavel</span>
+        </div>
+        <div>
+          <h3 class="text-base font-extrabold text-primary">TechClub Community Code of Conduct</h3>
+          <p class="text-[11px] text-on-surface-variant">Connect. Learn. Build Together. — Hargeisa Node</p>
+        </div>
+      </div>
+      <button type="button" onclick="closeCodeOfConductModal()" class="text-on-surface-variant hover:text-primary p-1.5 rounded-lg hover:bg-surface-container transition-colors">
+        <span class="material-symbols-outlined text-[22px]">close</span>
+      </button>
+    </div>
+
+    <!-- Modal Scrollable Content -->
+    <div class="p-6 overflow-y-auto space-y-5 text-xs text-on-surface leading-relaxed border-b border-surface-container-high">
+      <div class="p-3.5 bg-surface-container-low rounded-xl border border-surface-container text-secondary text-xs font-semibold flex items-center gap-2">
+        <span class="material-symbols-outlined text-base shrink-0">verified</span>
+        <span>Every applicant must review and accept these core community standards before admission.</span>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <h4 class="font-bold text-sm text-primary mb-1">1. Respect Everyone</h4>
+          <p class="text-on-surface-variant">Treat every member with kindness, respect, and professionalism regardless of age, gender, background, technical experience, or education. Disagreements over technical architecture are acceptable; personal insults, bullying, and humiliation are strictly forbidden.</p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm text-primary mb-1">2. Maintain Professional Behavior</h4>
+          <p class="text-on-surface-variant">Communicate politely during meetups, architecture labs, hackathons, and online communication channels. Value other people's time, avoid unnecessary interruptions, and provide constructive feedback respectfully.</p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm text-primary mb-1">3. Support Learning &amp; Knowledge Sharing</h4>
+          <p class="text-on-surface-variant">Welcome beginners and encourage technical curiosity. Experienced engineers and mentors are expected to uplift emerging learners. Never make peers feel inferior because of gaps in domain knowledge.</p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm text-primary mb-1">4. Protect Privacy &amp; Member Confidentiality</h4>
+          <p class="text-on-surface-variant">Do not disclose or republish members' contact numbers, emails, proprietary project repositories, or private mentoring discussions without explicit permission. Member contact details remain confidential by default.</p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm text-primary mb-1">5. Honesty &amp; Academic/Professional Integrity</h4>
+          <p class="text-on-surface-variant">Represent your technical background and qualifications truthfully. Respect intellectual property, open-source software licenses, and give credit to original creators.</p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm text-primary mb-1">6. Zero Tolerance for Harassment &amp; Discrimination</h4>
+          <p class="text-on-surface-variant">Unwanted advances, discrimination, intimidation, stalking, offensive jokes, and spamming commercial promotions without approval will result in immediate suspension and permanent removal.</p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm text-primary mb-1">7. Accountability &amp; Organizer Enforcement</h4>
+          <p class="text-on-surface-variant">Community organizers investigate reported violations impartially. Organizers have the full authority to issue formal warnings, temporarily suspend accounts, or permanently ban violators from all community spaces.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer Actions -->
+    <div class="p-4 bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+      <div class="text-[11px] text-on-surface-variant flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-secondary text-[16px]">verified_user</span>
+        <span>By accepting, you agree to comply with all community policies.</span>
+      </div>
+      <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+        <button type="button" onclick="closeCodeOfConductModal()" class="px-4 py-2 rounded-lg text-xs font-semibold text-on-surface hover:bg-surface-container transition-colors">
+          Close
+        </button>
+        <button type="button" onclick="acceptCodeOfConductFromModal()" class="px-5 py-2.5 rounded-lg text-xs font-extrabold bg-primary text-on-primary hover:bg-neutral-800 transition-colors shadow-sm flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">check_circle</span>
+          <span>I Understand &amp; Accept</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

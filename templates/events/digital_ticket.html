@@ -1,0 +1,724 @@
+{% extends 'layouts/public_base.html' %}
+
+{% block title %}Digital Ticket — {{ registration.ticket_code }} — TechClub{% endblock %}
+
+{% block content %}
+<div class="min-h-[80vh] py-10 md:py-16 bg-surface-container-low px-4 sm:px-6">
+  <div class="max-w-2xl mx-auto space-y-6">
+
+    <!-- Top Navigation / Status Header -->
+    <div class="flex items-center justify-between">
+      <a href="{% url 'event_detail' event.id %}" class="inline-flex items-center gap-1.5 text-xs font-bold text-on-surface-variant hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        <span>Back to Event Details</span>
+      </a>
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-code font-bold {% if registration.attendance_status == 'ATTENDED' %}bg-emerald-100 text-emerald-800 border border-emerald-300{% elif registration.status == 'WAITLISTED' %}bg-amber-100 text-amber-800 border border-amber-300{% else %}bg-primary text-secondary-container{% endif %}">
+        {% if registration.attendance_status == 'ATTENDED' %}
+          <span class="material-symbols-outlined text-[15px]">verified</span> Attended &amp; Verified
+        {% elif registration.status == 'WAITLISTED' %}
+          <span class="material-symbols-outlined text-[15px]">hourglass_top</span> Waitlist Pass
+        {% else %}
+          <span class="material-symbols-outlined text-[15px]">confirmation_number</span> Confirmed RSVP
+        {% endif %}
+      </span>
+    </div>
+
+    <!-- DIGITAL TICKET CARD (Card with boarding pass styling) -->
+    <div class="bg-surface-container-lowest rounded-3xl border border-surface-container-high shadow-xl overflow-hidden relative" id="ticketPassArea">
+      
+      <!-- Top Header Strip -->
+      <div class="bg-primary text-on-primary p-6 sm:p-8 relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+          <img src="/static/images/logo-icon-transparent.png" alt="TechClub" class="w-64 h-64 object-contain invert"/>
+        </div>
+        
+        <div class="flex items-start justify-between gap-4 relative z-10">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              <img src="/static/images/logo-icon-transparent.png" alt="TechClub Official Logo" class="h-8 w-auto object-contain brightness-0 invert"/>
+              {% if registration.is_community_member %}
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold uppercase tracking-wider shadow-sm">
+                <span class="material-symbols-outlined text-[15px]">stars</span>
+                <span>TechClub Member Pass • {{ registration.member.cohort|default:"Member" }}</span>
+              </span>
+              {% else %}
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-800 text-neutral-300 border border-neutral-700 text-xs font-bold uppercase tracking-wider">
+                <span class="material-symbols-outlined text-[15px]">badge</span>
+                <span>Public Guest Pass (Visitor)</span>
+              </span>
+              {% endif %}
+            </div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight mt-2">{{ event.title }}</h1>
+            <p class="text-xs text-neutral-300 font-medium">{{ event.category }}</p>
+          </div>
+
+          <div class="text-right shrink-0">
+            <span class="text-[10px] uppercase tracking-wider text-neutral-400 block font-code font-bold">Ticket Code</span>
+            <span class="font-code text-sm sm:text-base font-extrabold text-secondary-container tracking-wider">{{ registration.ticket_code }}</span>
+          </div>
+        </div>
+      </div>
+
+      {% if registration.status == 'CANCELLED' %}
+      <div class="p-4 bg-rose-50 border-b border-rose-200 text-rose-900 flex items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-rose-600 text-[20px]">cancel</span>
+          <div>
+            <span class="font-bold">This RSVP has been cancelled.</span>
+            <span class="text-rose-800">Your seat was released back to the priority waitlist.</span>
+          </div>
+        </div>
+        <a href="{% url 'event_detail' event.id %}" class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-bold hover:bg-neutral-800 transition-colors shrink-0">
+          Re-Register
+        </a>
+      </div>
+      {% endif %}
+
+      <!-- Ticket Perforated Divider -->
+      <div class="relative bg-surface-container-lowest py-1 flex items-center">
+        <!-- Left notch -->
+        <div class="w-6 h-12 bg-surface-container-low rounded-r-full -ml-3 border-r border-t border-b border-surface-container-high"></div>
+        <div class="flex-1 border-t-2 border-dashed border-surface-container-high mx-2"></div>
+        <!-- Right notch -->
+        <div class="w-6 h-12 bg-surface-container-low rounded-l-full -mr-3 border-l border-t border-b border-surface-container-high"></div>
+      </div>
+
+      <!-- Ticket Body with QR Code & Attendee Details -->
+      <div class="p-6 sm:p-8 space-y-6">
+        
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          
+          <!-- QR Code Display Area -->
+          <div class="md:col-span-5 flex flex-col items-center justify-center p-4 bg-surface-container-low rounded-2xl border border-surface-container text-center space-y-3">
+            <div class="relative bg-white p-3 rounded-xl shadow-inner border border-surface-container">
+              {% if registration.qr_code_image %}
+              <img src="{{ registration.qr_code_image.url }}" alt="Ticket QR Code" class="w-40 h-40 object-contain mx-auto"/>
+              {% else %}
+              <div class="w-40 h-40 flex items-center justify-center bg-neutral-100 text-neutral-400 font-code text-xs">
+                Generating QR...
+              </div>
+              {% endif %}
+            </div>
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider text-primary">Scan at Hub Entrance</div>
+              <p class="text-[10px] text-on-surface-variant font-code">Organizers scan to confirm attendance</p>
+            </div>
+          </div>
+
+          <!-- Metadata & Attendee Details -->
+          <div class="md:col-span-7 space-y-4">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">Attendee Name</span>
+                {% if registration.is_community_member %}
+                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px] flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[13px]">verified</span> Verified Member
+                </span>
+                {% else %}
+                <span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-medium text-[10px] flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[13px]">person</span> Guest Visitor
+                </span>
+                {% endif %}
+              </div>
+              <div class="text-base font-extrabold text-primary">{{ registration.attendee_name }}</div>
+              <div class="text-xs text-on-surface-variant font-code">{{ registration.attendee_email }}</div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-2 border-t border-surface-container text-xs">
+              <div>
+                <span class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">Date &amp; Time</span>
+                <span class="font-bold text-primary block mt-0.5">{{ event.start_datetime|date:"M j, Y" }}</span>
+                <span class="text-on-surface-variant text-[11px]">{{ event.start_datetime|date:"h:i A" }} EAT</span>
+                <div class="flex items-center gap-1.5 mt-1">
+                  <a href="{{ event.google_calendar_url }}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-bold text-secondary hover:underline inline-flex items-center gap-0.5" title="Add to Google Calendar">
+                    <span class="material-symbols-outlined text-[12px]">calendar_today</span>
+                    <span>+Google</span>
+                  </a>
+                  <span class="text-on-surface-variant text-[10px]">•</span>
+                  <a href="{% url 'event_calendar_ics' event.id %}" class="text-[10px] font-bold text-secondary hover:underline inline-flex items-center gap-0.5" title="Download .ICS for Apple / Outlook">
+                    <span class="material-symbols-outlined text-[12px]">download</span>
+                    <span>.ICS</span>
+                  </a>
+                </div>
+              </div>
+              <div>
+                <span class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">Venue</span>
+                <span class="font-bold text-primary block mt-0.5 truncate" title="{{ event.venue }}">{{ event.venue }}</span>
+                <span class="text-on-surface-variant text-[11px]">Hargeisa, Somaliland</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container text-xs space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-on-surface-variant">Check-in Status:</span>
+                {% if registration.attendance_status == 'ATTENDED' %}
+                <span class="font-bold text-emerald-700 flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">check_circle</span> Checked In
+                </span>
+                {% else %}
+                <span class="font-bold text-amber-700 flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">schedule</span> Pending Check-in
+                </span>
+                {% endif %}
+              </div>
+              <div class="text-[11px] text-on-surface-variant">
+                Show this QR pass on your phone or printed card upon arrival at TechClub.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Online Meeting / Live Class Hub (If Online or Hybrid) -->
+        {% if event.is_online and event.meeting_url %}
+        <div class="p-5 rounded-2xl {% if event.is_live_now %}bg-red-500/10 border-2 border-red-500{% else %}bg-surface-container-low border border-surface-container{% endif %} space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl {% if event.is_live_now %}bg-red-600 text-white animate-pulse{% else %}bg-primary text-secondary-container{% endif %} flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-[22px]">videocam</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold uppercase tracking-wider text-primary">{{ event.meeting_platform|default:"Live Virtual Classroom" }}</span>
+                  {% if event.is_live_now %}
+                  <span class="px-2 py-0.5 rounded-full bg-red-600 text-white font-bold text-[10px] animate-pulse flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span> LIVE CLASS ACTIVE
+                  </span>
+                  {% else %}
+                  <span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-medium text-[10px]">
+                    Virtual Room Link
+                  </span>
+                  {% endif %}
+                </div>
+                <p class="text-xs text-on-surface-variant">Join online from your browser or {{ event.meeting_platform }} application.</p>
+              </div>
+            </div>
+
+            <a href="{% url 'event_join_live' registration.ticket_code %}" onclick="handleLiveJoinClick(event, this.href)" class="px-5 py-2.5 rounded-xl font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all {% if event.is_live_now %}bg-red-600 hover:bg-red-700 text-white animate-bounce{% else %}bg-primary hover:bg-neutral-800 text-on-primary{% endif %}" title="Join Live Class (Auto-verifies attendance & unlocks certificate)">
+              <span>Join Live Class</span>
+              <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+            </a>
+          </div>
+
+          {% if event.meeting_passcode %}
+          <div class="flex items-center gap-2 pt-2 border-t border-surface-container/60 text-xs">
+            <span class="text-on-surface-variant font-medium">Session Passcode / PIN:</span>
+            <code class="px-2 py-0.5 rounded bg-surface-container font-code font-bold text-primary">{{ event.meeting_passcode }}</code>
+            <button type="button" onclick="copyPasscode('{{ event.meeting_passcode|escapejs }}')" class="text-secondary hover:underline text-[11px] font-bold">Copy</button>
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Attendance Certificate Banner (If Attended) -->
+        {% if registration.attendance_status == 'ATTENDED' and registration.certificate_id %}
+        <div class="p-5 rounded-2xl bg-amber-50 border-2 border-secondary-container space-y-4 shadow-sm">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0 shadow-sm">
+                <span class="material-symbols-outlined text-[26px]">workspace_premium</span>
+              </div>
+              <div>
+                <div class="text-xs font-bold uppercase tracking-wider text-amber-950">Official Certificate of Attendance Issued</div>
+                <div class="text-xs text-amber-800 font-medium">Certificate ID: <span class="font-code font-bold">{{ registration.certificate_id }}</span></div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <a href="{% url 'event_certificate_pdf' registration.certificate_id %}" class="px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-amber-300 text-amber-950 hover:bg-amber-100 font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all" title="Download High-Resolution PDF">
+                <span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+                <span>Download PDF</span>
+              </a>
+              <a href="{% url 'event_certificate' registration.certificate_id %}" class="px-5 py-2.5 rounded-xl bg-primary text-secondary-container hover:bg-neutral-800 font-bold text-xs shadow-md flex items-center gap-2 transition-all">
+                <span>View Certificate</span>
+                <span class="material-symbols-outlined text-[16px]">verified</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Social Credential Sharing Actions (Feature 3) -->
+          <div class="flex items-center justify-between gap-3 pt-3 border-t border-amber-200/80 flex-wrap text-xs">
+            <span class="text-[11px] font-bold text-amber-900 flex items-center gap-1">
+              <span class="material-symbols-outlined text-[15px] text-amber-700">share</span>
+              <span>Share Credential:</span>
+            </span>
+
+            <div class="flex items-center gap-2 flex-wrap">
+              <!-- Add to LinkedIn -->
+              <a href="https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name={{ event.title|urlencode }}&organizationName=TechClub%20Hargeisa&issueYear={{ registration.certificate_issued_at|date:'Y' }}&issueMonth={{ registration.certificate_issued_at|date:'n' }}&certUrl={{ request.scheme }}://{{ request.get_host }}{% url 'verify_certificate' registration.certificate_id %}&certId={{ registration.certificate_id }}"
+                 target="_blank" rel="noopener noreferrer"
+                 class="px-3 py-1.5 rounded-lg bg-[#0A66C2] text-white hover:bg-[#004182] font-bold text-[11px] flex items-center gap-1.5 transition-colors shadow-sm"
+                 title="Add this verified credential directly to your LinkedIn Profile">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.53 1.53 0 1 0 0-3.06 1.53 1.53 0 0 0 0 3.06m1.39 9.74v-8.37H5.07v8.37z"/></svg>
+                <span>Add to LinkedIn</span>
+              </a>
+
+              <!-- Share to X / Twitter -->
+              <a href="https://twitter.com/intent/tweet?text=I%20just%20earned%20my%20official%20Certificate%20of%20Attendance%20from%20%40TechClub%20for%20{{ event.title|urlencode }}!%20Verify%20credential:%20{{ request.scheme }}://{{ request.get_host }}{% url 'verify_certificate' registration.certificate_id %}"
+                 target="_blank" rel="noopener noreferrer"
+                 class="px-3 py-1.5 rounded-lg bg-black text-white hover:bg-neutral-800 font-bold text-[11px] flex items-center gap-1.5 transition-colors shadow-sm">
+                <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                <span>Post on X</span>
+              </a>
+
+              <!-- Share on WhatsApp -->
+              <a href="https://api.whatsapp.com/send?text=I%20just%20earned%20my%20official%20TechClub%20Certificate%20of%20Attendance%20for%20{{ event.title|urlencode }}!%20Verify%20credential:%20{{ request.scheme }}://{{ request.get_host }}{% url 'verify_certificate' registration.certificate_id %}"
+                 target="_blank" rel="noopener noreferrer"
+                 class="px-3 py-1.5 rounded-lg bg-[#25D366] text-white hover:bg-[#1ebd5a] font-bold text-[11px] flex items-center gap-1.5 transition-colors shadow-sm">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                <span>WhatsApp</span>
+              </a>
+
+              <!-- Copy Verification Link -->
+              <button type="button" data-cert-url="{{ request.scheme }}://{{ request.get_host }}{% url 'verify_certificate' registration.certificate_id %}" onclick="copyCertLink(this.dataset.certUrl)" class="px-3 py-1.5 rounded-lg bg-white border border-amber-300 text-amber-900 hover:bg-amber-100 font-bold text-[11px] flex items-center gap-1 transition-colors" id="copyCertBtn">
+                <span class="material-symbols-outlined text-[13px]">link</span>
+                <span>Copy Link</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Attendee Rating & Feedback Section (Feature 4) -->
+        <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-amber-500 text-[20px]">star</span>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Session Satisfaction &amp; Feedback</h3>
+            </div>
+            {% if user_feedback %}
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 font-bold text-[10px] flex items-center gap-1">
+              <span class="material-symbols-outlined text-[12px]">check</span> Rated {{ user_feedback.rating }}/5
+            </span>
+            {% endif %}
+          </div>
+
+          {% if user_feedback %}
+          <div class="p-4 bg-surface-container-lowest rounded-xl border border-surface-container text-xs space-y-2">
+            <div class="flex items-center gap-1 text-amber-500">
+              {% for i in "12345" %}
+                {% if forloop.counter <= user_feedback.rating %}
+                <span class="material-symbols-outlined text-[18px]">star</span>
+                {% else %}
+                <span class="material-symbols-outlined text-[18px] text-neutral-300">star</span>
+                {% endif %}
+              {% endfor %}
+              <span class="text-on-surface-variant font-code text-[11px] ml-1.5">{{ user_feedback.created_at|date:"M j, Y" }}</span>
+            </div>
+            {% if user_feedback.feedback_text %}
+            <p class="text-on-surface italic leading-relaxed">"{{ user_feedback.feedback_text }}"</p>
+            {% else %}
+            <p class="text-on-surface-variant text-[11px]">Submitted rating without written comments.</p>
+            {% endif %}
+            <p class="text-[10px] text-emerald-700 font-semibold pt-1">✓ Thank you for helping us continuously improve TechClub!</p>
+          </div>
+          {% else %}
+          <form method="POST" action="{% url 'event_submit_feedback' registration.ticket_code %}" class="space-y-3">
+            {% csrf_token %}
+            <p class="text-xs text-on-surface-variant leading-relaxed">
+              How was your experience attending <strong>{{ event.title }}</strong>? Your feedback helps instructors and organizers refine future masterclasses.
+            </p>
+
+            <div>
+              <label class="block text-[11px] font-bold text-on-surface mb-1">Your Rating</label>
+              <div class="flex items-center gap-1" id="starRatingSelector">
+                <input type="hidden" name="rating" id="selectedRatingInput" value="5"/>
+                {% for star in "12345" %}
+                <button type="button" data-val="{{ star }}" onclick="selectStarRating(this.dataset.val)" class="star-btn text-amber-400 hover:text-amber-500 transition-transform active:scale-110 focus:outline-none p-1" title="{{ star }} Star{{ star|pluralize }}">
+                  <span class="material-symbols-outlined text-[24px]">star</span>
+                </button>
+                {% endfor %}
+                <span id="starRatingLabel" class="text-xs font-bold text-primary font-code ml-2">5 Stars (Excellent)</span>
+              </div>
+            </div>
+
+            <div>
+              <label for="feedback_comments" class="block text-[11px] font-bold text-on-surface mb-1">Feedback Comments (Optional)</label>
+              <textarea name="feedback_text" id="feedback_comments" rows="2" placeholder="What did you learn? Any topics you'd love to see next?" class="w-full bg-surface-container-lowest px-3 py-2 rounded-xl text-xs text-on-surface border border-surface-container focus:border-primary outline-none transition-all leading-relaxed"></textarea>
+            </div>
+
+            <button type="submit" class="px-4 py-2 bg-primary text-on-primary hover:bg-neutral-800 font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5">
+              <span>Submit Attendee Review</span>
+              <span class="material-symbols-outlined text-[15px]">send</span>
+            </button>
+          </form>
+          {% endif %}
+        </div>
+        {% else %}
+        <div class="p-4 rounded-2xl bg-surface-container-low border border-surface-container flex items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+            </div>
+            <div>
+              <div class="font-bold text-primary">Certificate Unlocks Upon QR Code Scan</div>
+              <div class="text-[11px] text-on-surface-variant">Present this ticket QR code to organizers at check-in to instantly verify attendance and receive your official certificate.</div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Attached Course Materials & Downloads -->
+        {% if resources %}
+        <div class="space-y-3 pt-3 border-t border-surface-container">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary text-[20px]">folder</span>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Course Materials &amp; Downloads ({{ resources|length }})</h3>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <label for="ticketResourceFilter" class="text-[11px] font-semibold text-on-surface-variant flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px] text-secondary">tune</span>
+                <span>Role:</span>
+              </label>
+              <select id="ticketResourceFilter" onchange="filterTicketResources(this.value)" class="text-xs bg-surface-container px-2.5 py-1 rounded-lg border border-surface-container font-semibold text-on-surface outline-none cursor-pointer focus:border-primary">
+                <option value="ALL">All Roles ({{ resources|length }})</option>
+                {% for r_code, r_label in resource_roles %}
+                <option value="{{ r_code }}">{{ r_label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="ticketResourcesGrid">
+            {% for res in resources %}
+            <div class="ticket-resource-card p-3.5 rounded-xl bg-surface-container-low border border-surface-container flex items-center justify-between gap-3 hover:border-secondary transition-colors" data-role="{{ res.access_role }}">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[20px] text-primary">
+                    {% if res.resource_type == 'PDF' %}picture_as_pdf
+                    {% elif res.resource_type == 'PRESENTATION' %}slideshow
+                    {% elif res.resource_type == 'SPREADSHEET' %}table_chart
+                    {% elif res.resource_type == 'ARCHIVE' %}folder_zip
+                    {% else %}description{% endif %}
+                  </span>
+                </div>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="font-bold text-xs text-primary truncate" title="{{ res.title }}">{{ res.title }}</span>
+                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded-full border text-[9px] font-bold uppercase tracking-wider {{ res.role_badge_info.color }}">
+                      <span class="material-symbols-outlined text-[10px]">{{ res.role_badge_info.icon }}</span>
+                      <span>{{ res.role_badge_info.short_label }}</span>
+                    </span>
+                  </div>
+                  <div class="text-[10px] text-on-surface-variant font-code flex items-center gap-1.5 flex-wrap">
+                    <span>{{ res.get_resource_type_display }} • {{ res.formatted_file_size }}</span>
+                    {% if res.download_count > 0 %}
+                    <span>•</span>
+                    <span class="inline-flex items-center gap-0.5 text-secondary font-bold" title="{{ res.download_count }} Total Downloads">
+                      <span class="material-symbols-outlined text-[11px]">download</span>
+                      <span>{{ res.download_count }} download{{ res.download_count|pluralize }}</span>
+                    </span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              {% if res.user_can_access %}
+              <a href="{% url 'event_resource_download' res.id %}?ticket={{ registration.ticket_code }}" class="px-3 py-1.5 rounded-lg bg-primary text-on-primary hover:bg-neutral-800 text-[11px] font-bold shrink-0 flex items-center gap-1 transition-colors shadow-sm">
+                <span class="material-symbols-outlined text-[14px]">download</span>
+                <span>Download</span>
+              </a>
+              {% elif res.access_role == 'MEMBER' or res.is_members_only %}
+              <a href="{% url 'apply' %}" class="px-2.5 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-[10px] font-bold shrink-0 flex items-center gap-1 transition-colors" title="TechClub Community Members Only">
+                <span class="material-symbols-outlined text-[13px] text-amber-600">lock</span>
+                <span>Apply to Unlock</span>
+              </a>
+              {% elif res.access_role == 'MENTOR' %}
+              <span class="px-2.5 py-1.5 rounded-lg bg-purple-50 text-purple-900 border border-purple-200 text-[10px] font-bold shrink-0 flex items-center gap-1" title="Restricted to Verified Active Mentors">
+                <span class="material-symbols-outlined text-[13px] text-purple-600">stars</span>
+                <span>Mentors Only</span>
+              </span>
+              {% else %}
+              <span class="px-2.5 py-1.5 rounded-lg bg-rose-50 text-rose-900 border border-rose-200 text-[10px] font-bold shrink-0 flex items-center gap-1" title="Internal Organizer Resource">
+                <span class="material-symbols-outlined text-[13px] text-rose-600">security</span>
+                <span>Organizers Only</span>
+              </span>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <script>
+          function filterTicketResources(role) {
+            const cards = document.querySelectorAll('.ticket-resource-card');
+            cards.forEach(card => {
+              if (role === 'ALL' || card.getAttribute('data-role') === role) {
+                card.style.display = 'flex';
+              } else {
+                card.style.display = 'none';
+              }
+            });
+          }
+        </script>
+        {% endif %}
+
+      </div>
+
+      <!-- Membership Callout for Public Guests -->
+      {% if not registration.is_community_member %}
+      <div class="p-5 bg-gradient-to-r from-neutral-900 via-neutral-900 to-primary text-white flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-neutral-700">
+        <div class="space-y-1">
+          <div class="flex items-center gap-1.5 text-secondary-container font-bold text-xs uppercase tracking-wider">
+            <span class="material-symbols-outlined text-[18px]">verified_user</span>
+            <span>Become a Verified TechClub Community Member</span>
+          </div>
+          <p class="text-xs text-neutral-300 max-w-md leading-relaxed">
+            Guests are welcome at public meetups! Apply for full membership to unlock weekly code sessions, member-only learning tracks, and verified directory profiles.
+          </p>
+        </div>
+        <a href="{% url 'apply' %}" class="px-5 py-2.5 rounded-xl bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed-dim text-xs font-bold transition-all shadow-md shrink-0 flex items-center gap-1.5">
+          <span>Apply for Membership</span>
+          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </a>
+      </div>
+      {% endif %}
+
+      <!-- Ticket Actions Bar -->
+      <div class="p-4 sm:p-6 bg-surface-container-low border-t border-surface-container flex flex-wrap items-center justify-between gap-3">
+        <!-- WhatsApp Dispatch Link -->
+        <a href="{{ registration.whatsapp_ticket_url }}" target="_blank" rel="noopener noreferrer" 
+           class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm flex items-center gap-2 transition-all">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+          </svg>
+          <span>Send Ticket to WhatsApp</span>
+        </a>
+
+        <!-- Print & Save Actions -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <button type="button" onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-bold text-xs transition-colors flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">print</span>
+            <span>Print Pass</span>
+          </button>
+          
+          <button type="button" onclick="copyPassLink()" class="px-4 py-2.5 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-bold text-xs transition-colors flex items-center gap-1.5" id="copyLinkBtn">
+            <span class="material-symbols-outlined text-[16px]">share</span>
+            <span>Share Pass</span>
+          </button>
+
+          {% if registration.status != 'CANCELLED' and registration.attendance_status != 'ATTENDED' %}
+          <button type="button" onclick="openCancelModal()" class="px-3.5 py-2.5 rounded-xl bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-100 font-bold text-xs transition-colors flex items-center gap-1.5" title="Release seat to waitlist if you cannot attend">
+            <span class="material-symbols-outlined text-[15px] text-rose-600">event_busy</span>
+            <span>Cancel RSVP</span>
+          </button>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Attendee Help & Frequently Asked Questions (FAQ) -->
+    <div class="bg-surface-container-lowest rounded-2xl p-5 border border-surface-container-high space-y-4">
+      <div class="flex items-center justify-between pb-1 border-b border-surface-container">
+        <div class="font-bold text-xs uppercase tracking-wider text-primary flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-secondary text-[20px]">quiz</span>
+          <span>Attendee FAQ &amp; Pass Guidelines</span>
+        </div>
+        <span class="text-[10px] text-on-surface-variant font-code">Fast Answers</span>
+      </div>
+
+      <div class="space-y-2 text-xs">
+        <!-- FAQ 1: Check-in & Certificate -->
+        <details class="group rounded-xl border border-surface-container bg-surface-container-low/40 p-3.5 transition-all duration-200 open:bg-surface-container-lowest open:border-primary/40 open:shadow-sm">
+          <summary class="flex items-center justify-between cursor-pointer list-none select-none font-bold text-xs text-primary group-hover:text-secondary">
+            <span class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[17px] text-secondary">verified</span>
+              <span>How do I check in and unlock my Certificate of Attendance?</span>
+            </span>
+            <span class="material-symbols-outlined text-[17px] text-on-surface-variant transition-transform duration-200 group-open:rotate-180">expand_more</span>
+          </summary>
+          <div class="pt-2.5 text-on-surface-variant text-[11px] leading-relaxed border-t border-surface-container/60 mt-2 space-y-1">
+            {% if event.is_online %}
+            <p>For virtual sessions: click the <strong class="text-primary">"Join Live Class"</strong> button above. Our system immediately verifies your attendance, marks your ticket as <em>Attended</em>, and unlocks your official certificate link with no manual check-in needed.</p>
+            {% else %}
+            <p>For in-person sessions: present the QR code on this ticket pass to organizers at the entrance reception. Once scanned, your status updates to <em>Attended</em> and your official certificate is instantly generated.</p>
+            {% endif %}
+          </div>
+        </details>
+
+        <!-- FAQ 2: Zoom & Passcode -->
+        {% if event.is_online %}
+        <details class="group rounded-xl border border-surface-container bg-surface-container-low/40 p-3.5 transition-all duration-200 open:bg-surface-container-lowest open:border-primary/40 open:shadow-sm">
+          <summary class="flex items-center justify-between cursor-pointer list-none select-none font-bold text-xs text-primary group-hover:text-secondary">
+            <span class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[17px] text-secondary">key</span>
+              <span>Where do I find the live session passcode / PIN?</span>
+            </span>
+            <span class="material-symbols-outlined text-[17px] text-on-surface-variant transition-transform duration-200 group-open:rotate-180">expand_more</span>
+          </summary>
+          <div class="pt-2.5 text-on-surface-variant text-[11px] leading-relaxed border-t border-surface-container/60 mt-2 space-y-1">
+            <p>Your session passcode is <strong>{{ event.meeting_passcode|default:"TECH2026" }}</strong>. You can copy it with 1-click using the <em>Copy</em> button in the Zoom card above. If the meeting asks for a passcode, paste it in.</p>
+          </div>
+        </details>
+        {% endif %}
+
+        <!-- FAQ 3: Course Materials -->
+        <details class="group rounded-xl border border-surface-container bg-surface-container-low/40 p-3.5 transition-all duration-200 open:bg-surface-container-lowest open:border-primary/40 open:shadow-sm">
+          <summary class="flex items-center justify-between cursor-pointer list-none select-none font-bold text-xs text-primary group-hover:text-secondary">
+            <span class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[17px] text-secondary">folder</span>
+              <span>How do I download slides, workbooks, and datasets?</span>
+            </span>
+            <span class="material-symbols-outlined text-[17px] text-on-surface-variant transition-transform duration-200 group-open:rotate-180">expand_more</span>
+          </summary>
+          <div class="pt-2.5 text-on-surface-variant text-[11px] leading-relaxed border-t border-surface-container/60 mt-2 space-y-1">
+            <p>All attached slides and worksheets are listed in the <strong>Course Materials &amp; Downloads</strong> section above. Click <em>Download</em> to stream files directly to your device. Resources marked <em>Members Only</em> are reserved for active TechClub community members.</p>
+          </div>
+        </details>
+
+        <!-- FAQ 4: Phone screen vs Print -->
+        <details class="group rounded-xl border border-surface-container bg-surface-container-low/40 p-3.5 transition-all duration-200 open:bg-surface-container-lowest open:border-primary/40 open:shadow-sm">
+          <summary class="flex items-center justify-between cursor-pointer list-none select-none font-bold text-xs text-primary group-hover:text-secondary">
+            <span class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[17px] text-secondary">devices</span>
+              <span>Can I show this pass on my phone or should I print it?</span>
+            </span>
+            <span class="material-symbols-outlined text-[17px] text-on-surface-variant transition-transform duration-200 group-open:rotate-180">expand_more</span>
+          </summary>
+          <div class="pt-2.5 text-on-surface-variant text-[11px] leading-relaxed border-t border-surface-container/60 mt-2 space-y-1">
+            <p>Displaying the QR code directly on your mobile device is 100% accepted and encouraged. You may also click <strong class="text-primary">Print Pass</strong> to print a physical paper badge for offline convenience.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function handleLiveJoinClick(e, liveUrl) {
+  e.preventDefault();
+  // Open Zoom/Google Meet in a new tab
+  window.open(liveUrl, '_blank');
+
+  // Display instant check-in toast
+  const toast = document.createElement('div');
+  toast.className = 'fixed bottom-6 right-6 z-50 bg-emerald-700 text-white px-5 py-3 rounded-2xl shadow-2xl border border-emerald-500 text-xs font-bold flex items-center gap-2 animate-bounce';
+  toast.innerHTML = '<span class="material-symbols-outlined text-[18px]">verified</span><span>Live Check-in Verified! Official Certificate Issued.</span>';
+  document.body.appendChild(toast);
+
+  // Reload current ticket pass page to show official certificate banner
+  setTimeout(() => {
+    window.location.reload();
+  }, 1200);
+}
+
+function copyPasscode(code) {
+  navigator.clipboard.writeText(code).then(() => {
+    alert('Meeting passcode copied: ' + code);
+  });
+}
+
+function copyPassLink() {
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('copyLinkBtn');
+    btn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-emerald-600">check</span><span class="text-emerald-700 font-bold">Link Copied!</span>';
+    setTimeout(() => {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">share</span><span>Share Pass</span>';
+    }, 2500);
+  });
+}
+
+function copyCertLink(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('copyCertBtn');
+    if (btn) {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[13px] text-emerald-600">check</span><span class="text-emerald-700">Copied!</span>';
+      setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-outlined text-[13px]">link</span><span>Copy Link</span>';
+      }, 2500);
+    }
+  });
+}
+
+function openCancelModal() {
+  const modal = document.getElementById('cancelRsvpModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+}
+
+function closeCancelModal() {
+  const modal = document.getElementById('cancelRsvpModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+}
+
+function selectStarRating(val) {
+  const input = document.getElementById('selectedRatingInput');
+  const label = document.getElementById('starRatingLabel');
+  if (input) input.value = val;
+
+  const labels = {
+    1: '1 Star (Needs Improvement)',
+    2: '2 Stars (Fair)',
+    3: '3 Stars (Good)',
+    4: '4 Stars (Very Good)',
+    5: '5 Stars (Excellent)'
+  };
+  if (label && labels[val]) label.textContent = labels[val];
+
+  const buttons = document.querySelectorAll('.star-btn');
+  buttons.forEach(btn => {
+    const starVal = parseInt(btn.getAttribute('data-val'));
+    const icon = btn.querySelector('.material-symbols-outlined');
+    if (starVal <= val) {
+      btn.classList.add('text-amber-400');
+      btn.classList.remove('text-neutral-300');
+      if (icon) icon.textContent = 'star';
+    } else {
+      btn.classList.remove('text-amber-400');
+      btn.classList.add('text-neutral-300');
+      if (icon) icon.textContent = 'star';
+    }
+  });
+}
+</script>
+
+<!-- Cancel RSVP Confirmation Modal -->
+<div id="cancelRsvpModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden items-center justify-center p-4">
+  <div class="bg-surface-container-lowest rounded-2xl max-w-sm w-full p-6 border border-surface-container-high shadow-2xl space-y-4">
+    <div class="w-12 h-12 rounded-full bg-rose-50 text-error flex items-center justify-center">
+      <span class="material-symbols-outlined text-[28px]">event_busy</span>
+    </div>
+    <div class="space-y-1">
+      <h3 class="text-base font-extrabold text-primary">Cancel Your Event RSVP?</h3>
+      <p class="text-xs text-on-surface-variant leading-relaxed">
+        Are you sure you want to cancel your seat for <strong>{{ event.title }}</strong>? Your seat will be immediately reassigned to the next community member on the priority waitlist.
+      </p>
+    </div>
+    <div class="flex items-center gap-2 pt-2">
+      <button type="button" onclick="closeCancelModal()" class="flex-1 py-2.5 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-bold text-xs transition-colors">
+        Keep My Seat
+      </button>
+      <form method="POST" action="{% url 'event_ticket_cancel' registration.ticket_code %}" class="flex-1">
+        {% csrf_token %}
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-error hover:bg-red-700 text-white font-bold text-xs transition-colors shadow-sm">
+          Yes, Cancel RSVP
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+@media print {
+  body {
+    background: white !important;
+  }
+  header, footer, nav, button, a[href^="http"] {
+    display: none !important;
+  }
+  #ticketPassArea {
+    box-shadow: none !important;
+    border: 2px solid #111111 !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+  }
+}
+</style>
+{% endblock %}

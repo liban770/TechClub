@@ -1,0 +1,179 @@
+{% extends 'layouts/public_base.html' %}
+
+{% block title %}Apply for Corporate Partnership — TechClub Hargeisa{% endblock %}
+
+{% block content %}
+<div class="max-w-[860px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin py-8 md:py-16 space-y-8">
+
+  <!-- Header -->
+  <header class="text-center space-y-3">
+    <a href="{% url 'partners' %}" class="inline-flex items-center gap-1.5 text-xs font-bold text-on-surface-variant hover:text-primary transition-colors">
+      <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+      <span>Back to Corporate Partners</span>
+    </a>
+    <h1 class="text-3xl sm:text-4xl font-black text-primary tracking-tight">Corporate Partnership Proposal</h1>
+    <p class="text-sm text-on-surface-variant max-w-xl mx-auto leading-relaxed">
+      Position your company at the center of Somaliland's engineering and architecture ecosystem. Submit your proposal and executive endorsement below.
+    </p>
+  </header>
+
+  <!-- Application Card -->
+  <div class="bg-surface-container-lowest border border-surface-container-high rounded-2xl p-6 sm:p-10 shadow-sm">
+    <form method="POST" enctype="multipart/form-data" class="space-y-8">
+      {% csrf_token %}
+
+      <!-- Anti-bot Security Honeypot (Hidden from genuine users) -->
+      <div style="display: none !important; opacity: 0 !important; position: absolute !important; left: -9999px !important;" aria-hidden="true">
+        <label for="company_security_check_hp">Leave this field blank</label>
+        <input type="text" name="company_security_check_hp" id="company_security_check_hp" tabindex="-1" autocomplete="off"/>
+      </div>
+
+      <!-- Section 1: Company Profile -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 pb-2 border-b border-surface-container-high">
+          <span class="material-symbols-outlined text-secondary text-[20px]">apartment</span>
+          <h2 class="text-sm font-extrabold text-primary uppercase tracking-wider">1. Organization Details</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1 sm:col-span-2">
+            <label class="block text-xs font-bold text-primary">Company / Enterprise Name *</label>
+            <input type="text" name="company_name" required placeholder="e.g. Telesom Group, Dahabshiil, Premier Bank"
+                   class="w-full h-11 px-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary transition-all"/>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary">Industry Sector *</label>
+            <select name="industry" class="w-full h-11 px-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary">
+              <option value="Telecommunications & Network Infrastructure">Telecommunications &amp; Network Infrastructure</option>
+              <option value="Banking, Microfinance & Fintech">Banking, Microfinance &amp; Fintech</option>
+              <option value="Enterprise Software & Cloud Architecture">Enterprise Software &amp; Cloud Architecture</option>
+              <option value="AI, Data & Analytics">AI, Data &amp; Analytics</option>
+              <option value="Hardware, IoT & Electronics">Hardware, IoT &amp; Electronics</option>
+              <option value="Higher Education & Technical Institute">Higher Education &amp; Technical Institute</option>
+              <option value="Other Technology Sector">Other Technology Sector</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary">Official Website URL *</label>
+            <input type="url" name="website_url" required placeholder="https://example.com"
+                   class="w-full h-11 px-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary transition-all"/>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary">Sponsorship Tier Level *</label>
+            <select name="tier" class="w-full h-11 px-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary">
+              {% for code, label in tiers %}
+              <option value="{{ code }}" {% if code == 'STRATEGIC' %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary">Company High-Res Logo (PNG / SVG / JPG)</label>
+            <input type="file" name="logo" accept="image/*"
+                   class="w-full h-11 px-3 py-2 rounded-xl bg-background border border-surface-container text-xs text-on-surface-variant file:mr-3 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-surface-container file:text-primary hover:file:bg-surface-container-high transition-all"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Executive Chairman Trust & Endorsement -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 pb-2 border-b border-surface-container-high">
+          <span class="material-symbols-outlined text-secondary text-[20px]">verified_user</span>
+          <div>
+            <h2 class="text-sm font-extrabold text-primary uppercase tracking-wider">2. Chairman / Executive Endorsement (Trust Statement)</h2>
+            <p class="text-[11px] text-on-surface-variant">This information will be featured alongside your company logo to demonstrate institutional backing.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary">Chairman / CEO Full Name *</label>
+            <input type="text" name="chairman_name" required placeholder="e.g. Mohamed Said Duale"
+                   class="w-full h-11 px-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary transition-all"/>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary">Executive Title *</label>
+            <input type="text" name="chairman_title" required placeholder="e.g. Chairman &amp; Founder, Dahabshiil Group"
+                   class="w-full h-11 px-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary transition-all"/>
+          </div>
+
+          <div class="space-y-1 sm:col-span-2">
+            <label class="block text-xs font-bold text-primary">Chairman / Executive Official Photo</label>
+            <input type="file" name="chairman_photo" accept="image/*"
+                   class="w-full h-11 px-3 py-2 rounded-xl bg-background border border-surface-container text-xs text-on-surface-variant file:mr-3 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-surface-container file:text-primary hover:file:bg-surface-container-high transition-all"/>
+          </div>
+
+          <div class="space-y-1 sm:col-span-2">
+            <label class="block text-xs font-bold text-primary">Executive Statement / Endorsement Quote *</label>
+            <textarea name="chairman_quote" rows="3" required placeholder="Why does your leadership support TechClub? (e.g. 'TechClub Hargeisa is building the premier pipeline of technical engineering talent in the Horn of Africa. We are proud to support this vision.')"
+                      class="w-full p-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary transition-all leading-relaxed"></textarea>
+          </div>
+
+          <div class="space-y-1 sm:col-span-2">
+            <label class="block text-xs font-bold text-primary">Chairman LinkedIn or Executive Bio URL (Optional)</label>
+            <input type="url" name="chairman_linkedin" placeholder="https://linkedin.com/in/..."
+                   class="w-full h-11 px-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary transition-all"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Representative Contact Details (Private / Organizer-Only) -->
+      <div class="space-y-4">
+        <div class="pb-2 border-b border-surface-container-high space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-[20px]">lock</span>
+            <h2 class="text-sm font-extrabold text-primary uppercase tracking-wider">3. Partnership Representative Contact (Confidential)</h2>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[10px]">Organizers Only</span>
+          </div>
+          <p class="text-[11px] text-on-surface-variant leading-relaxed">
+            🔒 <strong>Strict Privacy Notice:</strong> Representative contact details, email addresses, phone numbers, and sponsorship offerings are stored securely and visible <strong>only to TechClub organizers</strong>. They will <strong>never</strong> be displayed to website visitors or community members.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary">Contact Person Name *</label>
+            <input type="text" name="contact_person_name" required placeholder="Full Name"
+                   class="w-full h-11 px-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary transition-all"/>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary">Work Email *</label>
+            <input type="email" name="contact_email" required placeholder="partnerships@company.com"
+                   class="w-full h-11 px-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary transition-all"/>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary">Phone / WhatsApp Number *</label>
+            <input type="tel" name="contact_phone" required placeholder="+252 63..."
+                   class="w-full h-11 px-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary transition-all"/>
+          </div>
+
+          <div class="space-y-1 sm:col-span-3">
+            <label class="block text-xs font-bold text-primary">Partnership Offering &amp; Support Scope (Optional)</label>
+            <textarea name="partnership_offering" rows="2" placeholder="e.g. Annual sponsorship budget, cloud compute credits, event hosting venue, hackathon prize pool..."
+                      class="w-full p-3.5 rounded-xl bg-background border border-surface-container text-xs text-on-surface outline-none focus:border-primary transition-all leading-relaxed"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submission Actions -->
+      <div class="pt-6 border-t border-surface-container-high flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-[11px] text-on-surface-variant">
+          🔒 Proposals are kept confidential. Approved partners and quotes will be published only after mutual signoff.
+        </p>
+
+        <button type="submit" class="w-full sm:w-auto h-12 px-8 rounded-xl bg-primary text-on-primary hover:bg-neutral-800 font-extrabold text-xs shadow-md transition-all flex items-center justify-center gap-2 shrink-0">
+          <span class="material-symbols-outlined text-[18px]">send</span>
+          <span>Submit Partnership Proposal</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,351 @@
+{% extends 'layouts/public_base.html' %}
+
+{% block title %}About TechClub — Hargeisa's Premier Tech Community{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative overflow-hidden bg-surface py-16 md:py-24 border-b border-surface-container-high">
+  <div class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin space-y-6">
+    <div
+      class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-container/40 text-on-secondary-container text-xs font-bold font-code tracking-wide">
+      <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+      <span>HARGEISA, SOMALILAND</span>
+      <span>•</span>
+      <span>ESTABLISHED 2026</span>
+    </div>
+
+    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight max-w-4xl leading-[1.15]">
+      Architecting the Future of Somali Technology.
+    </h1>
+
+    <p class="text-base sm:text-lg text-on-surface-variant max-w-3xl leading-relaxed">
+      TechClub is a professional networking and community management platform designed to connect young technology
+      learners with experienced engineering leaders, founders, and designers across Hargeisa, Somaliland, and the global
+      diaspora.
+    </p>
+
+    <div class="flex flex-wrap items-center gap-3 pt-2">
+      <a href="{% url 'apply' %}"
+        class="px-6 py-3 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg font-bold text-xs shadow-md transition-all inline-flex items-center gap-2 active:scale-95">
+        <span>Apply to Join Cohort</span>
+        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </a>
+      <a href="{% url 'public_events' %}"
+        class="px-6 py-3 bg-surface-container hover:bg-surface-container-high text-primary rounded-lg font-bold text-xs transition-colors inline-flex items-center gap-2">
+        <span>Explore Gatherings</span>
+        <span class="material-symbols-outlined text-[16px]">calendar_month</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- The Narrative / Founding Vision -->
+<section class="py-16 md:py-20 bg-surface-container-lowest">
+  <div class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7 space-y-6">
+        <div class="space-y-2">
+          <span class="text-xs font-code uppercase tracking-widest text-secondary font-bold">The Founding
+            Narrative</span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-primary tracking-tight">
+            Bridging Potential with Production-Grade Rigor.
+          </h2>
+        </div>
+
+        <p class="text-sm sm:text-base text-on-surface-variant leading-relaxed">
+          Across the Horn of Africa, thousands of ambitious young builders are teaching themselves full-stack software
+          development, distributed systems, machine learning, and UX engineering. Yet far too many work in isolation —
+          without production code reviews, senior architectural guidance, or access to high-trust professional networks.
+        </p>
+
+        <p class="text-sm sm:text-base text-on-surface-variant leading-relaxed">
+          Founded in 2026, <strong>TechClub</strong> was created to eliminate that isolation. We provide the
+          institutional foundation for Hargeisa's burgeoning tech cluster: an ecosystem that vets members, facilitates
+          high-impact architecture workshops, coordinates 1-on-1 mentorship pairings, and curates an authenticated
+          talent directory.
+        </p>
+
+        <div class="grid grid-cols-2 gap-4 pt-2">
+          <div class="p-4 rounded-xl bg-surface-container-low border border-surface-container">
+            <div class="text-2xl font-extrabold text-primary">500+</div>
+            <div class="text-xs text-on-surface-variant font-medium mt-1">Aspiring &amp; Senior Engineers Targeting 2026
+              Cohorts</div>
+          </div>
+          <div class="p-4 rounded-xl bg-surface-container-low border border-surface-container">
+            <div class="text-2xl font-extrabold text-secondary">100% Vetted</div>
+            <div class="text-xs text-on-surface-variant font-medium mt-1">Application Review Ensuring Authentic,
+              High-Trust Peer Standards</div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="lg:col-span-5 bg-surface-container-low p-6 sm:p-8 rounded-2xl border border-surface-container space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-primary text-secondary-container flex items-center justify-center">
+            <span class="material-symbols-outlined text-[22px]">location_on</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-sm text-primary">The Hargeisa Node</h3>
+            <p class="text-xs text-on-surface-variant font-code">Hargeisa, Somaliland</p>
+          </div>
+        </div>
+
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          Based in Hargeisa, Somaliland, TechClub hosts weekly architecture labs,
+          code sprints, and masterclasses. Our community brings together aspiring builders and senior mentors
+          to foster deep engineering focus and technical excellence.
+        </p>
+
+        <div class="space-y-3 pt-2 text-xs">
+          <div class="flex items-center gap-2.5 text-on-surface font-semibold">
+            <span class="material-symbols-outlined text-secondary text-[18px]">bolt</span>
+            <span>Uninterrupted Power &amp; Low-Latency Fiber Hub</span>
+          </div>
+          <div class="flex items-center gap-2.5 text-on-surface font-semibold">
+            <span class="material-symbols-outlined text-secondary text-[18px]">hub</span>
+            <span>Direct Telecom &amp; Fintech Enterprise Integrations</span>
+          </div>
+          <div class="flex items-center gap-2.5 text-on-surface font-semibold">
+            <span class="material-symbols-outlined text-secondary text-[18px]">public</span>
+            <span>Diaspora Knowledge Exchange &amp; Remote Work Readiness</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Four Core Pillars -->
+<section class="py-16 md:py-20 bg-surface">
+  <div class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin space-y-12">
+    <div class="text-center max-w-2xl mx-auto space-y-3">
+      <span class="text-xs font-code uppercase tracking-widest text-secondary font-bold">Platform Foundations</span>
+      <h2 class="text-3xl font-extrabold text-primary tracking-tight">The Four Pillars of TechClub</h2>
+      <p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+        We don't do superficial meetups. Every initiative is engineered to produce real technical competence and career
+        outcomes.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Pillar 1 -->
+      <div
+        class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-all space-y-4 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-secondary-container/40 text-secondary flex items-center justify-center font-bold">
+            <span class="material-symbols-outlined text-[22px]">terminal</span>
+          </div>
+          <h3 class="font-extrabold text-base text-primary">1. Engineering Rigor Over Noise</h3>
+          <p class="text-xs text-on-surface-variant leading-relaxed">
+            We prioritize working software, distributed database schemas, clean git histories, and production
+            performance over buzzwords and vanity metrics.
+          </p>
+        </div>
+        <div class="text-[11px] font-code text-secondary font-bold pt-2 border-t border-surface-container-high">
+          Production Systems Focus
+        </div>
+      </div>
+
+      <!-- Pillar 2 -->
+      <div
+        class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-all space-y-4 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-secondary-container/40 text-secondary flex items-center justify-center font-bold">
+            <span class="material-symbols-outlined text-[22px]">diversity_3</span>
+          </div>
+          <h3 class="font-extrabold text-base text-primary">2. Generous Mentorship</h3>
+          <p class="text-xs text-on-surface-variant leading-relaxed">
+            Experienced engineers from leading institutions and global tech hubs volunteer time to review code, conduct
+            mock system design sessions, and advise emerging talent.
+          </p>
+        </div>
+        <div class="text-[11px] font-code text-secondary font-bold pt-2 border-t border-surface-container-high">
+          1-on-1 Guidance &amp; Code Review
+        </div>
+      </div>
+
+      <!-- Pillar 3 -->
+      <div
+        class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-all space-y-4 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-secondary-container/40 text-secondary flex items-center justify-center font-bold">
+            <span class="material-symbols-outlined text-[22px]">badge</span>
+          </div>
+          <h3 class="font-extrabold text-base text-primary">3. Verified Talent Pipeline</h3>
+          <p class="text-xs text-on-surface-variant leading-relaxed">
+            Our member directory provides employers and startup founders with verified technical profiles, vetted skill
+            tags, and demonstrable project portfolios.
+          </p>
+        </div>
+        <div class="text-[11px] font-code text-secondary font-bold pt-2 border-t border-surface-container-high">
+          Authenticated Directory
+        </div>
+      </div>
+
+      <!-- Pillar 4 -->
+      <div
+        class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-all space-y-4 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-secondary-container/40 text-secondary flex items-center justify-center font-bold">
+            <span class="material-symbols-outlined text-[22px]">flight_takeoff</span>
+          </div>
+          <h3 class="font-extrabold text-base text-primary">4. Diaspora Knowledge Bridge</h3>
+          <p class="text-xs text-on-surface-variant leading-relaxed">
+            We bridge the Somali diaspora across Europe, North America, and the Gulf with the emerging developer talent
+            pool on the ground in Somaliland.
+          </p>
+        </div>
+        <div class="text-[11px] font-code text-secondary font-bold pt-2 border-t border-surface-container-high">
+          Global Knowledge Transfer
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Community Values & Code of Ethics -->
+<section class="py-16 md:py-20 bg-surface-container-lowest border-y border-surface-container-high">
+  <div class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin space-y-8">
+    <div class="max-w-2xl space-y-2">
+      <span class="text-xs font-code uppercase tracking-widest text-secondary font-bold">Our Culture</span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-primary tracking-tight">The TechClub Code of Ethics</h2>
+      <p class="text-xs sm:text-sm text-on-surface-variant">The core rules every organizer, mentor, and member commits
+        to upholding.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 rounded-xl bg-surface-container-low border border-surface-container space-y-3">
+        <div class="flex items-center gap-2 text-primary font-bold text-sm">
+          <span class="material-symbols-outlined text-secondary text-[20px]">handshake</span>
+          <span>Zero Gatekeeping</span>
+        </div>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          Knowledge is never hoarded. We believe true technical mastery is reflected in the ability to explain complex
+          concepts clearly and uplift junior peers.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-xl bg-surface-container-low border border-surface-container space-y-3">
+        <div class="flex items-center gap-2 text-primary font-bold text-sm">
+          <span class="material-symbols-outlined text-secondary text-[20px]">verified</span>
+          <span>Authentic Portfolios</span>
+        </div>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          We encourage genuine code over exaggerated claims. Members are recognized for what they have actually written,
+          designed, and deployed to production.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-xl bg-surface-container-low border border-surface-container space-y-3">
+        <div class="flex items-center gap-2 text-primary font-bold text-sm">
+          <span class="material-symbols-outlined text-secondary text-[20px]">shield</span>
+          <span>Privacy &amp; Safety by Default</span>
+        </div>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          Personal contact details are protected. Members maintain full granular control over whether their email,
+          phone, and profile are visible to the public or only authenticated peers.
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- Meet the Founder Showcase Section -->
+  <section class="py-16 md:py-24 bg-white border-b border-surface-container-high">
+    <div class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin">
+      <div class="bg-[#F8F8F6] rounded-3xl border border-[#E5E5E5] p-6 sm:p-10 lg:p-12 shadow-sm">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+          <!-- Left: Founder Photo with Gold Border -->
+          <div class="lg:col-span-4 flex justify-center">
+            <div class="relative w-full max-w-xs">
+              <div class="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-[#D4AF37]/40 to-[#111111]/10 blur-sm">
+              </div>
+              <div class="relative rounded-2xl overflow-hidden bg-[#292929] border border-[#D4AF37]/50 shadow-xl">
+                <img src="{{ founder.display_photo }}" alt="{{ founder.full_name }} — Founder of TechClub"
+                  class="w-full h-auto object-cover aspect-[4/5] block" />
+                <div class="p-3 bg-[#111111] border-t border-[#D4AF37]/30 text-center">
+                  <span class="text-xs font-bold text-white block">{{ founder.full_name }}</span>
+                  <span class="text-[10px] font-code text-[#D4AF37]">{{ founder.title }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Story Teaser & CTAs -->
+          <div class="lg:col-span-8 space-y-5">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#735c00]">
+              <span class="w-2 h-2 rounded-full bg-[#D4AF37]"></span>
+              <span class="text-xs font-bold uppercase tracking-widest font-code">MEET THE FOUNDER</span>
+            </div>
+
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-[#111111] tracking-tight leading-tight">
+              {{ founder.headline }}
+            </h2>
+
+            <p class="text-sm sm:text-base text-neutral-700 leading-relaxed">
+              "{{ founder.full_name }} is a software engineering graduate from {{ founder.education }} and the founder of TechClub. With a background in software development, teaching, and student leadership, Ahmed is passionate about using technology and collaboration to create opportunities for young people."
+            </p>
+
+            <div class="p-4 rounded-xl bg-white border-l-4 border-[#D4AF37] border-y border-r border-[#E5E5E5]">
+              <p class="text-xs sm:text-sm font-semibold text-[#111111] italic">
+                "{{ founder.central_message }}"
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+              <a href="{% url 'founder' %}"
+                class="px-6 py-3 bg-[#111111] text-white hover:bg-neutral-800 rounded-xl font-bold text-xs shadow-md transition-all inline-flex items-center gap-2">
+                <span>Read Founder's Story &amp; Vision</span>
+                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+              </a>
+              <a href="{{ founder.linkedin_url }}" target="_blank"
+                rel="noopener noreferrer"
+                class="px-5 py-3 bg-white text-[#111111] hover:bg-[#E5E5E5] border border-[#E5E5E5] rounded-xl font-bold text-xs transition-colors inline-flex items-center gap-2">
+                <span>Connect on LinkedIn</span>
+                <span class="material-symbols-outlined text-[16px] text-neutral-400">open_in_new</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action Banner -->
+  <section class="py-16 md:py-20 bg-primary text-on-primary">
+    <div class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin text-center space-y-6">
+      <div
+        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/20 text-secondary-container text-xs font-bold font-code">
+        <span>TAKE PART IN SOMALILAND'S TECH CLUSTER</span>
+      </div>
+
+      <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight max-w-2xl mx-auto">
+        Ready to connect, learn, and build with us?
+      </h2>
+
+      <p class="text-xs sm:text-sm text-on-primary-container max-w-xl mx-auto leading-relaxed">
+        Submit your membership application today. Join our vetted community of engineers, designers, and innovators in
+        Hargeisa.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+        <a href="{% url 'apply' %}"
+          class="px-6 py-3 bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed-dim rounded-lg font-bold text-xs shadow-md transition-all inline-flex items-center gap-2">
+          <span>Apply for Membership</span>
+          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </a>
+        <a href="{% url 'member_directory' %}"
+          class="px-6 py-3 bg-neutral-800 hover:bg-neutral-700 text-on-primary rounded-lg font-bold text-xs transition-colors inline-flex items-center gap-2">
+          <span>Search Member Directory</span>
+          <span class="material-symbols-outlined text-[16px]">person_search</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  {% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'layouts/public_base.html' %}
+
+{% block title %}Verify Email OTP &amp; Reset Password — TechClub Hargeisa{% endblock %}
+
+{% block content %}
+<div class="min-h-[80vh] flex items-center justify-center px-4 py-12">
+  <div class="max-w-md w-full bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high p-8 space-y-6">
+    <div class="text-center space-y-2">
+      <div class="flex justify-center mb-2">
+        <img src="/static/images/logo-icon-transparent.png" alt="TechClub Official Logo" class="h-14 w-auto object-contain"/>
+      </div>
+      <h1 class="text-2xl font-extrabold text-primary tracking-tight">Enter Verification Code</h1>
+      <p class="text-xs text-on-surface-variant leading-relaxed">
+        We dispatched a 6-digit verification code to <span class="font-bold text-primary">{{ email }}</span>. Enter the OTP below to reset your password.
+      </p>
+    </div>
+
+
+    <form method="POST" action="{% url 'verify_otp' %}" class="space-y-4">
+      {% csrf_token %}
+      <input type="hidden" name="email" value="{{ email }}"/>
+
+      <div>
+        <label for="otp_code" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-2">6-Digit Verification OTP</label>
+        <div class="relative">
+          <input type="text" name="otp_code" id="otp_code" required maxlength="6" pattern="[0-9]{6}"
+                 placeholder="123456"
+                 class="w-full bg-surface-container-low px-4 py-3 rounded-lg text-center font-code text-xl font-extrabold tracking-widest text-primary focus:bg-white border border-transparent focus:border-primary outline-none transition-all placeholder:text-outline"/>
+        </div>
+        <p class="text-[11px] text-on-surface-variant mt-1 text-center">Expires in 15 minutes.</p>
+      </div>
+
+      <div>
+        <label for="new_password" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-2">New Password</label>
+        <div class="relative">
+          <input type="password" name="new_password" id="new_password" required minlength="6" placeholder="At least 6 characters"
+                 class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-transparent focus:border-primary outline-none transition-all placeholder:text-outline pr-10"/>
+          <button type="button" onclick="togglePasswordVisibility('new_password', 'toggleNewPasswordIcon')" class="absolute right-3 top-2.5 text-on-surface-variant hover:text-primary transition-colors focus:outline-none" title="Show/Hide Password">
+            <span id="toggleNewPasswordIcon" class="material-symbols-outlined text-[18px]">visibility</span>
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <label for="confirm_password" class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-2">Confirm New Password</label>
+        <div class="relative">
+          <input type="password" name="confirm_password" id="confirm_password" required minlength="6" placeholder="Repeat new password"
+                 class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-white border border-transparent focus:border-primary outline-none transition-all placeholder:text-outline pr-10"/>
+          <button type="button" onclick="togglePasswordVisibility('confirm_password', 'toggleConfirmPasswordIcon')" class="absolute right-3 top-2.5 text-on-surface-variant hover:text-primary transition-colors focus:outline-none" title="Show/Hide Password">
+            <span id="toggleConfirmPasswordIcon" class="material-symbols-outlined text-[18px]">visibility</span>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="w-full py-3 px-4 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg text-sm font-bold shadow transition-all active:scale-[0.99] flex items-center justify-center gap-2 mt-2">
+        <span>Verify OTP &amp; Reset Password</span>
+        <span class="material-symbols-outlined text-[16px]">check_circle</span>
+      </button>
+    </form>
+
+    <script>
+      function togglePasswordVisibility(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.textContent = 'visibility_off';
+        } else {
+          input.type = 'password';
+          icon.textContent = 'visibility';
+        }
+      }
+    </script>
+
+    <div class="pt-4 border-t border-surface-container-high flex items-center justify-between text-xs">
+      <form method="POST" action="{% url 'resend_otp' %}" class="inline">
+        {% csrf_token %}
+        <input type="hidden" name="email" value="{{ email }}"/>
+        <button type="submit" class="text-secondary font-bold hover:underline inline-flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">refresh</span>
+          <span>Resend Code</span>
+        </button>
+      </form>
+
+      <a href="{% url 'login' %}" class="text-on-surface-variant hover:text-primary">Cancel &amp; Sign In</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

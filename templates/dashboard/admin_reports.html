@@ -1,0 +1,115 @@
+{% extends 'layouts/admin_base.html' %}
+
+{% block title %}Telemetry &amp; Growth Reports — TechClub Admin Ops{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6">
+  <!-- Top Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 text-xs font-code uppercase tracking-wider text-secondary font-bold">
+        <span>COMMUNITY ANALYTICS</span>
+        <span class="text-on-surface-variant">/</span>
+        <span class="text-on-surface-variant">Telemetry &amp; Reports</span>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight mt-1">Ecosystem Growth Reports</h1>
+      <p class="text-xs text-on-surface-variant max-w-2xl mt-1">
+        Telemetry on applicant channels, technical domain distributions, admissions conversion rates, and event attendance velocity across Hargeisa and Somaliland.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-2.5 flex-wrap">
+      <a href="{% url 'admin_backup_download' %}" class="flex items-center gap-1.5 px-3.5 py-2 bg-primary text-on-primary hover:bg-neutral-800 text-xs font-bold rounded-lg shadow-sm transition-all" title="Export complete system database as JSON">
+        <span class="material-symbols-outlined text-[16px]">cloud_download</span>
+        <span>Download Full Backup (JSON)</span>
+      </a>
+      <a href="{% url 'admin_export_applications_csv' %}" class="flex items-center gap-1.5 px-3.5 py-2 bg-surface-container-lowest text-on-surface text-xs font-bold rounded-lg border border-surface-container-high shadow-sm hover:bg-surface-container transition-all">
+        <span class="material-symbols-outlined text-[16px]">download</span>
+        <span>Applications CSV</span>
+      </a>
+      <a href="{% url 'admin_export_members_csv' %}" class="flex items-center gap-1.5 px-3.5 py-2 bg-surface-container-lowest text-on-surface text-xs font-bold rounded-lg border border-surface-container-high shadow-sm hover:bg-surface-container transition-all">
+        <span class="material-symbols-outlined text-[16px]">download</span>
+        <span>Members CSV</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Metric Overview Bar -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm">
+      <span class="text-[11px] uppercase font-bold text-on-surface-variant">Total Pipeline Pool</span>
+      <div class="text-2xl font-extrabold text-primary mt-2">{{ total_apps }} Applicants</div>
+      <span class="text-[11px] text-on-surface-variant mt-1 block">Recorded since launch</span>
+    </div>
+
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm">
+      <span class="text-[11px] uppercase font-bold text-secondary">Attendance Rate</span>
+      <div class="text-2xl font-extrabold text-primary mt-2">{{ attendance_rate }}%</div>
+      <span class="text-[11px] text-on-surface-variant mt-1 block">{{ attended_reg }} attended of {{ total_reg }} RSVPs</span>
+    </div>
+
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm">
+      <span class="text-[11px] uppercase font-bold text-on-surface-variant">Top Referral Channel</span>
+      <div class="text-xl font-extrabold text-primary mt-2 truncate">
+        {{ referral_stats.0.referral_source|default:'WhatsApp' }}
+      </div>
+      <span class="text-[11px] text-on-surface-variant mt-1 block">{{ referral_stats.0.total|default:0 }} submissions</span>
+    </div>
+
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container-high shadow-sm">
+      <span class="text-[11px] uppercase font-bold text-on-surface-variant">Database Engine</span>
+      <div class="text-xl font-extrabold text-primary mt-2">PostgreSQL 18</div>
+      <span class="text-[11px] text-emerald-700 font-bold mt-1 block">Live &amp; Synchronized</span>
+    </div>
+  </div>
+
+  <!-- Detailed Analytics Breakdown Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Referral Channels Breakdown Table -->
+    <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high p-5 shadow-sm space-y-4">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Applications by Referral Source</h3>
+      <table class="w-full text-xs text-left">
+        <thead class="bg-surface-container-low text-on-surface-variant font-bold border-b border-surface-container-high">
+          <tr>
+            <th class="p-2.5">Source Channel</th>
+            <th class="p-2.5 text-right">Applicant Count</th>
+            <th class="p-2.5 text-right">Share</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-container-high">
+          {% for r in referral_stats %}
+          <tr>
+            <td class="p-2.5 font-medium text-primary">{{ r.referral_source }}</td>
+            <td class="p-2.5 text-right font-code font-bold">{{ r.total }}</td>
+            <td class="p-2.5 text-right font-code text-on-surface-variant">
+              {% widthratio r.total total_apps 100 %}%
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Technical Domain Distribution -->
+    <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high p-5 shadow-sm space-y-4">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Members by Technical Discipline</h3>
+      <table class="w-full text-xs text-left">
+        <thead class="bg-surface-container-low text-on-surface-variant font-bold border-b border-surface-container-high">
+          <tr>
+            <th class="p-2.5">Discipline</th>
+            <th class="p-2.5 text-right">Member Count</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-container-high">
+          {% for d in discipline_stats %}
+          <tr>
+            <td class="p-2.5 font-medium text-primary">{{ d.discipline }}</td>
+            <td class="p-2.5 text-right font-code font-bold">{{ d.total }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

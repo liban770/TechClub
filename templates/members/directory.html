@@ -1,0 +1,264 @@
+{% extends 'layouts/public_base.html' %}
+
+{% block title %}Member Directory — TechClub Hargeisa{% endblock %}
+
+{% block content %}
+<div class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin py-8 md:py-12 space-y-8">
+  <!-- Header Section with Breadcrumbs & Meta Controls -->
+  <header class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-surface-container-high">
+    <div class="flex flex-col max-w-2xl">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="font-label-sm text-[11px] uppercase tracking-wider text-secondary font-bold">Community Network</span>
+        <span class="text-on-surface-variant font-code text-xs">/</span>
+        <span class="font-label-sm text-[11px] uppercase tracking-wider text-on-surface-variant">Verified Professionals &amp; Builders</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight mb-2">Member Directory</h1>
+      <p class="text-sm text-on-surface-variant leading-relaxed">
+        Discover, connect, and collaborate with verified software engineers, system architects, UI/UX designers, and tech leaders across the Somaliland tech ecosystem.
+      </p>
+    </div>
+
+    <!-- Top Action Bar -->
+    <div class="flex items-center flex-wrap gap-3 shrink-0">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-high border border-surface-container">
+        <span class="w-2 h-2 rounded-full bg-secondary"></span>
+        <span class="text-xs font-bold text-on-surface tracking-tight">{{ total_active }} Vetted Members</span>
+      </div>
+      {% if user.is_authenticated and user.is_organizer %}
+      <a href="{% url 'admin_export_members_csv' %}" class="h-9 px-3.5 rounded-lg bg-surface-container-lowest border border-surface-container-high hover:bg-surface-container text-primary font-bold text-xs transition-all flex items-center gap-1.5 shadow-sm">
+        <span class="material-symbols-outlined text-[16px]">file_download</span>
+        <span>Export CSV</span>
+      </a>
+      {% endif %}
+      <a href="{% url 'apply' %}" class="h-9 px-4 rounded-lg bg-primary hover:bg-neutral-800 text-on-primary font-bold text-xs transition-all flex items-center gap-1.5 shadow-sm">
+        <span class="material-symbols-outlined text-[16px]">person_add</span>
+        <span>Join Community</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Search & Filter Console -->
+  <section class="bg-surface-container-lowest border border-surface-container-high rounded-xl p-5 shadow-sm space-y-4">
+    <form method="GET" class="space-y-4">
+      <!-- Search Bar -->
+      <div class="relative w-full">
+        <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+        <input type="text" name="q" value="{{ search_query }}" id="member-search-input" placeholder="Search by member name, headline, company, or skills (e.g. Telesom, Rust, Figma)..."
+               class="w-full h-11 pl-11 pr-4 bg-background border border-surface-container rounded-lg text-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:border-primary transition-all"/>
+      </div>
+
+      <!-- Filter Dropdowns Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <!-- Discipline -->
+        <div class="flex flex-col gap-1">
+          <label class="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant">Discipline</label>
+          <select name="discipline" onchange="this.form.submit()" class="h-9 px-3 bg-surface-container-low border border-surface-container rounded-lg text-xs text-on-surface outline-none focus:border-primary">
+            <option value="ALL">All Disciplines</option>
+            {% for code, label in disciplines %}
+            <option value="{{ code }}" {% if discipline_filter == code %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Seniority -->
+        <div class="flex flex-col gap-1">
+          <label class="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant">Seniority Level</label>
+          <select name="seniority" onchange="this.form.submit()" class="h-9 px-3 bg-surface-container-low border border-surface-container rounded-lg text-xs text-on-surface outline-none focus:border-primary">
+            <option value="ALL">All Seniority</option>
+            {% for code, label in seniorities %}
+            <option value="{{ code }}" {% if seniority_filter == code %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Skills Filter -->
+        <div class="flex flex-col gap-1">
+          <label class="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant">Primary Skill</label>
+          <select name="skill" onchange="this.form.submit()" class="h-9 px-3 bg-surface-container-low border border-surface-container rounded-lg text-xs text-on-surface outline-none focus:border-primary">
+            <option value="ALL">All Skills</option>
+            {% for sk in all_skills %}
+            <option value="{{ sk.name }}" {% if skill_filter == sk.name %}selected{% endif %}>{{ sk.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Quick Mentor Toggle & Filter Button -->
+        <div class="flex items-end gap-2">
+          <button type="submit" class="flex-1 h-9 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg text-xs font-bold transition-all shadow-sm">
+            Apply Filter
+          </button>
+          <a href="?mentor={% if mentor_only %}0{% else %}1{% endif %}{% if search_query %}&q={{ search_query|urlencode }}{% endif %}{% if discipline_filter != 'ALL' %}&discipline={{ discipline_filter }}{% endif %}{% if seniority_filter != 'ALL' %}&seniority={{ seniority_filter }}{% endif %}{% if skill_filter != 'ALL' %}&skill={{ skill_filter|urlencode }}{% endif %}"
+             class="h-9 px-3 rounded-lg border text-xs font-bold flex items-center gap-1 transition-all {% if mentor_only %}bg-secondary-container text-on-secondary-container border-secondary{% else %}bg-surface-container-low text-on-surface-variant border-surface-container hover:bg-surface-container{% endif %}">
+            <span class="material-symbols-outlined text-[16px]">stars</span>
+            <span>Mentors Only</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Popular Skills Quick Chips Bar -->
+      {% if popular_skills %}
+      <div class="pt-3 border-t border-surface-container flex flex-wrap items-center gap-1.5">
+        <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mr-1 flex items-center gap-1">
+          <span class="material-symbols-outlined text-[15px] text-secondary">local_fire_department</span>
+          Top Skills:
+        </span>
+        <a href="?skill=ALL{% if search_query %}&q={{ search_query|urlencode }}{% endif %}{% if discipline_filter != 'ALL' %}&discipline={{ discipline_filter }}{% endif %}{% if seniority_filter != 'ALL' %}&seniority={{ seniority_filter }}{% endif %}{% if mentor_only %}&mentor=1{% endif %}"
+           class="px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all {% if skill_filter == 'ALL' %}bg-primary text-on-primary shadow-xs{% else %}bg-surface-container hover:bg-surface-container-high text-on-surface-variant{% endif %}">
+          All
+        </a>
+        {% for psk in popular_skills %}
+        <a href="?skill={{ psk.name|urlencode }}{% if search_query %}&q={{ search_query|urlencode }}{% endif %}{% if discipline_filter != 'ALL' %}&discipline={{ discipline_filter }}{% endif %}{% if seniority_filter != 'ALL' %}&seniority={{ seniority_filter }}{% endif %}{% if mentor_only %}&mentor=1{% endif %}"
+           class="px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all inline-flex items-center gap-1 {% if skill_filter == psk.name %}bg-primary text-on-primary shadow-xs ring-1 ring-primary{% else %}bg-surface-container hover:bg-surface-container-high text-on-surface{% endif %}">
+          <span>{{ psk.name }}</span>
+          <span class="text-[9px] px-1.5 py-0.2 rounded-full font-bold {% if skill_filter == psk.name %}bg-on-primary/20 text-on-primary{% else %}bg-surface-container-high text-on-surface-variant{% endif %}">{{ psk.member_count }}</span>
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Active Filters Status Bar -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 text-xs">
+        <div class="flex items-center gap-2 text-on-surface-variant">
+          <span>Showing <strong class="text-primary font-bold" id="results-count">{{ total_results }}</strong> member{{ total_results|pluralize }}</span>
+          {% if active_filters_count > 0 %}
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-bold text-[10px]">
+            {{ active_filters_count }} filter{{ active_filters_count|pluralize }} active
+          </span>
+          {% endif %}
+        </div>
+        {% if active_filters_count > 0 %}
+        <a href="{% url 'member_directory' %}" class="inline-flex items-center gap-1 text-xs font-bold text-error hover:underline">
+          <span class="material-symbols-outlined text-[14px]">cancel</span>
+          <span>Reset All Filters</span>
+        </a>
+        {% endif %}
+      </div>
+    </form>
+  </section>
+
+  <!-- Member Cards Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="members-grid">
+    {% for member in members %}
+    <div class="member-card bg-surface-container-lowest border border-surface-container-high rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group"
+         data-search-text="{{ member.full_name|lower }} {{ member.professional_title|lower }} {{ member.organization|lower }} {% for skill in member.skills.all %}{{ skill.name|lower }} {% endfor %} {{ member.bio|lower }}">
+      <div>
+        <div class="flex items-start justify-between gap-3 mb-4">
+          <div class="flex items-center gap-3">
+            {% if member.display_avatar %}
+            <img src="{{ member.display_avatar }}" alt="{{ member.full_name }}" class="w-12 h-12 rounded-xl object-cover ring-2 ring-surface shadow-sm"/>
+            {% else %}
+            <div class="w-12 h-12 rounded-xl bg-primary text-on-primary font-bold text-sm flex items-center justify-center ring-2 ring-surface shadow-sm">
+              {{ member.initials }}
+            </div>
+            {% endif %}
+            <div>
+              <div class="flex items-center gap-1.5">
+                <a href="{% url 'member_profile' member.id %}" class="font-extrabold text-base text-primary hover:text-secondary transition-colors">
+                  {{ member.full_name }}
+                </a>
+              </div>
+              <p class="text-xs text-on-surface-variant font-medium leading-tight mt-0.5">
+                {{ member.professional_title }}
+              </p>
+              <p class="text-[11px] text-on-surface-variant font-code mt-0.5">
+                {{ member.organization|default:'Independent' }} • {{ member.location }}
+              </p>
+            </div>
+          </div>
+
+          {% if member.is_mentor %}
+          <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[10px] font-extrabold flex items-center gap-1 shrink-0" title="Active Community Mentor">
+            <span class="material-symbols-outlined text-[12px]">stars</span>
+            Mentor
+          </span>
+          {% endif %}
+        </div>
+
+        {% if member.bio %}
+        <p class="text-xs text-on-surface-variant line-clamp-3 leading-relaxed mb-4">
+          {{ member.bio }}
+        </p>
+        {% endif %}
+
+        <!-- Skill Pills -->
+        <div class="flex flex-wrap gap-1.5 mb-4">
+          {% for skill in member.skills.all|slice:':5' %}
+          <a href="?skill={{ skill.name|urlencode }}" class="px-2 py-0.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-[10px] font-code font-medium transition-colors">
+            {{ skill.name }}
+          </a>
+          {% empty %}
+          <span class="text-[11px] text-on-surface-variant italic">No skills listed yet</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Card Footer -->
+      <div class="pt-4 border-t border-surface-container-high flex items-center justify-between">
+        <span class="text-[11px] font-code text-on-surface-variant">
+          {{ member.cohort }}
+        </span>
+
+        <a href="{% url 'member_profile' member.id %}" class="inline-flex items-center gap-1 text-xs font-bold text-primary group-hover:text-secondary transition-colors">
+          <span>View Profile</span>
+          <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-span-full bg-surface-container-lowest p-12 text-center rounded-xl border border-surface-container-high">
+      <span class="material-symbols-outlined text-4xl text-on-surface-variant block mb-2 opacity-50">person_search</span>
+      <h3 class="text-base font-bold text-primary">No members match your search</h3>
+      <p class="text-xs text-on-surface-variant mt-1">Try resetting the search keywords or filters.</p>
+      <a href="{% url 'member_directory' %}" class="inline-block mt-4 px-4 py-2 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded-lg transition-colors">
+        Reset All Filters
+      </a>
+    </div>
+    {% endfor %}
+
+    <!-- Client-side No Results Notice (hidden by default) -->
+    <div id="live-no-results" class="hidden col-span-full bg-surface-container-lowest p-12 text-center rounded-xl border border-surface-container-high">
+      <span class="material-symbols-outlined text-4xl text-on-surface-variant block mb-2 opacity-50">person_search</span>
+      <h3 class="text-base font-bold text-primary">No members match your live search</h3>
+      <p class="text-xs text-on-surface-variant mt-1">Try clearing your search input or press Enter to search the full database.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('member-search-input');
+    const cards = document.querySelectorAll('.member-card');
+    const resultsCount = document.getElementById('results-count');
+    const liveNoResults = document.getElementById('live-no-results');
+
+    if (searchInput && cards.length > 0) {
+      searchInput.addEventListener('input', function() {
+        const query = this.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+          const text = card.getAttribute('data-search-text') || '';
+          if (!query || text.includes(query)) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (resultsCount) {
+          resultsCount.textContent = visibleCount;
+        }
+
+        if (liveNoResults) {
+          if (visibleCount === 0 && cards.length > 0) {
+            liveNoResults.classList.remove('hidden');
+          } else {
+            liveNoResults.classList.add('hidden');
+          }
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}

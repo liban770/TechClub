@@ -1,0 +1,294 @@
+{% extends 'layouts/admin_base.html' %}
+
+{% block title %}Ticket Scanner &amp; Check-in — TechClub Organizer{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-surface-container-high">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary-container">qr_code_scanner</span>
+        <h1 class="text-2xl font-extrabold text-primary tracking-tight">QR Ticket Scanner &amp; Event Check-in</h1>
+      </div>
+      <p class="text-xs text-on-surface-variant mt-1">Scan digital passes via webcam/mobile camera or enter ticket codes to verify attendees and issue certificates.</p>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a href="{% url 'admin_attendance' %}" class="px-3.5 py-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high text-xs font-bold transition-colors flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-[16px]">how_to_reg</span>
+        <span>Manual Attendance Sheet</span>
+      </a>
+      <a href="{% url 'admin_events' %}" class="px-3.5 py-2 rounded-lg bg-primary text-on-primary hover:bg-neutral-800 text-xs font-bold transition-colors flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-[16px]">calendar_month</span>
+        <span>Events Manager</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Telemetry Metrics -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="p-4 rounded-xl bg-surface-container-lowest border border-surface-container-high shadow-sm">
+      <div class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Total Verified Attended</div>
+      <div class="text-2xl font-extrabold text-emerald-600 mt-1" id="statTotalAttended">{{ total_attended_all }}</div>
+      <div class="text-[11px] text-on-surface-variant mt-0.5">Automated Certificates Issued</div>
+    </div>
+    <div class="p-4 rounded-xl bg-surface-container-lowest border border-surface-container-high shadow-sm">
+      <div class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Total Event Registrations</div>
+      <div class="text-2xl font-extrabold text-primary mt-1">{{ total_rsvps }}</div>
+      <div class="text-[11px] text-on-surface-variant mt-0.5">Across All Scheduled Sessions</div>
+    </div>
+    <div class="p-4 rounded-xl bg-surface-container-lowest border border-surface-container-high shadow-sm">
+      <div class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Live Scanner Engine</div>
+      <div class="flex items-center gap-2 mt-1">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-sm font-bold text-primary">Camera &amp; Manual Ready</span>
+      </div>
+      <div class="text-[11px] text-on-surface-variant mt-0.5">Real-time Check-in API</div>
+    </div>
+  </div>
+
+  <!-- Scanner Main Area -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    
+    <!-- Left: QR Scanner & Manual Input -->
+    <div class="lg:col-span-6 bg-surface-container-lowest rounded-2xl border border-surface-container-high p-6 shadow-sm space-y-5">
+      <div class="flex items-center justify-between border-b border-surface-container-high pb-3">
+        <h2 class="text-base font-extrabold text-primary flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary">photo_camera</span>
+          <span>Optical Pass Scanner</span>
+        </h2>
+        <span class="text-[10px] font-code bg-surface-container-high px-2.5 py-1 rounded-md text-on-surface-variant">HTML5 QR Core</span>
+      </div>
+
+      <!-- Live Video Viewport -->
+      <div class="relative bg-surface-container-low rounded-xl overflow-hidden border-2 border-dashed border-surface-container flex flex-col items-center justify-center p-2 min-h-[260px]">
+        <div id="reader" class="w-full"></div>
+        <div id="scannerPlaceholder" class="text-center p-6 space-y-3">
+          <span class="material-symbols-outlined text-4xl text-on-surface-variant">camera</span>
+          <p class="text-xs text-on-surface-variant">Click below to activate your webcam or mobile camera to scan tickets automatically.</p>
+          <button type="button" id="startScanBtn" onclick="startScanner()" class="px-5 py-2.5 rounded-xl bg-primary text-secondary-container hover:bg-neutral-800 text-xs font-bold transition-all shadow-sm inline-flex items-center gap-2 cursor-pointer">
+            <span class="material-symbols-outlined text-[18px]">videocam</span>
+            <span>Start Camera Scanner</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Manual Ticket Entry Form -->
+      <div class="pt-2 border-t border-surface-container space-y-3">
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface">Manual Ticket Code Entry</label>
+        <form id="manualTicketForm" onsubmit="handleManualSubmit(event)" class="flex gap-2">
+          {% csrf_token %}
+          <div class="relative flex-1">
+            <span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[18px]">badge</span>
+            <input type="text" id="ticketCodeInput" placeholder="e.g. TC-EVT-A1B2C3D4" required
+                   class="w-full bg-surface-container-low pl-10 pr-4 py-2.5 rounded-xl text-xs font-code font-bold uppercase text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none tracking-wider"/>
+          </div>
+          <button type="submit" id="checkInSubmitBtn" class="px-5 py-2.5 rounded-xl bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed-dim font-bold text-xs transition-all shadow-sm shrink-0 flex items-center gap-1.5 cursor-pointer">
+            <span class="material-symbols-outlined text-[16px]">check_circle</span>
+            <span>Check In</span>
+          </button>
+        </form>
+        <p class="text-[11px] text-on-surface-variant font-code">Tip: USB barcode/QR laser scanners will automatically fill this input and hit enter.</p>
+      </div>
+
+      <!-- Real-Time Feedback Alert Box -->
+      <div id="scanResultBox" class="hidden p-4 rounded-xl border transition-all space-y-2 animate-fadeIn">
+        <div class="flex items-start gap-3">
+          <span id="resultIcon" class="material-symbols-outlined text-2xl shrink-0 mt-0.5">check_circle</span>
+          <div class="space-y-1">
+            <div id="resultTitle" class="text-xs font-bold uppercase tracking-wider">Check-in Verified</div>
+            <div id="resultMessage" class="text-sm font-semibold"></div>
+            <div id="resultDetails" class="text-xs text-on-surface-variant font-code"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: Recent Check-in Stream -->
+    <div class="lg:col-span-6 bg-surface-container-lowest rounded-2xl border border-surface-container-high p-6 shadow-sm space-y-4">
+      <div class="flex items-center justify-between border-b border-surface-container-high pb-3">
+        <h2 class="text-base font-extrabold text-primary flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary">verified</span>
+          <span>Recent Verified Attendees</span>
+        </h2>
+        <span class="text-xs font-bold text-on-surface-variant">Live Feed</span>
+      </div>
+
+      <div class="divide-y divide-surface-container overflow-y-auto max-h-[500px]" id="recentAttendeesList">
+        {% for reg in recent_attended %}
+        <div class="py-3 flex items-center justify-between gap-3 text-xs">
+          <div class="min-w-0">
+            <div class="font-extrabold text-primary truncate">{{ reg.attendee_name }}</div>
+            <div class="text-[11px] text-on-surface-variant truncate">{{ reg.event.title }}</div>
+            <div class="font-code text-[10px] text-secondary">Pass: {{ reg.ticket_code }} • Cert: {{ reg.certificate_id|default:"Generated" }}</div>
+          </div>
+          <div class="text-right shrink-0 space-y-1">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+              ATTENDED
+            </span>
+            <div>
+              <a href="{% url 'event_ticket' reg.ticket_code %}" target="_blank" class="text-[10px] text-secondary hover:underline font-bold block">
+                View Pass
+              </a>
+              {% if reg.certificate_id %}
+              <a href="{% url 'event_certificate' reg.certificate_id %}" target="_blank" class="text-[10px] text-amber-700 hover:underline font-bold block">
+                Certificate
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="py-12 text-center text-on-surface-variant text-xs space-y-2">
+          <span class="material-symbols-outlined text-3xl text-surface-container-highest">qr_code</span>
+          <p>No attendees checked in yet today. Scan a QR pass to start.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Load HTML5 QR Code Scanner Library -->
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+<script>
+let html5QrcodeScanner = null;
+let isProcessing = false;
+
+function showScanResult(type, title, message, details) {
+  const box = document.getElementById('scanResultBox');
+  const icon = document.getElementById('resultIcon');
+  const titleEl = document.getElementById('resultTitle');
+  const msgEl = document.getElementById('resultMessage');
+  const detailsEl = document.getElementById('resultDetails');
+
+  box.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-300', 'text-emerald-900', 'bg-amber-50', 'border-amber-300', 'text-amber-900', 'bg-red-50', 'border-red-300', 'text-red-900');
+
+  if (type === 'success') {
+    box.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-900');
+    icon.textContent = 'check_circle';
+    icon.className = 'material-symbols-outlined text-2xl shrink-0 mt-0.5 text-emerald-600';
+  } else if (type === 'warning') {
+    box.classList.add('bg-amber-50', 'border-amber-300', 'text-amber-900');
+    icon.textContent = 'info';
+    icon.className = 'material-symbols-outlined text-2xl shrink-0 mt-0.5 text-amber-600';
+  } else {
+    box.classList.add('bg-red-50', 'border-red-300', 'text-red-900');
+    icon.textContent = 'error';
+    icon.className = 'material-symbols-outlined text-2xl shrink-0 mt-0.5 text-red-600';
+  }
+
+  titleEl.textContent = title;
+  msgEl.textContent = message;
+  detailsEl.textContent = details || '';
+}
+
+function processTicketCode(code) {
+  if (isProcessing) return;
+  isProcessing = true;
+
+  // Extract ticket code if raw URL was scanned
+  let ticketCode = code.trim();
+  if (ticketCode.includes('/events/ticket/')) {
+    const parts = ticketCode.split('/events/ticket/');
+    ticketCode = parts[1].replace('/', '').trim();
+  }
+
+  const formData = new FormData();
+  formData.append('ticket_code', ticketCode);
+
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  fetch("{% url 'admin_ticket_scan' %}", {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': csrfToken,
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      if (data.already_attended) {
+        showScanResult('warning', 'Already Checked In', `${data.attendee_name} was already verified as ATTENDED.`, `Event: ${data.event_title} • Ticket: ${data.ticket_code} • Cert: ${data.certificate_id}`);
+      } else {
+        showScanResult('success', 'Check-in Verified!', `Attendee: ${data.attendee_name} successfully checked in!`, `Event: ${data.event_title} • Certificate Issued: ${data.certificate_id}`);
+        // Add to recent feed
+        addAttendeeToFeed(data);
+      }
+    } else {
+      showScanResult('error', 'Check-in Failed', data.message || 'Ticket code not found.', `Scanned code: ${ticketCode}`);
+    }
+    document.getElementById('ticketCodeInput').value = '';
+    setTimeout(() => { isProcessing = false; }, 1800);
+  })
+  .catch(err => {
+    showScanResult('error', 'Error', 'Network or server communication error.', err.message);
+    setTimeout(() => { isProcessing = false; }, 1800);
+  });
+}
+
+function addAttendeeToFeed(data) {
+  const feed = document.getElementById('recentAttendeesList');
+  const item = document.createElement('div');
+  item.className = 'py-3 flex items-center justify-between gap-3 text-xs bg-emerald-50/50 p-2 rounded-lg mb-1 animate-fadeIn';
+  item.innerHTML = `
+    <div class="min-w-0">
+      <div class="font-extrabold text-primary truncate">${data.attendee_name}</div>
+      <div class="text-[11px] text-on-surface-variant truncate">${data.event_title}</div>
+      <div class="font-code text-[10px] text-secondary">Pass: ${data.ticket_code} • Cert: ${data.certificate_id}</div>
+    </div>
+    <div class="text-right shrink-0 space-y-1">
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+        JUST NOW
+      </span>
+      <div>
+        <a href="/events/ticket/${data.ticket_code}/" target="_blank" class="text-[10px] text-secondary hover:underline font-bold block">
+          View Pass
+        </a>
+        <a href="/events/certificate/${data.certificate_id}/" target="_blank" class="text-[10px] text-amber-700 hover:underline font-bold block">
+          Certificate
+        </a>
+      </div>
+    </div>
+  `;
+  feed.insertBefore(item, feed.firstChild);
+
+  // Increment telemetry
+  const stat = document.getElementById('statTotalAttended');
+  if (stat) {
+    const cur = parseInt(stat.textContent) || 0;
+    stat.textContent = cur + 1;
+  }
+}
+
+function handleManualSubmit(e) {
+  e.preventDefault();
+  const input = document.getElementById('ticketCodeInput');
+  const code = input.value.trim();
+  if (code) {
+    processTicketCode(code);
+  }
+}
+
+function onScanSuccess(decodedText, decodedResult) {
+  processTicketCode(decodedText);
+}
+
+function startScanner() {
+  document.getElementById('scannerPlaceholder').classList.add('hidden');
+  html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
+    fps: 10, 
+    qrbox: { width: 250, height: 250 },
+    aspectRatio: 1.0
+  });
+  html5QrcodeScanner.render(onScanSuccess);
+}
+</script>
+{% endblock %}

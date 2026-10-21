@@ -1,0 +1,214 @@
+{% extends 'layouts/public_base.html' %}
+
+{% block title %}Upcoming Events &amp; Meetups — TechClub Hargeisa{% endblock %}
+
+{% block content %}
+<div class="max-w-[1280px] w-full mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin py-8 md:py-12 space-y-8">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-surface-container-high">
+    <div class="max-w-2xl">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="font-label-sm text-[11px] uppercase tracking-wider text-secondary font-bold">COMMUNITY GATHERINGS</span>
+        <span class="text-on-surface-variant font-code text-xs">/</span>
+        <span class="font-label-sm text-[11px] uppercase tracking-wider text-on-surface-variant">Hargeisa Tech Circuit</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight mb-2">Technical Meetups &amp; Labs</h1>
+      <p class="text-sm text-on-surface-variant leading-relaxed">
+        Regular architecture breakdowns, fireside chats with founders, and hands-on coding labs hosted at innovation centers across Hargeisa.
+      </p>
+    </div>
+
+    <a href="{% url 'apply' %}" class="h-9 px-4 rounded-lg bg-primary hover:bg-neutral-800 text-on-primary font-bold text-xs transition-all flex items-center gap-1.5 shadow-sm self-start md:self-auto">
+      <span class="material-symbols-outlined text-[16px]">stars</span>
+      <span>Join as Member for Priority Access</span>
+    </a>
+  </div>
+
+  <!-- Role & Format Interactive Filter Toolbar -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-surface-container-low rounded-xl border border-surface-container">
+    <div class="flex flex-wrap items-center gap-3">
+      <form method="GET" action="{% url 'public_events' %}" id="eventFilterForm" class="flex flex-wrap items-center gap-3">
+        <!-- Role Dropdown -->
+        <div class="flex items-center gap-1.5">
+          <label for="publicRoleFilter" class="text-xs font-bold text-on-surface-variant flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px] text-secondary">group</span>
+            <span>Target Role:</span>
+          </label>
+          <select name="role" id="publicRoleFilter" onchange="document.getElementById('eventFilterForm').submit()" class="text-xs bg-surface-container-lowest px-3 py-1.5 rounded-lg border border-surface-container font-semibold text-on-surface outline-none cursor-pointer focus:border-primary">
+            <option value="ALL" {% if role_filter == 'ALL' %}selected{% endif %}>All Roles &amp; Audiences</option>
+            <option value="PUBLIC" {% if role_filter == 'PUBLIC' %}selected{% endif %}>🌐 Open to All (Guests &amp; Members)</option>
+            <option value="MEMBER" {% if role_filter == 'MEMBER' %}selected{% endif %}>👑 TechClub Members Only</option>
+            <option value="MENTOR" {% if role_filter == 'MENTOR' %}selected{% endif %}>⭐ Mentors Only</option>
+          </select>
+        </div>
+
+        <!-- Format / Mode Dropdown -->
+        <div class="flex items-center gap-1.5">
+          <label for="publicModeFilter" class="text-xs font-bold text-on-surface-variant flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px] text-secondary">devices</span>
+            <span>Format:</span>
+          </label>
+          <select name="mode" id="publicModeFilter" onchange="document.getElementById('eventFilterForm').submit()" class="text-xs bg-surface-container-lowest px-3 py-1.5 rounded-lg border border-surface-container font-semibold text-on-surface outline-none cursor-pointer focus:border-primary">
+            <option value="ALL" {% if mode_filter == 'ALL' %}selected{% endif %}>All Delivery Modes</option>
+            <option value="IN_PERSON" {% if mode_filter == 'IN_PERSON' %}selected{% endif %}>🏢 In-Person Gathering</option>
+            <option value="ONLINE" {% if mode_filter == 'ONLINE' %}selected{% endif %}>🔴 Online (Zoom / Meet)</option>
+            <option value="HYBRID" {% if mode_filter == 'HYBRID' %}selected{% endif %}>⚡ Hybrid (In-Person &amp; Online)</option>
+          </select>
+        </div>
+
+        {% if role_filter != 'ALL' or mode_filter != 'ALL' %}
+        <a href="{% url 'public_events' %}" class="text-xs font-bold text-secondary hover:underline flex items-center gap-0.5">
+          <span class="material-symbols-outlined text-[14px]">close</span> Reset
+        </a>
+        {% endif %}
+      </form>
+    </div>
+    <span class="text-xs text-on-surface-variant font-code font-medium">
+      {{ events|length }} Upcoming {{ events|length|pluralize:"Event,Events" }}
+    </span>
+  </div>
+
+  <!-- Upcoming Events Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for ev in events %}
+    <div class="bg-surface-container-lowest border border-surface-container-high rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group">
+      <div>
+        <!-- Cover Image Container -->
+        <div class="relative aspect-[16/9] w-full bg-surface-container overflow-hidden">
+          <img src="{{ ev.display_cover_image }}" alt="{{ ev.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+          <div class="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
+            <span class="px-2.5 py-1 rounded-md bg-primary/90 text-on-primary text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm">
+              {{ ev.category }}
+            </span>
+            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border backdrop-blur-sm {{ ev.audience_badge_info.color }}">
+              {{ ev.audience_badge_info.label }}
+            </span>
+          </div>
+          <div class="absolute bottom-3 right-3">
+            {% if ev.is_full %}
+            <span class="px-2.5 py-1 rounded-md bg-amber-500 text-white text-[10px] font-extrabold uppercase tracking-wider shadow">
+              Waitlist Only
+            </span>
+            {% else %}
+            <span class="px-2.5 py-1 rounded-md bg-secondary-container text-on-secondary-container text-[10px] font-extrabold uppercase tracking-wider shadow">
+              {{ ev.available_seats }} seats left
+            </span>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Event Body -->
+        <div class="p-5 space-y-3">
+          <div class="flex items-center gap-2 text-xs font-code text-secondary font-semibold">
+            <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+            <span>{{ ev.start_datetime|date:"l, M d, Y" }} • {{ ev.start_datetime|date:"H:i" }} EAT</span>
+          </div>
+
+          <h3 class="font-extrabold text-base text-primary leading-snug group-hover:text-secondary transition-colors">
+            <a href="{% url 'event_detail' ev.id %}">{{ ev.title }}</a>
+          </h3>
+
+          <p class="text-xs text-on-surface-variant line-clamp-2 leading-relaxed">
+            {{ ev.description }}
+          </p>
+
+          <div class="flex items-center gap-1.5 text-[11px] text-on-surface-variant pt-1">
+            <span class="material-symbols-outlined text-[15px] text-secondary">location_on</span>
+            <span class="truncate">{{ ev.venue }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="px-5 py-4 border-t border-surface-container-high bg-surface-container-low/40 flex items-center justify-between">
+        <span class="text-[11px] font-code text-on-surface-variant">
+          {{ ev.registered_count }}/{{ ev.capacity }} Registered
+        </span>
+
+        <a href="{% url 'event_detail' ev.id %}" class="px-4 py-2 bg-primary hover:bg-neutral-800 text-on-primary rounded-lg text-xs font-bold transition-all shadow-sm flex items-center gap-1">
+          <span>View &amp; RSVP</span>
+          <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-span-full bg-surface-container-lowest p-12 text-center rounded-xl border border-surface-container-high">
+      <span class="material-symbols-outlined text-4xl text-on-surface-variant block mb-2 opacity-50">event_busy</span>
+      <h3 class="text-base font-bold text-primary">No upcoming gatherings scheduled right now</h3>
+      <p class="text-xs text-on-surface-variant mt-1">Check back soon or apply to become a member to receive direct calendar invitations.</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Past Completed Events Showcase -->
+  {% if completed_events %}
+  <div class="pt-8 space-y-4">
+    <h2 class="text-lg font-bold text-primary">Recent Completed Gatherings</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {% for cev in completed_events %}
+      <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container-high text-xs space-y-2 opacity-80">
+        <div class="flex items-center justify-between">
+          <span class="font-code text-[10px] text-on-surface-variant">{{ cev.start_datetime|date:"M d, Y" }}</span>
+          <span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-bold text-[10px]">Completed</span>
+        </div>
+        <h4 class="font-bold text-primary">{{ cev.title }}</h4>
+        <div class="text-[11px] text-secondary font-medium">{{ cev.attended_count }} verified check-ins recorded</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Community Events FAQ -->
+  <div class="pt-8 space-y-4">
+    <div class="flex items-center gap-2 pb-1 border-b border-surface-container">
+      <span class="material-symbols-outlined text-secondary text-[24px]">help</span>
+      <div>
+        <h2 class="text-lg font-bold text-primary">Frequently Asked Questions</h2>
+        <p class="text-xs text-on-surface-variant">Everything you need to know about joining TechClub workshops, meetups, and masterclasses.</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-high space-y-2">
+        <h3 class="font-bold text-xs text-primary flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[18px]">payments</span>
+          <span>Are TechClub events free or paid?</span>
+        </h3>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          Community workshops, tech talks, and open meetups are completely free. Advanced masterclasses and special hackathons are sponsored by our partner network.
+        </p>
+      </div>
+
+      <div class="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-high space-y-2">
+        <h3 class="font-bold text-xs text-primary flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+          <span>Do attendees get certificates?</span>
+        </h3>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          Yes! Every attendee whose attendance is verified (via entrance QR scan for in-person gatherings or via the 1-click Join Live link for virtual classes) receives an official verifiable Certificate of Attendance.
+        </p>
+      </div>
+
+      <div class="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-high space-y-2">
+        <h3 class="font-bold text-xs text-primary flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[18px]">group_add</span>
+          <span>Do I need to be a TechClub member to register?</span>
+        </h3>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          Public events are open to all passionate developers and students. Certain specialized masterclasses and restricted curriculum materials are reserved for verified TechClub Community Members.
+        </p>
+      </div>
+
+      <div class="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-high space-y-2">
+        <h3 class="font-bold text-xs text-primary flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[18px]">laptop_mac</span>
+          <span>What should I bring to hands-on workshops?</span>
+        </h3>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          Bring your laptop, charger, and an eagerness to build! Course slides, starter templates, and workbooks can be downloaded in advance directly from the event details page.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

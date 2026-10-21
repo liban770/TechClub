@@ -1,0 +1,175 @@
+{% extends 'layouts/member_base.html' %}
+
+{% block title %}Edit Member Profile — TechClub{% endblock %}
+
+{% block member_content %}
+<div class="max-w-3xl mx-auto space-y-6">
+  <div>
+    <h1 class="text-2xl font-extrabold text-primary">Edit Your Member Profile</h1>
+    <p class="text-xs text-on-surface-variant mt-1">Keep your professional title, skills, bio, and directory visibility preferences updated.</p>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data" class="bg-surface-container-lowest rounded-2xl p-6 sm:p-8 border border-surface-container-high shadow-sm space-y-6">
+    {% csrf_token %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">Full Name</label>
+        <input type="text" name="full_name" value="{{ profile.full_name }}" required
+               class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">Professional Headline / Role</label>
+        <input type="text" name="professional_title" value="{{ profile.professional_title }}" required
+               class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">Organization / Company</label>
+        <input type="text" name="organization" value="{{ profile.organization }}"
+               class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">Location</label>
+        <input type="text" name="location" value="{{ profile.location }}"
+               class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">Discipline</label>
+        <select name="discipline" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none">
+          {% for code, label in disciplines %}
+          <option value="{{ code }}" {% if profile.discipline == code %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">Experience Level</label>
+        <select name="experience_level" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:border-primary outline-none">
+          {% for code, label in seniorities %}
+          <option value="{{ code }}" {% if profile.experience_level == code %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Profile Photo Upload from Computer -->
+      <div class="md:col-span-2 p-4 rounded-xl bg-surface-container-low border border-surface-container space-y-3">
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface">Profile Photo</label>
+        
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <!-- Current / Preview Avatar -->
+          <div class="relative w-20 h-20 rounded-2xl bg-surface-container-high border-2 border-surface-container overflow-hidden shrink-0 flex items-center justify-center shadow-inner">
+            {% if profile.display_avatar %}
+            <img id="avatarPreviewImg" src="{{ profile.display_avatar }}" alt="{{ profile.full_name }}" class="w-full h-full object-cover"/>
+            {% else %}
+            <span id="avatarPreviewFallback" class="material-symbols-outlined text-4xl text-on-surface-variant">person</span>
+            <img id="avatarPreviewImg" src="" alt="Preview" class="hidden w-full h-full object-cover"/>
+            {% endif %}
+          </div>
+
+          <div class="flex-1 w-full space-y-2">
+            <div>
+              <label class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-secondary-container hover:bg-neutral-800 text-xs font-bold transition-all shadow-sm cursor-pointer">
+                <span class="material-symbols-outlined text-[18px]">upload_file</span>
+                <span>Browse &amp; Upload from Computer</span>
+                <input type="file" name="profile_photo" id="profilePhotoInput" accept="image/*" class="hidden" onchange="previewProfilePhoto(this)"/>
+              </label>
+              <span id="selectedFileName" class="text-xs text-on-surface-variant font-code ml-2">No file chosen</span>
+            </div>
+            <p class="text-[11px] text-on-surface-variant">Recommended: Square JPG, PNG, or WebP. Max 5MB.</p>
+          </div>
+        </div>
+
+        <!-- Optional Direct URL fallback -->
+        <div class="pt-2 border-t border-surface-container">
+          <label class="block text-[11px] font-semibold text-on-surface-variant mb-1">Or paste Photo URL (Optional)</label>
+          <input type="url" name="avatar_url" value="{{ profile.avatar_url }}" placeholder="https://..."
+                 class="w-full bg-surface-container-lowest px-3 py-2 rounded-lg text-xs text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none font-code"/>
+        </div>
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">Skills (comma-separated)</label>
+        <input type="text" name="skills_input" value="{{ skills_joined }}" placeholder="e.g. Python, Django, React, Rust, PostgreSQL"
+               class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">Biography / Summary</label>
+        <textarea name="bio" rows="4" class="w-full bg-surface-container-low p-4 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none">{{ profile.bio }}</textarea>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">GitHub URL</label>
+        <input type="url" name="github_url" value="{{ profile.github_url }}" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">LinkedIn URL</label>
+        <input type="url" name="linkedin_url" value="{{ profile.linkedin_url }}" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface mb-1">Portfolio Website</label>
+        <input type="url" name="portfolio_url" value="{{ profile.portfolio_url }}" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface border border-surface-container focus:bg-white focus:border-primary outline-none"/>
+      </div>
+    </div>
+
+    <!-- Privacy Preferences -->
+    <div class="pt-6 border-t border-surface-container-high space-y-3">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-primary">Directory Visibility &amp; Privacy</h3>
+      <div class="space-y-2 text-xs text-on-surface">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="radio" name="profile_visibility" value="PUBLIC" {% if profile.profile_visibility == 'PUBLIC' %}checked{% endif %} class="accent-primary"/>
+          <span><strong>Public:</strong> Visible to all visitors and community members in the directory.</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="radio" name="profile_visibility" value="PRIVATE" {% if profile.profile_visibility == 'PRIVATE' %}checked{% endif %} class="accent-primary"/>
+          <span><strong>Private / Hidden:</strong> Hidden from directory exploration.</span>
+        </label>
+      </div>
+
+      <div class="pt-2 flex items-center gap-4 text-xs">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" name="show_email" {% if profile.show_email %}checked{% endif %} class="accent-primary"/>
+          <span>Display my email address publicly</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3 pt-4 border-t border-surface-container-high">
+      <a href="{% url 'member_dashboard' %}" class="px-5 py-2.5 bg-surface-container text-on-surface hover:bg-surface-container-high rounded-lg text-xs font-bold transition-colors">
+        Cancel
+      </a>
+      <button type="submit" class="px-6 py-2.5 bg-primary text-on-primary hover:bg-neutral-800 rounded-lg text-xs font-bold shadow-sm transition-all">
+        Save Changes
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+function previewProfilePhoto(input) {
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    const fileNameSpan = document.getElementById('selectedFileName');
+    if (fileNameSpan) fileNameSpan.textContent = file.name;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = document.getElementById('avatarPreviewImg');
+      const fallback = document.getElementById('avatarPreviewFallback');
+      if (img) {
+        img.src = e.target.result;
+        img.classList.remove('hidden');
+      }
+      if (fallback) fallback.classList.add('hidden');
+    }
+    reader.readAsDataURL(file);
+  }
+}
+</script>
+{% endblock %}

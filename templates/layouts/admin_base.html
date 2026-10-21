@@ -1,0 +1,256 @@
+{% extends 'layouts/base.html' %}
+
+{% block layout_content %}
+<div class="flex min-h-screen bg-surface relative">
+  <!-- Backdrop for Mobile Sidebar -->
+  <div id="adminSidebarBackdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 hidden lg:hidden transition-opacity"></div>
+
+  <!-- ASIDE: Organizer Operations Sidebar -->
+  <aside id="adminSidebar" class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-r border-surface-container-high z-50 flex flex-col justify-between -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+    <div class="flex flex-col">
+      <!-- Sidebar Brand Header -->
+      <div class="h-16 px-space-lg flex items-center justify-between border-b border-surface-container-high">
+        <a href="{% url 'admin_overview' %}" class="flex items-center gap-2.5 group">
+          <img src="/static/images/logo-icon-transparent.png" alt="TechClub Official Logo" class="h-8 w-auto object-contain group-hover:scale-105 transition-transform"/>
+          <div class="flex flex-col">
+            <span class="font-title-md text-primary font-extrabold tracking-tight leading-tight">Tech<span class="text-secondary font-black">Club</span></span>
+            <span class="font-label-sm text-[10px] text-secondary font-bold uppercase tracking-widest leading-none">Admin Ops</span>
+          </div>
+        </a>
+        <button type="button" onclick="toggleAdminSidebar()" class="lg:hidden p-1 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container" aria-label="Close sidebar">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <!-- Section Title -->
+      <div class="px-space-md pt-4 pb-2">
+        <span class="font-label-sm text-[11px] uppercase text-on-surface-variant font-bold tracking-wider px-2">Community Ops</span>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="px-3 space-y-1">
+        <a href="{% url 'admin_overview' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_overview' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <span class="material-symbols-outlined text-[20px]">space_dashboard</span>
+          <span>Overview</span>
+        </a>
+
+        <a href="{% url 'admin_applications' %}" class="flex items-center justify-between px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_applications' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px]">how_to_reg</span>
+            <span>Applications</span>
+          </div>
+          {% if pending_apps_count > 0 %}
+          <span class="font-label-sm text-[11px] bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full font-bold">
+            {{ pending_apps_count }}
+          </span>
+          {% endif %}
+        </a>
+
+        <a href="{% url 'admin_members' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_members' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <span class="material-symbols-outlined text-[20px]">group</span>
+          <span>Members</span>
+        </a>
+
+        <a href="{% url 'admin_users' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_users' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <span class="material-symbols-outlined text-[20px]">manage_accounts</span>
+          <span>User Accounts</span>
+        </a>
+
+        <a href="{% url 'admin_events' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_events' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+          <span>Events</span>
+        </a>
+
+        <a href="{% url 'admin_meetings' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_meetings' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <span class="material-symbols-outlined text-[20px]">groups</span>
+          <span>Meetings</span>
+        </a>
+
+        <a href="{% url 'admin_announcements' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_announcements' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <span class="material-symbols-outlined text-[20px]">campaign</span>
+          <span>Announcements</span>
+        </a>
+
+        <a href="{% url 'admin_attendance' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_attendance' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <span class="material-symbols-outlined text-[20px]">fact_check</span>
+          <span>Attendance</span>
+        </a>
+
+        <a href="{% url 'admin_ticket_scan' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_ticket_scan' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+          <span>Ticket Scanner</span>
+        </a>
+
+        <a href="{% url 'admin_reports' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_reports' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <span class="material-symbols-outlined text-[20px]">insights</span>
+          <span>Reports &amp; Telemetry</span>
+        </a>
+
+        <a href="{% url 'admin_founder_manage' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_founder_manage' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <span class="material-symbols-outlined text-[20px]">person_pin</span>
+          <span>Founder Profile</span>
+        </a>
+
+        <a href="{% url 'admin_partners' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm transition-all {% if request.resolver_match.url_name == 'admin_partners' or request.resolver_match.url_name == 'admin_partner_edit' %}bg-primary text-on-primary font-bold shadow-sm{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}">
+          <span class="material-symbols-outlined text-[20px]">handshake</span>
+          <span>Corporate Partners</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Bottom Node & Profile Status -->
+    <div class="p-3 border-t border-surface-container-high space-y-2">
+      <div class="bg-surface-container-low p-3 rounded-xl flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+          <div class="flex flex-col">
+            <span class="text-xs font-bold text-on-surface">Hargeisa Hub Node</span>
+            <span class="text-[10px] text-on-surface-variant">PostgreSQL Live</span>
+          </div>
+        </div>
+        <a href="{% url 'home' %}" target="_blank" title="View Public Website" class="text-on-surface-variant hover:text-on-surface">
+          <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+        </a>
+      </div>
+
+      <div class="flex items-center justify-between px-2 pt-1">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-xs">
+            {{ user.first_name|default:'A'|slice:':1' }}
+          </div>
+          <div class="flex flex-col min-w-0">
+            <span class="text-xs font-bold text-on-surface truncate">{{ user.get_full_name|default:user.email }}</span>
+            <span class="text-[10px] text-secondary font-semibold">Organizer</span>
+          </div>
+        </div>
+        <a href="{% url 'logout' %}" title="Logout" class="text-on-surface-variant hover:text-error">
+          <span class="material-symbols-outlined text-[18px]">logout</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA (Responsive offset for sidebar) -->
+  <div class="w-full lg:pl-64 flex-1 flex flex-col min-w-0">
+    <!-- Topbar -->
+    <header class="sticky top-0 h-16 bg-surface/90 backdrop-blur-md border-b border-surface-container-high z-30 flex items-center justify-between px-4 sm:px-space-lg">
+      <div class="flex items-center flex-1 max-w-lg gap-2">
+        <!-- Mobile Sidebar Hamburger Toggle -->
+        <button type="button" onclick="toggleAdminSidebar()" class="lg:hidden p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors shrink-0" aria-label="Open sidebar">
+          <span class="material-symbols-outlined text-[24px]">menu</span>
+        </button>
+
+        <form method="GET" action="{% url 'admin_applications' %}" class="w-full">
+          <div class="relative w-full">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+            <input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant text-sm pl-10 pr-4 py-2 rounded-lg border border-surface-container-high focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search applicants, members, logs..." type="search" name="q" id="globalAdminSearch"/>
+          </div>
+        </form>
+      </div>
+
+      <div class="flex items-center gap-space-md">
+        <!-- Live Telemetry Pill -->
+        <div class="hidden md:flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-surface-container-high text-xs">
+          <span class="material-symbols-outlined text-[16px] text-secondary">schedule</span>
+          <span class="font-code text-on-surface font-semibold">Live Telemetry</span>
+          <span class="text-on-surface-variant">• Somaliland EAT</span>
+        </div>
+
+        <!-- In-App Notification Bell -->
+        <div class="relative">
+          <button id="notifBellBtn" onclick="toggleNotifDropdown()" class="relative p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors flex items-center justify-center" title="Notifications">
+            <span class="material-symbols-outlined text-[20px]">notifications</span>
+            {% if unread_notifications_count > 0 %}
+            <span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-secondary-container text-on-secondary-container font-extrabold text-[10px] flex items-center justify-center shadow">
+              {{ unread_notifications_count }}
+            </span>
+            {% endif %}
+          </button>
+
+          <!-- Dropdown Card -->
+          <div id="notifDropdown" class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-surface-container-lowest rounded-2xl shadow-xl border border-surface-container-high z-50 p-4 space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-surface-container-high">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-[18px]">notifications_active</span>
+                <span class="font-bold text-xs text-primary">In-App Notifications</span>
+              </div>
+              {% if unread_notifications_count > 0 %}
+              <form method="POST" action="{% url 'mark_all_notifications_read' %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="text-[11px] text-secondary font-bold hover:underline">Mark all read</button>
+              </form>
+              {% endif %}
+            </div>
+
+            <div class="divide-y divide-surface-container-high max-h-72 overflow-y-auto space-y-1">
+              {% for n in recent_notifications %}
+              <div class="py-2 flex items-start gap-2.5 {% if not n.is_read %}bg-surface-container-low/60 -mx-2 px-2 rounded-lg{% endif %}">
+                <span class="material-symbols-outlined text-[16px] mt-0.5 shrink-0 {% if n.notification_type == 'SECURITY' %}text-error{% elif n.notification_type == 'SUCCESS' %}text-emerald-600{% else %}text-secondary{% endif %}">
+                  {% if n.notification_type == 'SECURITY' %}shield{% elif n.notification_type == 'SUCCESS' %}check_circle{% elif n.notification_type == 'EVENT' %}calendar_today{% elif n.notification_type == 'APPLICATION' %}how_to_reg{% else %}info{% endif %}
+                </span>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <p class="text-xs font-bold text-primary truncate">{{ n.title }}</p>
+                    <span class="text-[10px] text-on-surface-variant font-code shrink-0">{{ n.created_at|timesince }} ago</span>
+                  </div>
+                  <p class="text-[11px] text-on-surface-variant line-clamp-2 mt-0.5">{{ n.message }}</p>
+                  {% if not n.is_read %}
+                  <div class="mt-1 flex items-center justify-end">
+                    <a href="{% url 'mark_notification_read' n.id %}" class="text-[10px] text-secondary font-semibold hover:underline">Mark read</a>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+              {% empty %}
+              <div class="py-6 text-center text-xs text-on-surface-variant">
+                <span class="material-symbols-outlined text-[24px] text-outline block mb-1">notifications_off</span>
+                <span>No notifications yet.</span>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <a href="{% url 'home' %}" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors flex items-center gap-1">
+          <span>View Site</span>
+          <span class="material-symbols-outlined text-[14px]">launch</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Page Content Container -->
+    <main class="p-4 sm:p-6 lg:p-space-lg flex-1">
+      {% block admin_content %}{% endblock %}
+    </main>
+  </div>
+</div>
+
+<script>
+  function toggleAdminSidebar() {
+    const sidebar = document.getElementById('adminSidebar');
+    const backdrop = document.getElementById('adminSidebarBackdrop');
+    if (sidebar) {
+      const isClosed = sidebar.classList.contains('-translate-x-full');
+      if (isClosed) {
+        sidebar.classList.remove('-translate-x-full');
+        if (backdrop) backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        if (backdrop) backdrop.classList.add('hidden');
+      }
+    }
+  }
+
+  function toggleNotifDropdown() {
+    const d = document.getElementById('notifDropdown');
+    d.classList.toggle('hidden');
+  }
+  document.addEventListener('click', function(e) {
+    const btn = document.getElementById('notifBellBtn');
+    const d = document.getElementById('notifDropdown');
+    if (d && btn && !btn.contains(e.target) && !d.contains(e.target)) {
+      d.classList.add('hidden');
+    }
+  });
+</script>
+{% endblock %}

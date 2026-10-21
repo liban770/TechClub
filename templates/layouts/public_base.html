@@ -1,0 +1,258 @@
+{% extends 'layouts/base.html' %}
+
+{% block layout_content %}
+<!-- PUBLIC HEADER -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-surface-container-high">
+  <div class="h-16 max-w-[1280px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin flex items-center justify-between">
+    <!-- Brand Logo -->
+    <a href="{% url 'home' %}" class="flex items-center gap-2.5 group">
+      <img src="/static/images/logo-icon-transparent.png" alt="TechClub Official Logo" class="h-9 w-auto object-contain group-hover:scale-105 transition-transform"/>
+      <div class="flex flex-col">
+        <span class="font-title-md text-primary font-extrabold tracking-tight text-lg leading-tight">Tech<span class="text-secondary font-black">Club</span></span>
+        <span class="font-label-sm text-[10px] text-on-surface-variant font-code tracking-wider uppercase leading-none hidden sm:inline-block">Hargeisa, Somaliland</span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <nav class="hidden lg:flex items-center gap-space-md xl:gap-space-lg font-body-md text-sm">
+      <a href="{% url 'home' %}" class="transition-colors py-2 {% if request.resolver_match.url_name == 'home' %}text-primary font-bold border-b-2 border-secondary-container{% else %}text-on-surface-variant hover:text-on-surface{% endif %}">Home</a>
+      <a href="{% url 'public_events' %}" class="transition-colors py-2 {% if request.resolver_match.url_name == 'public_events' %}text-primary font-bold border-b-2 border-secondary-container{% else %}text-on-surface-variant hover:text-on-surface{% endif %}">Events</a>
+      <a href="{% url 'member_directory' %}" class="transition-colors py-2 {% if request.resolver_match.url_name == 'member_directory' %}text-primary font-bold border-b-2 border-secondary-container{% else %}text-on-surface-variant hover:text-on-surface{% endif %}">Directory</a>
+      <a href="{% url 'partners' %}" class="transition-colors py-2 {% if request.resolver_match.url_name == 'partners' %}text-primary font-bold border-b-2 border-secondary-container{% else %}text-on-surface-variant hover:text-on-surface{% endif %}">Partners</a>
+      <a href="{% url 'founder' %}" class="transition-colors py-2 {% if request.resolver_match.url_name == 'founder' %}text-primary font-bold border-b-2 border-secondary-container{% else %}text-on-surface-variant hover:text-on-surface{% endif %}">Meet the Founder</a>
+      <a href="{% url 'about' %}" class="transition-colors py-2 {% if request.resolver_match.url_name == 'about' %}text-primary font-bold border-b-2 border-secondary-container{% else %}text-on-surface-variant hover:text-on-surface{% endif %}">About</a>
+      <a href="{% url 'code_of_conduct' %}" class="transition-colors py-2 {% if request.resolver_match.url_name == 'code_of_conduct' %}text-primary font-bold border-b-2 border-secondary-container{% else %}text-on-surface-variant hover:text-on-surface{% endif %}">Code of Conduct</a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      {% if user.is_authenticated %}
+        <!-- In-App Notification Bell -->
+        <div class="relative">
+          <button id="publicNotifBellBtn" onclick="togglePublicNotifDropdown()" class="relative p-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors flex items-center justify-center" title="Notifications">
+            <span class="material-symbols-outlined text-[19px]">notifications</span>
+            {% if unread_notifications_count > 0 %}
+            <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-600 text-white font-extrabold text-[9px] flex items-center justify-center shadow-xs animate-pulse">
+              {{ unread_notifications_count }}
+            </span>
+            {% endif %}
+          </button>
+
+          <!-- Dropdown Card -->
+          <div id="publicNotifDropdown" class="hidden absolute right-0 mt-2 w-72 sm:w-80 md:w-96 bg-surface-container-lowest rounded-2xl shadow-xl border border-surface-container-high z-50 p-4 space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-surface-container-high">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-[18px]">notifications_active</span>
+                <span class="font-bold text-xs text-primary">In-App Notifications</span>
+              </div>
+              {% if unread_notifications_count > 0 %}
+              <form method="POST" action="{% url 'mark_all_notifications_read' %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="text-[11px] text-secondary font-bold hover:underline">Mark all read</button>
+              </form>
+              {% endif %}
+            </div>
+
+            <div class="divide-y divide-surface-container-high max-h-72 overflow-y-auto space-y-1">
+              {% for n in recent_notifications %}
+              <div class="py-2 flex items-start gap-2.5 {% if not n.is_read %}bg-surface-container-low/60 -mx-2 px-2 rounded-lg{% endif %}">
+                <span class="material-symbols-outlined text-[16px] mt-0.5 shrink-0 {% if n.notification_type == 'SECURITY' %}text-error{% elif n.notification_type == 'SUCCESS' %}text-emerald-600{% elif n.notification_type == 'CERTIFICATE' %}text-amber-600{% elif n.notification_type == 'EVENT' %}text-blue-600{% else %}text-secondary{% endif %}">
+                  {% if n.notification_type == 'SECURITY' %}shield{% elif n.notification_type == 'SUCCESS' %}check_circle{% elif n.notification_type == 'CERTIFICATE' %}workspace_premium{% elif n.notification_type == 'EVENT' %}calendar_today{% elif n.notification_type == 'APPLICATION' %}how_to_reg{% else %}info{% endif %}
+                </span>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <p class="text-xs font-bold text-primary truncate">{{ n.title }}</p>
+                    <span class="text-[10px] text-on-surface-variant font-code shrink-0">{{ n.created_at|timesince }} ago</span>
+                  </div>
+                  <p class="text-[11px] text-on-surface-variant line-clamp-2 mt-0.5">{{ n.message }}</p>
+                  <div class="flex items-center justify-between gap-2 mt-2 pt-1">
+                    {% if n.link %}
+                    <a href="{% url 'mark_notification_read' n.id %}" class="text-[10px] font-bold text-secondary hover:underline flex items-center gap-0.5">
+                      <span>View</span>
+                      <span class="material-symbols-outlined text-[11px]">arrow_forward</span>
+                    </a>
+                    {% else %}
+                    <span></span>
+                    {% endif %}
+                    {% if not n.is_read %}
+                    <a href="{% url 'mark_notification_read' n.id %}" class="text-[10px] text-on-surface-variant hover:text-primary">Dismiss</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              <div class="p-6 text-center text-on-surface-variant text-xs">
+                <span class="material-symbols-outlined text-2xl mb-1 text-on-surface-variant/60 block">notifications_off</span>
+                <span>You are all caught up! No notifications.</span>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        {% if user.is_organizer %}
+        <a href="{% url 'admin_overview' %}" class="font-label-md text-xs bg-surface-container-high px-2.5 sm:px-3 py-1.5 rounded-lg text-primary font-bold hover:bg-surface-container-highest transition-colors whitespace-nowrap">Admin Ops</a>
+        {% else %}
+        <a href="{% url 'member_dashboard' %}" class="font-label-md text-xs bg-surface-container-high px-2.5 sm:px-3 py-1.5 rounded-lg text-primary font-bold hover:bg-surface-container-highest transition-colors whitespace-nowrap">Dashboard</a>
+        {% endif %}
+        <a href="{% url 'logout' %}" class="hidden sm:inline-block text-xs text-on-surface-variant hover:text-primary">Sign Out</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="font-body-md text-xs sm:text-sm text-on-surface-variant hover:text-on-surface transition-colors px-2 py-1">Sign In</a>
+        <a href="{% url 'apply' %}" class="inline-flex items-center justify-center font-label-md text-xs sm:text-sm bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed-dim transition-all px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-bold shadow-sm whitespace-nowrap">
+          Join
+        </a>
+      {% endif %}
+
+      <!-- Mobile Menu Toggle Button -->
+      <button id="mobileMenuBtn" class="lg:hidden p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button" aria-label="Toggle navigation">
+        <span id="mobileMenuIcon" class="material-symbols-outlined text-[24px]">menu</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Navigation -->
+  <div id="mobileMenu" class="hidden lg:hidden bg-surface-container-lowest border-t border-surface-container-high px-5 py-4 space-y-1 shadow-xl max-h-[calc(100vh-4rem)] overflow-y-auto">
+    <a href="{% url 'home' %}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold {% if request.resolver_match.url_name == 'home' %}bg-primary text-white font-bold{% else %}text-on-surface-variant hover:bg-surface-container hover:text-primary{% endif %}">
+      <span class="material-symbols-outlined text-[18px]">home</span>
+      <span>Home</span>
+    </a>
+    <a href="{% url 'public_events' %}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold {% if request.resolver_match.url_name == 'public_events' %}bg-primary text-white font-bold{% else %}text-on-surface-variant hover:bg-surface-container hover:text-primary{% endif %}">
+      <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+      <span>Events</span>
+    </a>
+    <a href="{% url 'member_directory' %}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold {% if request.resolver_match.url_name == 'member_directory' %}bg-primary text-white font-bold{% else %}text-on-surface-variant hover:bg-surface-container hover:text-primary{% endif %}">
+      <span class="material-symbols-outlined text-[18px]">group</span>
+      <span>Member Directory</span>
+    </a>
+    <a href="{% url 'partners' %}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold {% if request.resolver_match.url_name == 'partners' %}bg-primary text-white font-bold{% else %}text-on-surface-variant hover:bg-surface-container hover:text-primary{% endif %}">
+      <span class="material-symbols-outlined text-[18px]">handshake</span>
+      <span>Corporate Partners</span>
+    </a>
+    <a href="{% url 'founder' %}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold {% if request.resolver_match.url_name == 'founder' %}bg-primary text-white font-bold{% else %}text-on-surface-variant hover:bg-surface-container hover:text-primary{% endif %}">
+      <span class="material-symbols-outlined text-[18px]">person</span>
+      <span>Meet the Founder</span>
+    </a>
+    <a href="{% url 'about' %}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold {% if request.resolver_match.url_name == 'about' %}bg-primary text-white font-bold{% else %}text-on-surface-variant hover:bg-surface-container hover:text-primary{% endif %}">
+      <span class="material-symbols-outlined text-[18px]">info</span>
+      <span>About</span>
+    </a>
+    <a href="{% url 'code_of_conduct' %}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold {% if request.resolver_match.url_name == 'code_of_conduct' %}bg-primary text-white font-bold{% else %}text-on-surface-variant hover:bg-surface-container hover:text-primary{% endif %}">
+      <span class="material-symbols-outlined text-[18px]">gavel</span>
+      <span>Code of Conduct</span>
+    </a>
+
+    <div class="pt-3 mt-2 border-t border-surface-container flex flex-col gap-2">
+      {% if user.is_authenticated %}
+        {% if user.is_organizer %}
+        <a href="{% url 'admin_overview' %}" class="flex items-center justify-center gap-1.5 py-2.5 bg-primary text-on-primary rounded-xl font-bold text-xs shadow-sm">
+          <span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+          <span>Organizer Console</span>
+        </a>
+        {% else %}
+        <a href="{% url 'member_dashboard' %}" class="flex items-center justify-center gap-1.5 py-2.5 bg-primary text-on-primary rounded-xl font-bold text-xs shadow-sm">
+          <span class="material-symbols-outlined text-[16px]">dashboard</span>
+          <span>My Dashboard</span>
+        </a>
+        {% endif %}
+        <a href="{% url 'logout' %}" class="flex items-center justify-center gap-1 py-2 text-xs text-error font-semibold hover:bg-rose-50 rounded-lg">
+          <span class="material-symbols-outlined text-[16px]">logout</span>
+          <span>Sign Out</span>
+        </a>
+      {% else %}
+        <a href="{% url 'login' %}" class="text-center py-2 text-xs font-bold text-primary hover:bg-surface-container rounded-lg">Sign In</a>
+        <a href="{% url 'apply' %}" class="flex items-center justify-center gap-1.5 py-2.5 bg-secondary-container text-on-secondary-container rounded-xl font-bold text-xs shadow-sm">
+          <span>Apply to Join TechClub</span>
+          <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+<main class="w-full pt-16 flex-1">
+  {% block content %}{% endblock %}
+</main>
+
+<!-- PUBLIC FOOTER -->
+<footer class="w-full bg-primary text-on-primary py-12 border-t border-primary-container mt-auto">
+  <div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin grid grid-cols-1 md:grid-cols-4 gap-8">
+    <div class="space-y-3 md:col-span-2">
+      <div class="flex items-center gap-2.5">
+        <img src="/static/images/logo-icon-transparent.png" alt="TechClub Official Logo" class="h-9 w-auto object-contain brightness-0 invert"/>
+        <div class="flex flex-col">
+          <span class="text-xl font-extrabold tracking-tight text-white leading-tight">Tech<span class="text-secondary-container font-black">Club</span></span>
+          <span class="text-[10px] font-code tracking-widest text-on-primary-container uppercase">Connect. Learn. Build Together.</span>
+        </div>
+      </div>
+      <p class="text-sm text-on-primary-container max-w-sm leading-relaxed">
+        Connect. Learn. Build Together. Hargeisa’s professional networking and community platform uniting tech talent, builders, and mentors across the Horn of Africa.
+      </p>
+      <div class="text-xs text-on-primary-container pt-2">
+        Hargeisa, Somaliland
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <h4 class="text-xs uppercase tracking-widest text-secondary font-bold">Platform</h4>
+      <ul class="space-y-1.5 text-sm text-on-primary-container">
+        <li><a href="{% url 'home' %}" class="hover:text-white transition-colors">Home</a></li>
+        <li><a href="{% url 'founder' %}" class="hover:text-white transition-colors">Meet the Founder</a></li>
+        <li><a href="{% url 'public_events' %}" class="hover:text-white transition-colors">Upcoming Events</a></li>
+        <li><a href="{% url 'member_directory' %}" class="hover:text-white transition-colors">Member Directory</a></li>
+        <li><a href="{% url 'partners' %}" class="hover:text-white transition-colors">Corporate Partners &amp; Trust</a></li>
+        <li><a href="{% url 'apply' %}" class="hover:text-white transition-colors">Apply for Membership</a></li>
+        <li><a href="{% url 'code_of_conduct' %}" class="hover:text-white transition-colors">Code of Conduct</a></li>
+      </ul>
+    </div>
+
+    <div class="space-y-2">
+      <h4 class="text-xs uppercase tracking-widest text-secondary font-bold">Organizer Hub</h4>
+      <ul class="space-y-1.5 text-sm text-on-primary-container">
+        <li><a href="{% url 'login' %}" class="hover:text-white transition-colors">Member & Organizer Login</a></li>
+        <li><a href="{% url 'about' %}" class="hover:text-white transition-colors">About TechClub</a></li>
+        <li><span class="text-xs text-neutral-500">Contact: community@techclub.so</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin pt-8 mt-8 border-t border-primary-container/60 flex flex-col sm:flex-row items-center justify-between text-xs text-on-primary-container">
+    <div>&copy; 2025 TechClub Hargeisa. All rights reserved.</div>
+    <div class="mt-2 sm:mt-0">Built with Django &amp; PostgreSQL.</div>
+  </div>
+</footer>
+
+<script>
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isHidden = mobileMenu.classList.toggle('hidden');
+      if (mobileMenuIcon) {
+        mobileMenuIcon.textContent = isHidden ? 'menu' : 'close';
+      }
+    });
+  }
+
+  function togglePublicNotifDropdown() {
+    const d = document.getElementById('publicNotifDropdown');
+    if (d) d.classList.toggle('hidden');
+  }
+
+  document.addEventListener('click', function(e) {
+    const notifBtn = document.getElementById('publicNotifBellBtn');
+    const notifDropdown = document.getElementById('publicNotifDropdown');
+    if (notifDropdown && notifBtn && !notifBtn.contains(e.target) && !notifDropdown.contains(e.target)) {
+      notifDropdown.classList.add('hidden');
+    }
+
+    if (mobileMenu && mobileMenuBtn && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+      if (!mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+        if (mobileMenuIcon) mobileMenuIcon.textContent = 'menu';
+      }
+    }
+  });
+</script>
+{% endblock %}

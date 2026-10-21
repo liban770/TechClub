@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-tertiary-fixed-variant":"#454746","outline":"#747878","surface-container-low":"#f5f3f3","surface-container":"#efeded","on-tertiary-fixed":"#1a1c1b","surface-bright":"#fbf9f9","surface-dim":"#dbdad9","tertiary-container":"#1a1c1b","secondary-fixed-dim":"#e9c349","on-primary-fixed-variant":"#474646","error-container":"#ffdad6","on-background":"#1b1c1c","inverse-on-surface":"#f2f0f0","on-primary-fixed":"#1c1b1b","error":"#ba1a1a","primary-fixed":"#e5e2e1","on-secondary-fixed-variant":"#574500","outline-variant":"#c4c7c7","on-surface-variant":"#444748","surface":"#fbf9f9","surface-tint":"#5f5e5e","on-secondary":"#ffffff","tertiary-fixed":"#e2e3e1","on-surface":"#1b1c1c","on-secondary-container":"#745c00","tertiary":"#000000","inverse-primary":"#c8c6c5","secondary-container":"#fed65b","tertiary-fixed-dim":"#c6c7c5","on-primary":"#ffffff","secondary":"#735c00","on-primary-container":"#858383","on-error":"#ffffff","primary":"#000000","surface-container-high":"#e9e8e7","surface-variant":"#e3e2e2","on-error-container":"#93000a","inverse-surface":"#303031","surface-container-highest":"#e3e2e2","on-tertiary":"#ffffff","primary-fixed-dim":"#c8c6c5","secondary-fixed":"#ffe088","surface-container-lowest":"#ffffff","on-secondary-fixed":"#241a00","on-tertiary-container":"#838483","background":"#fbf9f9","primary-container":"#1c1b1b"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","gutter-mobile":"1rem","space-xs":"0.25rem","margin-tablet":"2rem","gutter":"1.5rem","space-lg":"1.5rem","space-md":"1rem","margin":"3rem","margin-mobile":"1.25rem","space-xl":"2.5rem"},"fontFamily":{"headline-lg":["Manrope"],"label-sm":["Manrope"],"label-md":["Manrope"],"code":["JetBrains Mono"],"headline-lg-mobile":["Manrope"],"display-mobile":["Manrope"],"headline-md":["Manrope"],"title-md":["Manrope"],"headline-sm":["Manrope"],"body-lg":["Manrope"],"body-md":["Manrope"],"display":["Manrope"]},"fontSize":{"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"700"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"code":["13px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"500"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"display-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"800"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.03em","fontWeight":"800"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm"><img alt="TechConnect Brand Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UtXah7v6sDvT1DlbDwMjj_sAxwYlIYMalK4J_2uUS5OvPRWOM_0LAs9bwfOc6vx2Ad8J-UTOXNm6GEgxQ3zZ4Uxu9YGGMzXrffiQsXlQ4Rp-g7EC2ClaezwnJG7vZCybH-bYvNv-gsh0nQWIggKRsCbryoDgr8orFpGgv-i1LRUvV6XG7_fJDyYHDB5K5pVGj-r3STAmtH07_VUiiqKSNtuBjl_r22GaIGfAieoK8zXSjDs26hr030KEak"/><div class="flex flex-col"><span class="font-title-md text-title-md text-primary font-bold">TechConnect</span><span class="font-label-sm text-label-sm text-secondary font-semibold uppercase tracking-wider">Admin Ops</span></div></div><div class="px-space-md py-space-xs"><span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-bold tracking-wider px-space-sm">Operations</span></div><nav class="px-space-md space-y-space-xs" data-active-classes="bg-primary text-on-primary font-label-md shadow-[0_1px_3px_rgba(0,0,0,0.08)]"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="overview" href="#"><span class="material-symbols-outlined text-title-md">space_dashboard</span><span>Overview</span></a><a aria-current="page" class="flex items-center justify-between px-space-md py-space-sm rounded-lg transition-all bg-primary text-on-primary font-label-md shadow-[0_1px_3px_rgba(0,0,0,0.08)]" data-path="applications" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-title-md">how_to_reg</span><span>Applications</span></div><span class="font-label-sm text-label-sm bg-secondary-container text-on-secondary-container px-space-xs rounded-full font-bold">12</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="members" href="#"><span class="material-symbols-outlined text-title-md">group</span><span>Members</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="events" href="#"><span class="material-symbols-outlined text-title-md">calendar_month</span><span>Events</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="meetings" href="#"><span class="material-symbols-outlined text-title-md">groups</span><span>Meetings</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="announcements" href="#"><span class="material-symbols-outlined text-title-md">campaign</span><span>Announcements</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="attendance" href="#"><span class="material-symbols-outlined text-title-md">fact_check</span><span>Attendance</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reports" href="#"><span class="material-symbols-outlined text-title-md">insights</span><span>Reports</span></a></nav><div class="px-space-md pt-space-md pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-bold tracking-wider px-space-sm">System</span></div><nav class="px-space-md" data-active-classes="bg-primary text-on-primary font-label-md shadow-[0_1px_3px_rgba(0,0,0,0.08)]"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined text-title-md">tune</span><span>Settings</span></a></nav></div><div class="p-space-md"><div class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-2 h-2 rounded-full bg-secondary"></div><div class="flex flex-col"><span class="font-label-sm text-label-sm font-bold text-on-surface">Hargeisa Node</span><span class="font-label-sm text-label-sm text-on-surface-variant">v2.4.0 Online</span></div></div><a class="text-on-surface-variant hover:text-on-surface" data-path="home" href="#"><span class="material-symbols-outlined text-title-md">open_in_new</span></a></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center flex-1 max-w-lg"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-title-md">search</span><input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md pl-10 pr-space-md py-space-xs rounded-lg outline-none focus:ring-2 focus:ring-secondary/25 transition-all" placeholder="Search applicants, members, logs (Cmd+K)..." type="search"/></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-title-md">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-secondary"></span></button><button aria-label="Documentation" class="p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-title-md">help_outline</span></button><div class="flex items-center gap-space-sm pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlEZ0YWwI0MRJtGiW20FIv0E-xc9loDYuWLRIMGb8rPT4nAPZqManqbcqJ1KdIZrH6uLUn3_rfZa0zrM-tF6RpYMmMdAt-r7aCJx2Yb7r9Pulck-8LzBjaB-1vzvmEImWXaHbX-bfhh8RUPXbEKPjnRgDWZlJMgQm74HpM2OitPaSzbGIATjonagOlC2bQfHU80pTI8FgFV2bNQttda-vMNnSC8sRjYunhbKAejhvxfC5DuF9Myk6cug"/><div class="hidden md:flex flex-col items-start leading-tight"><span class="font-label-md text-label-md text-on-surface font-bold">Jamaal K.</span><span class="font-label-sm text-label-sm text-secondary font-semibold">Lead Admin</span></div><span class="material-symbols-outlined text-on-surface-variant text-label-md">expand_more</span></div></div></header><main class="relative pt-16 bg-surface w-full px-space-lg py-space-lg"><div class="flex flex-col w-full space-y-space-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="flex flex-col space-y-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-code text-code text-secondary uppercase tracking-wider font-semibold">Directory Pipeline</span>
+<span class="text-on-surface-variant font-code text-code">/</span>
+<span class="font-code text-code text-on-surface-variant">Batch 2025-Q1</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Community Applications</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+        Review, filter, and approve incoming tech community membership applications. Validate local talent, mentorship capabilities, and ecosystem contributions.
+      </p>
+</div>
+<div class="flex items-center gap-space-sm self-start md:self-auto">
+<button class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-lowest text-on-surface font-label-md text-label-md rounded-lg shadow-sm hover:bg-surface-container-high transition-all" type="button">
+<span class="material-symbols-outlined text-body-md">download</span>
+<span>Export CSV</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-xs bg-primary text-on-primary font-label-md text-label-md rounded-lg shadow-md hover:bg-neutral-800 transition-all" type="button">
+<span class="material-symbols-outlined text-body-md text-secondary-fixed">done_all</span>
+<span>Batch Approve</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-md">
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Total Pool</div>
+<div class="font-headline-md text-headline-md text-on-surface font-bold mt-1">261</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-title-md">inbox</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div>
+<div class="font-label-sm text-label-sm text-secondary font-semibold uppercase tracking-wider">Awaiting Review</div>
+<div class="font-headline-md text-headline-md text-on-surface font-bold mt-1">22</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-secondary-container/40 flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-title-md">schedule</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Approval Velocity</div>
+<div class="font-headline-md text-headline-md text-on-surface font-bold mt-1">87.4%</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-title-md">trending_up</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Hargeisa Tech Talent</div>
+<div class="font-headline-md text-headline-md text-on-surface font-bold mt-1">94%</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-title-md">location_on</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 md:pb-0">
+<button class="px-space-md py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md transition-all shadow-sm" type="button">
+          All <span class="ml-1 opacity-70 font-code">34</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-all flex items-center gap-1.5" type="button">
+<span>Pending</span>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary text-surface text-label-sm font-bold">22</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-all" type="button">
+          Waitlisted <span class="ml-1 text-on-surface-variant/70 font-code">7</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-all" type="button">
+          Approved <span class="ml-1 text-on-surface-variant/70 font-code">186</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-all" type="button">
+          Rejected <span class="ml-1 text-on-surface-variant/70 font-code">12</span>
+</button>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-code text-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span>Auto-sync active</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-sm pt-space-xs">
+<div class="md:col-span-6 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-body-md">search</span>
+<input class="w-full bg-surface-container text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md pl-10 pr-space-md py-2 rounded-lg outline-none focus:bg-surface-container-lowest shadow-sm transition-all" placeholder="Filter by applicant name, email, stack (e.g. Go, Rust, React)..." type="text"/>
+</div>
+<div class="md:col-span-3">
+<div class="relative">
+<select aria-label="Filter by Domain" class="w-full appearance-none bg-surface-container text-on-surface font-body-md text-body-md px-space-md py-2 rounded-lg outline-none focus:bg-surface-container-lowest shadow-sm pr-8 transition-all">
+<option>All Technical Domains</option>
+<option>Software Engineering</option>
+<option>Product &amp; UI/UX</option>
+<option>Cloud &amp; DevOps</option>
+<option>Data &amp; AI Systems</option>
+<option>Students &amp; Apprentices</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-body-md">expand_more</span>
+</div>
+</div>
+<div class="md:col-span-3">
+<div class="relative">
+<select aria-label="Filter by Experience Level" class="w-full appearance-none bg-surface-container text-on-surface font-body-md text-body-md px-space-md py-2 rounded-lg outline-none focus:bg-surface-container-lowest shadow-sm pr-8 transition-all">
+<option>All Seniority Tiers</option>
+<option>Student / Self-Taught</option>
+<option>Junior Engineer</option>
+<option>Mid-level Specialist</option>
+<option>Senior / Staff</option>
+<option>Engineering Leader</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-body-md">filter_list</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<div class="lg:col-span-7 xl:col-span-8 bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-space-sm px-space-md">Applicant</th>
+<th class="py-space-sm px-space-md hidden sm:table-cell">Role &amp; Org</th>
+<th class="py-space-sm px-space-md hidden md:table-cell">Discipline</th>
+<th class="py-space-sm px-space-md hidden xl:table-cell">Applied</th>
+<th class="py-space-sm px-space-md">Status</th>
+<th class="py-space-sm px-space-md text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-body-md text-on-surface">
+<tr class="bg-surface-container-high/60 cursor-pointer transition-colors group">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-shrink-0">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="Close up professional portrait of a Somali young male software engineer wearing dark glasses with warm indoor office lighting and modern architectural backdrop in Hargeisa." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjhCjvABl9oC5lBmeHpaJ4MsQHUjW7b1ljQk2H5yl-oZINBxmlu9MwS4-n5DujyYvGJLBZWUWQCIlFNhz-yxO8N4iVvnRSfcFFZc0A-UBzU_bC2AnCMw1B3pnL-DT5hyZGlkhFpxvnuXXpbdFvjuObFzPsAtFKlzL4glDCG75u3eIk3QP6Qlw1vfM5yAuTSwu8J2iJM6fhOY38XthGzO60a9UljGrg4yBXvtOM2GOJzhQWZR-cWbuFVg"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-secondary border border-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-title-md text-title-md font-bold text-on-surface truncate">Guled Abdi</span>
+<span class="material-symbols-outlined text-secondary text-label-md" title="Local Node Candidate">verified</span>
+</div>
+<span class="font-code text-label-sm text-on-surface-variant truncate">guled.abdi@somali.dev</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell">
+<div class="font-label-md text-label-md font-semibold text-on-surface">Full Stack Dev</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Telesom Core Lab</div>
+</td>
+<td class="py-space-md px-space-md hidden md:table-cell">
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Engineering</span>
+<span class="block text-label-sm text-on-surface-variant/80 font-code mt-0.5">Senior (5y)</span>
+</td>
+<td class="py-space-md px-space-md hidden xl:table-cell">
+<span class="font-code text-label-sm text-on-surface-variant">Today, 09:42</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  Pending Review
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<button class="p-1 rounded hover:bg-surface-container text-primary font-label-md text-label-md inline-flex items-center" type="button">
+<span class="material-symbols-outlined text-title-md">chevron_right</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer group">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-shrink-0">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="Editorial portrait of a creative Somali female UI/UX designer wearing modern neutral scarf, serene natural daylight inside modern Somali tech accelerator studio." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFVGImKzE1FaXKCNJSeI2wAbPoKcc-X79sVKHG2H_4EKNRScD-p5acmlmCfrTbFY9sCwR6-qMYFPDiJJ6QPdHiwiUaSISnvFIFO-kIlk6Wu0RFozsfejZKZE-3yZb3sL5Fri6auRtof8M2uH9gcQXJJXRTO-O0EaCBkkgpCAvsRRBjumokZ_umC865jqAx-F-SSZjwW0xFYRjkpdIP_aWuN2IJwKz1Gc4AzaSR2fNwMUq_0IHYUi8YaQ"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md font-bold text-on-surface truncate">Amina Yusuf</span>
+<span class="font-code text-label-sm text-on-surface-variant truncate">amina.ux@eastworks.io</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell">
+<div class="font-label-md text-label-md font-semibold text-on-surface">Lead Product Designer</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Freelance Studio</div>
+</td>
+<td class="py-space-md px-space-md hidden md:table-cell">
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Product &amp; UI</span>
+<span class="block text-label-sm text-on-surface-variant/80 font-code mt-0.5">Mid-level (3y)</span>
+</td>
+<td class="py-space-md px-space-md hidden xl:table-cell">
+<span class="font-code text-label-sm text-on-surface-variant">Yesterday</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  Pending Review
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant inline-flex items-center" type="button">
+<span class="material-symbols-outlined text-title-md">chevron_right</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer group">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-shrink-0">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="Professional portrait headshot of a young male Somali cloud engineer wearing charcoal blazer in front of glass tech workspace in Hargeisa." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGy5w6UPaK36dD4aTvoUTFYBYiDL1GN6nkXwG_zaKrmYj2PfmncHBMmsOGWe8kzt7ko55OdiVpNEU9B2Y43RcjKAQ6uk8K6YNVKQUP6OapxI8V9Um8RKb8qk-0yGSwfRwB9qlJ2nt4kkrcJGDRg4HL1vAwzakX8__VXacMVHr9sAlr8O631vkzmTVvTLQ6z3eIBpq5Sn2dsQNvgDaB4PeIVCHJJ886HUYOdHNd8k78N1Z0AtQ7eiGm9Q"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md font-bold text-on-surface truncate">Khadar Warsame</span>
+<span class="font-code text-label-sm text-on-surface-variant truncate">k.warsame@infra.so</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell">
+<div class="font-label-md text-label-md font-semibold text-on-surface">DevOps Architect</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Dahabshiil FinTech</div>
+</td>
+<td class="py-space-md px-space-md hidden md:table-cell">
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Cloud / SRE</span>
+<span class="block text-label-sm text-on-surface-variant/80 font-code mt-0.5">Senior (6y)</span>
+</td>
+<td class="py-space-md px-space-md hidden xl:table-cell">
+<span class="font-code text-label-sm text-on-surface-variant">Oct 24, 2024</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-bold">
+                  Waitlisted
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant inline-flex items-center" type="button">
+<span class="material-symbols-outlined text-title-md">chevron_right</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer group">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-shrink-0">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="Portrait of an ambitious Somali female computer science graduate in tech incubator holding tablet computer, warm gold sunbeams." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbe4ZDQC6TawB-eP5eugvgq59AoTmNBYdV_eCL9dkSNdFJL6q7l4egZ26_6SGEH4Qao_N9_8YixcHsJzkO8s8Dfh9G-WSeLHL35fHf-pexFj5r4LKPPb6o_QzZ8p48O1kI5p8BQ57bR2N5TdFnw2MALXYQp3tq5H07KxslimnBpBjhHkNCqpLZ1YNoL6xC65Va6nfgPeXteMdf9mAPNMV1nxlOwEfnncQa2J1YXiZbtbzDYFQIfL6lUw"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md font-bold text-on-surface truncate">Hibaaq Mahdi</span>
+<span class="font-code text-label-sm text-on-surface-variant truncate">hibaaq.m@uoh.edu.so</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell">
+<div class="font-label-md text-label-md font-semibold text-on-surface">AI Research Fellow</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Univ. of Hargeisa</div>
+</td>
+<td class="py-space-md px-space-md hidden md:table-cell">
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Data / ML</span>
+<span class="block text-label-sm text-on-surface-variant/80 font-code mt-0.5">Junior (1y)</span>
+</td>
+<td class="py-space-md px-space-md hidden xl:table-cell">
+<span class="font-code text-label-sm text-on-surface-variant">Oct 22, 2024</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                  Approved
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant inline-flex items-center" type="button">
+<span class="material-symbols-outlined text-title-md">chevron_right</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bg-surface-container-low px-space-md py-space-sm flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>Showing 1–4 of 22 active entries</span>
+<div class="flex items-center gap-space-xs">
+<button class="px-2 py-1 rounded bg-surface-container text-on-surface opacity-50 cursor-not-allowed" type="button">Prev</button>
+<span class="font-code text-on-surface px-1">Page 1/6</span>
+<button class="px-2 py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors" type="button">Next</button>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 xl:col-span-4 bg-surface-container-lowest rounded-xl shadow-md p-space-lg flex flex-col space-y-space-md relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-secondary"></div>
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<img class="w-14 h-14 rounded-full object-cover shadow-sm ring-2 ring-secondary/20" data-alt="Close up professional portrait of a Somali young male software engineer wearing dark glasses with warm indoor office lighting and modern architectural backdrop in Hargeisa." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCllrvSk4eFTFpyKDesx3x5E9TUy0TVgJf4NFc3SM30HwrRleuIAd5Jxmf_6jgAk4SAoUS78m1BV7Y8EwAa5wrhatEpVohMDXpAiqnwsg9EdY4h4X1ss2WxUgAv4T1WI4kCPxFQW9dFQYxxsSyxhERvD5i0DaPn-v9KDQt0peLYLO5DFAtZAcKtVDAmMWski8tANcI5Bobli9qR8k4D5GbBmgBOrGgivIEiWjiBGzHiWbTlmNxN8kBBrA"/>
+<div>
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Guled Abdi</h2>
+<span class="material-symbols-outlined text-secondary text-title-md" title="Identity Verified">verified</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant font-medium">Full Stack Developer</p>
+<p class="font-code text-label-sm text-secondary font-semibold">Telesom Core Lab • Hargeisa</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold uppercase tracking-wider">
+          Pending
+        </span>
+</div>
+<div class="flex flex-wrap gap-2 pt-space-xs">
+<a class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-code text-label-sm transition-colors shadow-sm" href="#">
+<span class="material-symbols-outlined text-body-md">language</span>
+<span>guled.dev</span>
+<span class="material-symbols-outlined text-label-sm text-on-surface-variant">arrow_outward</span>
+</a>
+<a class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-code text-label-sm transition-colors shadow-sm" href="#">
+<span class="material-symbols-outlined text-body-md">terminal</span>
+<span>github/guled-abdi</span>
+<span class="material-symbols-outlined text-label-sm text-on-surface-variant">arrow_outward</span>
+</a>
+<a class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-code text-label-sm transition-colors shadow-sm" href="#">
+<span class="material-symbols-outlined text-body-md">badge</span>
+<span>in/guled-abdi-so</span>
+<span class="material-symbols-outlined text-label-sm text-on-surface-variant">arrow_outward</span>
+</a>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl space-y-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Applicant Manifesto</span>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+          “Passionate developer building fintech solutions and open source tools in Hargeisa. Seeking to mentor junior web developers and collaborate on local open data projects to modernize public infrastructure.”
+        </p>
+</div>
+<div class="space-y-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Verified Skillsets</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-code text-label-sm font-medium">React</span>
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-code text-label-sm font-medium">Go</span>
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-code text-label-sm font-medium">Docker</span>
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-code text-label-sm font-medium">PostgreSQL</span>
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-code text-label-sm font-medium">REST APIs</span>
+<span class="px-2.5 py-1 rounded bg-secondary/10 text-secondary font-code text-label-sm font-semibold">Microservices</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm bg-surface-container-low/70 p-space-sm rounded-xl">
+<div class="space-y-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase font-bold">Community Intent</span>
+<div class="font-label-md text-label-md text-on-surface flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-secondary text-body-md">school</span>
+<span>Mentorship</span>
+</div>
+</div>
+<div class="space-y-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase font-bold">Collaboration Interest</span>
+<div class="font-label-md text-label-md text-on-surface flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-secondary text-body-md">hub</span>
+<span>Open Data Projects</span>
+</div>
+</div>
+</div>
+<div class="space-y-space-xs pt-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider" for="organizer-notes">Organizer Internal Log</label>
+<span class="font-code text-label-sm text-on-surface-variant">Confidential</span>
+</div>
+<div class="relative">
+<textarea class="w-full bg-surface-container text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md p-space-sm rounded-lg outline-none focus:bg-surface-container-lowest shadow-sm transition-all resize-none" id="organizer-notes" placeholder="Add internal evaluation notes (e.g. verified Git portfolio, recommended for Hackathon judging)..." rows="2"></textarea>
+<button class="mt-2 w-full py-1.5 bg-surface-container-high hover:bg-surface-dim text-on-surface font-label-sm text-label-sm rounded font-bold uppercase tracking-wider transition-colors" type="button">
+            + Append Log Note
+          </button>
+</div>
+</div>
+<div class="pt-space-sm space-y-space-xs">
+<div class="flex gap-space-xs">
+<button class="flex-1 flex items-center justify-center gap-space-xs bg-primary text-on-primary py-2.5 px-space-md rounded-lg font-label-md text-label-md shadow-md hover:bg-neutral-800 active:scale-[0.99] transition-all" type="button">
+<span class="material-symbols-outlined text-secondary-fixed text-title-md">check_circle</span>
+<span>Approve Member</span>
+</button>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="flex-1 py-2 px-space-sm rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors text-center" type="button">
+            Waitlist
+          </button>
+<button class="flex-1 py-2 px-space-sm rounded-lg bg-error-container/40 text-on-error-container font-label-md text-label-md hover:bg-error-container transition-colors text-center" type="button">
+            Reject Application
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>
