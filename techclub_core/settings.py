@@ -119,13 +119,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'techclub_core.wsgi.application'
 
-# Database Configuration with PostgreSQL (Supports DATABASE_URL in cloud or local env)
-default_db_url = f"postgresql://{os.environ.get('DB_USER', 'techclub')}:{os.environ.get('DB_PASSWORD', 'techclub_pass')}@{os.environ.get('DB_HOST', 'localhost')}:{os.environ.get('DB_PORT', '5432')}/{os.environ.get('DB_NAME', 'techclub_db')}"
+# Database Configuration (PostgreSQL locally or DATABASE_URL in cloud: Neon, Supabase, Vercel)
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
-if dj_database_url:
+if DATABASE_URL and dj_database_url:
+    # Managed Cloud PostgreSQL (Neon, Supabase, Render, Railway, AWS RDS)
+    DATABASES = {
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=('neon.tech' in DATABASE_URL or 'supabase' in DATABASE_URL or 'sslmode=require' in DATABASE_URL or not DEBUG),
+        )
+    }
+elif 'VERCEL' in os.environ:
+    # Serverless preview fallback on Vercel when DATABASE_URL is not yet added in project settings
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': '/tmp/db.sqlite3',
+        }
+    }
+elif dj_database_url:
+    default_db_url = f"postgresql://{os.environ.get('DB_USER', 'techclub')}:{os.environ.get('DB_PASSWORD', 'techclub_pass')}@{os.environ.get('DB_HOST', 'localhost')}:{os.environ.get('DB_PORT', '5432')}/{os.environ.get('DB_NAME', 'techclub_db')}"
     DATABASES = {
         'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL', default_db_url),
+            default=default_db_url,
             conn_max_age=600,
             ssl_require=os.environ.get('DB_SSL_REQUIRE', 'False').lower() in ('true', '1'),
         )
