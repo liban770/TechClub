@@ -108,6 +108,19 @@ python manage.py test
 ```
 
 
+## 🔑 Admin & User Setup
+
+To create an administrator/organizer account locally:
+```bash
+python manage.py createsuperuser
+```
+
+To populate the local database with demo data and testing profiles:
+```bash
+python seed_data.py
+```
+
+---
 
 ## 📄 License & Ownership
 
