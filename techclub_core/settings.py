@@ -19,22 +19,31 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-techclub-som-secret-k
 
 DEBUG = os.environ.get('DJANGO_DEBUG', os.environ.get('DEBUG', 'True')).lower() in ('true', '1')
 
-ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,testserver').split(',') if h.strip()]
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,testserver,.vercel.app,techclub-platform.vercel.app').split(',') if h.strip()]
 
-# Automatic Render.com hostname binding
+# Automatic Vercel & Render.com hostname binding
 render_hostname = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if render_hostname and render_hostname not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(render_hostname)
+
+vercel_url = os.environ.get('VERCEL_URL')
+if vercel_url and vercel_url not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(vercel_url)
+
+if '.vercel.app' not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append('.vercel.app')
+if 'techclub-platform.vercel.app' not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append('techclub-platform.vercel.app')
 
 if DEBUG and '*' not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost', 'testserver'])
 ALLOWED_HOSTS = list(set(ALLOWED_HOSTS))
 
-# CSRF Trusted Origins (HTTPS support for production)
+# CSRF Trusted Origins (HTTPS support for production & Vercel)
 CSRF_TRUSTED_ORIGINS = [
     origin.strip() for origin in os.environ.get(
         'CSRF_TRUSTED_ORIGINS', 
-        'http://127.0.0.1:8000,http://localhost:8000'
+        'http://127.0.0.1:8000,http://localhost:8000,https://techclub-platform.vercel.app,https://*.vercel.app'
     ).split(',') if origin.strip()
 ]
 if render_hostname:
@@ -42,11 +51,22 @@ if render_hostname:
     if render_origin not in CSRF_TRUSTED_ORIGINS:
         CSRF_TRUSTED_ORIGINS.append(render_origin)
 
+if vercel_url:
+    vercel_origin = f"https://{vercel_url}"
+    if vercel_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(vercel_origin)
+
 for host in ALLOWED_HOSTS:
     if host not in ('127.0.0.1', 'localhost', 'testserver', '*'):
-        https_origin = f"https://{host}"
-        if https_origin not in CSRF_TRUSTED_ORIGINS:
-            CSRF_TRUSTED_ORIGINS.append(https_origin)
+        if host.startswith('.'):
+            wildcard_origin = f"https://*{host}"
+            if wildcard_origin not in CSRF_TRUSTED_ORIGINS:
+                CSRF_TRUSTED_ORIGINS.append(wildcard_origin)
+        else:
+            https_origin = f"https://{host}"
+            if https_origin not in CSRF_TRUSTED_ORIGINS:
+                CSRF_TRUSTED_ORIGINS.append(https_origin)
+CSRF_TRUSTED_ORIGINS = list(set(CSRF_TRUSTED_ORIGINS))
 
 # Application definition
 INSTALLED_APPS = [
@@ -160,6 +180,10 @@ SECURE_BROWSER_XSS_FILTER = True
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB
 
+# Reverse Proxy & Cloud SSL Headers (Vercel, Render, Nginx)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
 # Production HTTPS Hardening
 if not DEBUG:
     SESSION_COOKIE_SECURE = True
@@ -168,7 +192,6 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000  # 1 year HSTS
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
