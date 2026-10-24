@@ -121,6 +121,8 @@ WSGI_APPLICATION = 'techclub_core.wsgi.application'
 
 # Database Configuration (PostgreSQL locally or DATABASE_URL in cloud: Neon, Supabase, Vercel)
 DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASE_URL = DATABASE_URL.strip()
 
 if DATABASE_URL and dj_database_url:
     # Managed Cloud PostgreSQL (Neon, Supabase, Render, Railway, AWS RDS)
