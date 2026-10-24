@@ -17,7 +17,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-techclub-som-secret-key-2025-hargeisa')
 
-DEBUG = os.environ.get('DJANGO_DEBUG', os.environ.get('DEBUG', 'True')).lower() in ('true', '1')
+# In production (e.g. Vercel), default DEBUG to False for security. Locally default to True.
+_default_debug = 'False' if ('VERCEL' in os.environ or os.environ.get('ENVIRONMENT') == 'production') else 'True'
+DEBUG = os.environ.get('DJANGO_DEBUG', os.environ.get('DEBUG', _default_debug)).lower() in ('true', '1')
 
 ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,testserver,.vercel.app,techclub-platform.vercel.app').split(',') if h.strip()]
 
